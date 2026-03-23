@@ -6,854 +6,540 @@
 <title>Piano Alimentare</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-:root {
-  --bg: #0d0d0d;
-  --surface: #161616;
-  --surface2: #1f1f1f;
-  --surface3: #282828;
-  --border: rgba(255,255,255,0.07);
-  --border2: rgba(255,255,255,0.13);
-  --text: #f0ede8;
-  --text2: #888;
-  --text3: #555;
-  --accent: #c8f55a;
-  --accent2: #9de03a;
-  --accent-dim: rgba(200,245,90,0.1);
-  --accent-dim2: rgba(200,245,90,0.18);
-  --coral: #ff6b4a;
-  --coral-dim: rgba(255,107,74,0.12);
-  --teal: #4af5c8;
-  --teal-dim: rgba(74,245,200,0.1);
-  --amber: #f5c84a;
-  --amber-dim: rgba(245,200,74,0.1);
-  --purple: #c084fc;
-  --purple-dim: rgba(192,132,252,0.1);
-  --blue: #60a5fa;
-  --blue-dim: rgba(96,165,250,0.1);
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0d0d0d;--s1:#161616;--s2:#1f1f1f;--s3:#282828;
+  --b1:rgba(255,255,255,.07);--b2:rgba(255,255,255,.13);
+  --txt:#f0ede8;--txt2:#999;--txt3:#555;
+  --acc:#c8f55a;--acc2:#9de03a;--adim:rgba(200,245,90,.18);
+  --coral:#ff6b4a;--teal:#4af5c8;--amber:#f5c84a;
+  --purple:#c084fc;--blue:#60a5fa;
 }
-* { margin:0; padding:0; box-sizing:border-box; }
-html { scroll-behavior: smooth; }
-body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: 'DM Sans', sans-serif;
-  font-weight: 400;
-  min-height: 100vh;
-  overflow-x: hidden;
-}
-
-/* NOISE OVERLAY */
-body::before {
-  content:'';
-  position:fixed; inset:0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
-  pointer-events:none; z-index:0; opacity:0.4;
-}
-
-/* LAYOUT */
-.app { position:relative; z-index:1; max-width:960px; margin:0 auto; padding:0 24px 80px; }
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--txt);font-family:'DM Sans',sans-serif;min-height:100vh}
+.app{max-width:960px;margin:0 auto;padding:0 20px 80px}
 
 /* HEADER */
-header {
-  display:flex; align-items:center; justify-content:space-between;
-  padding: 32px 0 40px;
-  border-bottom: 1px solid var(--border);
-  margin-bottom: 40px;
-}
-.logo {
-  display:flex; align-items:baseline; gap:10px;
-}
-.logo-mark {
-  font-family: 'DM Serif Display', serif;
-  font-size: 28px;
-  color: var(--accent);
-  letter-spacing: -1px;
-}
-.logo-sub {
-  font-size: 12px;
-  color: var(--text3);
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-.header-meta {
-  text-align:right;
-}
-.header-name {
-  font-size:15px; font-weight:500; color:var(--text);
-}
-.header-kcal {
-  font-size:12px; color:var(--text3); margin-top:3px;
-}
+header{display:flex;align-items:center;justify-content:space-between;padding:28px 0 32px;border-bottom:1px solid var(--b1);margin-bottom:32px;flex-wrap:wrap;gap:12px}
+.logo-mark{font-family:'DM Serif Display',serif;font-size:26px;color:var(--acc);letter-spacing:-1px}
+.logo-sub{font-size:11px;color:var(--txt3);letter-spacing:.12em;text-transform:uppercase;margin-left:10px}
+#hMeta{display:none;text-align:right}
+#hName{font-size:15px;font-weight:500}
+#hKcal{font-size:12px;color:var(--txt3);margin-top:2px}
 
-/* UPLOAD ZONE */
-.upload-section {
-  margin-bottom: 40px;
-}
-.upload-zone {
-  border: 1.5px dashed var(--border2);
-  border-radius: 20px;
-  padding: 40px;
-  text-align:center;
-  cursor:pointer;
-  transition: all 0.3s ease;
-  background: var(--surface);
-  position:relative;
-  overflow:hidden;
-}
-.upload-zone::before {
-  content:'';
-  position:absolute; inset:0;
-  background: radial-gradient(ellipse at 50% 0%, var(--accent-dim) 0%, transparent 70%);
-  pointer-events:none;
-}
-.upload-zone:hover {
-  border-color: var(--accent);
-  background: var(--surface2);
-}
-.upload-zone.drag-over {
-  border-color: var(--accent);
-  background: var(--surface2);
-  transform: scale(1.01);
-}
-.upload-icon {
-  font-size: 36px;
-  margin-bottom: 12px;
-  display:block;
-}
-.upload-title {
-  font-family: 'DM Serif Display', serif;
-  font-size: 22px;
-  color: var(--text);
-  margin-bottom: 8px;
-}
-.upload-desc {
-  font-size: 13px;
-  color: var(--text3);
-  line-height: 1.6;
-}
-.upload-desc span {
-  color: var(--accent);
-}
-#fileInput { display:none; }
+/* UPLOAD */
+.upload-zone{border:1.5px dashed var(--b2);border-radius:20px;padding:40px 24px;text-align:center;cursor:pointer;transition:all .25s;background:var(--s1);margin-bottom:14px}
+.upload-zone:hover,.upload-zone.drag{border-color:var(--acc);background:var(--s2)}
+.upload-zone.drag{transform:scale(1.01)}
+.up-icon{font-size:38px;margin-bottom:12px}
+.up-title{font-family:'DM Serif Display',serif;font-size:22px;margin-bottom:8px}
+.up-desc{font-size:13px;color:var(--txt3);line-height:1.7}
+.up-desc b{color:var(--acc);font-weight:500}
+.prog-bar{height:3px;background:var(--s3);border-radius:3px;overflow:hidden;display:none;margin-top:16px}
+.prog-bar.on{display:block}
+.prog-fill{height:100%;background:var(--acc);border-radius:3px;animation:slide 1.4s ease infinite;width:55%}
+@keyframes slide{0%{transform:translateX(-120%)}100%{transform:translateX(300%)}}
+#progTxt{font-size:12px;color:var(--txt3);text-align:center;margin-top:8px;display:none}
+#errMsg{font-size:13px;color:var(--coral);text-align:center;margin-top:8px;display:none}
+.warn-box{background:rgba(245,200,74,.08);border:1px solid rgba(245,200,74,.2);border-radius:12px;padding:12px 16px;font-size:12px;color:var(--txt2);margin-bottom:16px;line-height:1.6;display:none}
+.warn-box b{color:var(--amber)}
 
-/* LOADING STATE */
-.loading-bar {
-  display:none;
-  margin-top: 20px;
-  background: var(--surface3);
-  border-radius: 100px;
-  height: 4px;
-  overflow:hidden;
-}
-.loading-bar.active { display:block; }
-.loading-fill {
-  height:100%;
-  background: var(--accent);
-  border-radius:100px;
-  animation: loadAnim 2s ease infinite;
-  width:60%;
-}
-@keyframes loadAnim {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(300%); }
-}
-.loading-text {
-  display:none;
-  text-align:center;
-  font-size:13px;
-  color:var(--text3);
-  margin-top:10px;
-}
-.loading-text.active { display:block; }
+/* EMPTY */
+#emptyState{text-align:center;padding:48px 20px}
+.demo-icon{font-size:52px;margin-bottom:16px}
+.demo-title{font-family:'DM Serif Display',serif;font-size:26px;margin-bottom:8px}
+.demo-desc{font-size:13px;color:var(--txt3);line-height:1.7;max-width:300px;margin:0 auto 24px}
+.demo-btn{background:var(--acc);color:#0d0d0d;border:none;padding:12px 28px;border-radius:100px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:transform .18s,background .18s}
+.demo-btn:hover{transform:scale(1.04);background:var(--acc2)}
 
-/* DAY NAV */
-.day-nav {
-  display:flex;
-  gap: 8px;
-  margin-bottom: 32px;
-  overflow-x: auto;
-  padding-bottom: 4px;
-  scrollbar-width:none;
-}
-.day-nav::-webkit-scrollbar { display:none; }
-.day-btn {
-  flex-shrink:0;
-  padding: 8px 18px;
-  border-radius: 100px;
-  border: 1px solid var(--border2);
-  background: var(--surface);
-  color: var(--text2);
-  font-family: 'DM Sans', sans-serif;
-  font-size: 13px;
-  cursor: pointer;
-  transition: all 0.2s;
-  white-space:nowrap;
-}
-.day-btn:hover { border-color: var(--accent); color: var(--text); }
-.day-btn.active {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: #0d0d0d;
-  font-weight: 600;
-}
+/* CONTENT */
+#contentArea{display:none}
+.day-nav{display:flex;gap:7px;margin-bottom:28px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}
+.day-nav::-webkit-scrollbar{display:none}
+.day-btn{flex-shrink:0;padding:7px 17px;border-radius:100px;border:1px solid var(--b2);background:var(--s1);color:var(--txt2);font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;transition:all .18s}
+.day-btn:hover{border-color:var(--acc);color:var(--txt)}
+.day-btn.on{background:var(--acc);border-color:var(--acc);color:#0d0d0d;font-weight:600}
+.day-view{display:none;animation:fadeup .3s ease}
+.day-view.on{display:block}
+@keyframes fadeup{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.day-hdr{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:24px;flex-wrap:wrap;gap:10px}
+.day-big{font-family:'DM Serif Display',serif;font-size:38px;line-height:1;color:var(--txt)}
+.day-big em{color:var(--acc);font-style:italic}
+.kcal-badge{background:var(--adim);border:1px solid rgba(200,245,90,.28);color:var(--acc);font-size:13px;font-weight:600;padding:6px 16px;border-radius:100px}
+.meals-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(272px,1fr));gap:14px}
+.meal-card{background:var(--s1);border:1px solid var(--b1);border-radius:18px;padding:18px 18px 14px;transition:border-color .18s,transform .18s;position:relative;overflow:hidden}
+.meal-card:hover{border-color:var(--b2);transform:translateY(-2px)}
+.meal-bar{position:absolute;top:0;left:0;right:0;height:2px;border-radius:18px 18px 0 0}
+.meal-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:13px}
+.meal-tag{font-size:10px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;padding:4px 10px;border-radius:100px}
+.meal-kcal{font-size:12px;color:var(--txt3);font-weight:500}
+.meal-items{list-style:none;margin-bottom:14px}
+.meal-items li{font-size:13px;color:var(--txt2);padding:5px 0;border-bottom:1px solid var(--b1);line-height:1.5;display:flex;align-items:flex-start;gap:8px}
+.meal-items li:last-child{border-bottom:none}
+.bullet{width:4px;height:4px;border-radius:50%;background:#444;margin-top:7px;flex-shrink:0}
 
-/* DAY VIEW */
-.day-view { display:none; animation: fadeUp 0.3s ease; }
-.day-view.active { display:block; }
-@keyframes fadeUp {
-  from { opacity:0; transform:translateY(12px); }
-  to { opacity:1; transform:translateY(0); }
-}
-
-.day-header {
-  display:flex;
-  justify-content:space-between;
-  align-items:flex-end;
-  margin-bottom: 28px;
-}
-.day-title-big {
-  font-family: 'DM Serif Display', serif;
-  font-size: 42px;
-  line-height: 1;
-  color: var(--text);
-}
-.day-title-big em {
-  color: var(--accent);
-  font-style:italic;
-}
-.day-kcal-badge {
-  background: var(--accent-dim2);
-  border: 1px solid rgba(200,245,90,0.25);
-  color: var(--accent);
-  font-size: 13px;
-  font-weight: 600;
-  padding: 6px 16px;
-  border-radius: 100px;
-  white-space:nowrap;
-}
-
-/* MEALS GRID */
-.meals-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 16px;
-}
-
-/* MEAL CARD */
-.meal-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  padding: 20px;
-  transition: border-color 0.2s, transform 0.2s;
-  position:relative;
-  overflow:hidden;
-}
-.meal-card:hover {
-  border-color: var(--border2);
-  transform: translateY(-2px);
-}
-.meal-card::after {
-  content:'';
-  position:absolute; top:0; left:0; right:0;
-  height:2px;
-  border-radius:20px 20px 0 0;
-}
-.meal-card.col::after { background: var(--accent); }
-.meal-card.spu::after { background: var(--purple); }
-.meal-card.pra::after { background: var(--amber); }
-.meal-card.mer::after { background: var(--coral); }
-.meal-card.cen::after { background: var(--teal); }
-.meal-card.pos::after { background: var(--blue); }
-.meal-card.con::after { background: var(--text3); }
-
-.meal-top {
-  display:flex; align-items:center; justify-content:space-between;
-  margin-bottom: 14px;
-}
-.meal-tag {
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  padding: 4px 10px;
-  border-radius: 100px;
-}
-.meal-card.col .meal-tag { background: var(--accent-dim2); color: var(--accent); }
-.meal-card.spu .meal-tag { background: var(--purple-dim); color: var(--purple); }
-.meal-card.pra .meal-tag { background: var(--amber-dim); color: var(--amber); }
-.meal-card.mer .meal-tag { background: var(--coral-dim); color: var(--coral); }
-.meal-card.cen .meal-tag { background: var(--teal-dim); color: var(--teal); }
-.meal-card.pos .meal-tag { background: var(--blue-dim); color: var(--blue); }
-.meal-card.con .meal-tag { background: rgba(255,255,255,0.05); color: var(--text3); }
-
-.meal-kcal {
-  font-size: 12px;
-  color: var(--text3);
-  font-weight: 500;
-}
-
-.meal-items {
-  list-style:none;
-  margin-bottom: 16px;
-}
-.meal-items li {
-  font-size: 13.5px;
-  color: var(--text2);
-  padding: 6px 0;
-  border-bottom: 1px solid var(--border);
-  line-height: 1.5;
-  display:flex;
-  align-items:flex-start;
-  gap: 8px;
-}
-.meal-items li:last-child { border-bottom:none; }
-.meal-items li::before {
-  content:'';
-  width:4px; height:4px; border-radius:50%;
-  background: var(--text3);
-  margin-top: 7px;
-  flex-shrink:0;
-}
-
-/* NOTE SECTION */
-.note-area {
-  position:relative;
-}
-.note-toggle {
-  display:flex; align-items:center; gap:6px;
-  font-size: 12px;
-  color: var(--text3);
-  cursor:pointer;
-  padding: 6px 0;
-  border:none; background:none;
-  font-family: 'DM Sans', sans-serif;
-  transition: color 0.2s;
-}
-.note-toggle:hover { color: var(--text2); }
-.note-toggle svg { transition: transform 0.2s; }
-.note-toggle.open svg { transform: rotate(180deg); }
-.note-input-wrap {
-  display:none;
-  margin-top: 10px;
-}
-.note-input-wrap.open { display:block; animation: fadeUp 0.2s ease; }
-.note-input {
-  width:100%;
-  background: var(--surface2);
-  border: 1px solid var(--border2);
-  border-radius: 12px;
-  padding: 10px 14px;
-  color: var(--text);
-  font-family: 'DM Sans', sans-serif;
-  font-size: 13px;
-  resize: none;
-  min-height: 70px;
-  outline:none;
-  transition: border-color 0.2s;
-}
-.note-input:focus { border-color: rgba(200,245,90,0.4); }
-.note-input::placeholder { color: var(--text3); }
-.note-saved {
-  font-size: 11px;
-  color: var(--accent);
-  margin-top: 4px;
-  display:none;
-}
-
-/* HAS NOTE INDICATOR */
-.note-dot {
-  width:6px; height:6px; border-radius:50%;
-  background: var(--accent);
-  display:none;
-}
-.has-note .note-dot { display:inline-block; }
+/* NOTES */
+.note-toggle{display:flex;align-items:center;gap:5px;font-size:12px;color:#444;cursor:pointer;padding:4px 0;background:none;border:none;font-family:'DM Sans',sans-serif;transition:color .18s;width:100%;text-align:left}
+.note-toggle:hover{color:var(--txt2)}
+.note-toggle svg{transition:transform .2s;flex-shrink:0}
+.note-toggle.open svg{transform:rotate(180deg)}
+.note-dot{width:5px;height:5px;border-radius:50%;background:var(--acc);flex-shrink:0}
+.note-wrap{display:none;margin-top:10px;animation:fadeup .2s ease}
+.note-wrap.open{display:block}
+.note-ta{width:100%;background:var(--s2);border:1px solid var(--b2);border-radius:10px;padding:9px 12px;color:var(--txt);font-family:'DM Sans',sans-serif;font-size:13px;resize:none;min-height:66px;outline:none;transition:border-color .18s}
+.note-ta:focus{border-color:rgba(200,245,90,.4)}
+.note-ta::placeholder{color:#444}
+.note-saved{font-size:11px;color:var(--acc);margin-top:4px;display:none}
 
 /* SUPPLEMENTS */
-.supps-section {
-  margin-top: 32px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  padding: 24px;
-}
-.supps-title {
-  font-family: 'DM Serif Display', serif;
-  font-size: 18px;
-  color: var(--text);
-  margin-bottom: 16px;
-}
-.supps-grid {
-  display:flex; flex-wrap:wrap; gap:10px;
-}
-.supp-pill {
-  background: var(--surface2);
-  border: 1px solid var(--border2);
-  border-radius: 100px;
-  padding: 8px 16px;
-  font-size: 13px;
-  color: var(--text2);
-}
-.supp-pill strong {
-  color: var(--accent);
-  font-weight:600;
-}
+.supps{margin-top:28px;background:var(--s1);border:1px solid var(--b1);border-radius:18px;padding:22px}
+.supps-title{font-family:'DM Serif Display',serif;font-size:18px;margin-bottom:14px}
+.supps-pills{display:flex;flex-wrap:wrap;gap:9px}
+.supp-pill{background:var(--s2);border:1px solid var(--b2);border-radius:100px;padding:7px 15px;font-size:13px;color:var(--txt2)}
+.supp-pill b{color:var(--acc);font-weight:600}
+.reset-btn{display:block;margin:24px auto 0;background:none;border:1px solid var(--b2);color:var(--txt3);padding:8px 20px;border-radius:100px;font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer;transition:all .18s}
+.reset-btn:hover{border-color:var(--coral);color:var(--coral)}
 
-/* EMPTY STATE */
-.empty-state {
-  text-align:center;
-  padding: 60px 20px;
-}
-.empty-state .big-icon {
-  font-size: 56px;
-  margin-bottom: 16px;
-  display:block;
-  filter: grayscale(0.3);
-}
-.empty-title {
-  font-family: 'DM Serif Display', serif;
-  font-size: 28px;
-  color: var(--text);
-  margin-bottom: 8px;
-}
-.empty-desc {
-  font-size: 14px;
-  color: var(--text3);
-  line-height: 1.7;
-  max-width:320px;
-  margin: 0 auto 24px;
-}
-.demo-btn {
-  background: var(--accent);
-  color: #0d0d0d;
-  border:none;
-  padding: 12px 28px;
-  border-radius: 100px;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 14px;
-  font-weight: 600;
-  cursor:pointer;
-  transition: transform 0.2s, background 0.2s;
-}
-.demo-btn:hover { transform: scale(1.03); background: var(--accent2); }
-
-/* RESPONSIVE */
-@media(max-width:600px) {
-  .meals-grid { grid-template-columns: 1fr; }
-  .day-title-big { font-size: 32px; }
-  header { flex-direction:column; align-items:flex-start; gap:12px; }
-  .header-meta { text-align:left; }
-}
-
-/* SCROLLBAR */
-::-webkit-scrollbar { width:6px; }
-::-webkit-scrollbar-track { background:var(--surface); }
-::-webkit-scrollbar-thumb { background:var(--surface3); border-radius:3px; }
+@media(max-width:580px){.meals-grid{grid-template-columns:1fr}.day-big{font-size:28px}}
 </style>
 </head>
 <body>
 <div class="app">
 
   <header>
-    <div class="logo">
+    <div>
       <span class="logo-mark">nutr.</span>
       <span class="logo-sub">Piano Alimentare</span>
     </div>
-    <div class="header-meta" id="headerMeta" style="display:none">
-      <div class="header-name" id="headerName">—</div>
-      <div class="header-kcal" id="headerKcal">—</div>
+    <div id="hMeta">
+      <div id="hName"></div>
+      <div id="hKcal"></div>
     </div>
   </header>
 
   <!-- UPLOAD -->
-  <div class="upload-section" id="uploadSection">
-    <div class="upload-zone" id="uploadZone">
-      <span class="upload-icon">📄</span>
-      <div class="upload-title">Carica il tuo piano alimentare</div>
-      <div class="upload-desc">
-        Trascina qui il PDF della dieta oppure <span>clicca per selezionarlo</span>.<br>
-        L'AI analizzerà automaticamente pasti, calorie e nutrienti.
-      </div>
-      <input type="file" id="fileInput" accept=".pdf">
-    </div>
-    <div class="loading-bar" id="loadingBar"><div class="loading-fill"></div></div>
-    <div class="loading-text" id="loadingText">Analisi in corso con AI…</div>
+  <div class="upload-zone" id="uploadZone">
+    <div class="up-icon" id="upIcon">📄</div>
+    <div class="up-title" id="upTitle">Carica il tuo piano alimentare</div>
+    <div class="up-desc" id="upDesc">Trascina il PDF qui oppure <b>clicca per selezionarlo</b>.<br>Compatibile con il formato BP Nutrition e simili.</div>
+    <div class="prog-bar" id="progBar"><div class="prog-fill"></div></div>
+    <div id="progTxt"></div>
+    <input type="file" id="fileInput" accept=".pdf" style="display:none">
+  </div>
+  <div id="errMsg"></div>
+  <div class="warn-box" id="warnBox"><b>Nota:</b> le calorie mostrate sono <b>stime medie</b> per tipo di pasto, non valori precisi. Per calcoli accurati consulta il tuo nutrizionista.</div>
+
+  <!-- EMPTY STATE -->
+  <div id="emptyState">
+    <div class="demo-icon">🥗</div>
+    <div class="demo-title">Nessun piano caricato</div>
+    <div class="demo-desc">Carica il tuo PDF oppure prova con il piano demo di Edoardo.</div>
+    <button class="demo-btn" onclick="loadDemo()">Carica piano demo</button>
   </div>
 
   <!-- CONTENT -->
-  <div id="contentArea" style="display:none">
+  <div id="contentArea">
     <div class="day-nav" id="dayNav"></div>
     <div id="daysContainer"></div>
-
-    <div class="supps-section" id="suppsSection" style="display:none">
+    <div class="supps" id="suppsSection" style="display:none">
       <div class="supps-title">Integrazione consigliata</div>
-      <div class="supps-grid" id="suppsGrid"></div>
+      <div class="supps-pills" id="suppsPills"></div>
     </div>
-  </div>
-
-  <!-- EMPTY / DEMO -->
-  <div class="empty-state" id="emptyState">
-    <span class="big-icon">🥗</span>
-    <div class="empty-title">Nessun piano caricato</div>
-    <div class="empty-desc">Carica il tuo PDF per vedere il piano personalizzato, oppure usa i dati demo di Edoardo.</div>
-    <button class="demo-btn" onclick="loadDemo()">Carica piano demo</button>
+    <button class="reset-btn" onclick="resetApp()">↩ Carica un altro piano</button>
   </div>
 
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script>
-pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+// ── CONFIG ────────────────────────────────────────────────────────────────────
+pdfjsLib.GlobalWorkerOptions.workerSrc =
+  'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
-// ── STORAGE ──────────────────────────────────────────────────────────────────
-const NOTES_KEY = 'diet_notes_v1';
-function getNotes() {
-  try { return JSON.parse(localStorage.getItem(NOTES_KEY) || '{}'); } catch(e) { return {}; }
-}
-function saveNote(key, val) {
-  const n = getNotes(); n[key] = val;
-  localStorage.setItem(NOTES_KEY, JSON.stringify(n));
-}
-
-// ── MEAL CONFIG ───────────────────────────────────────────────────────────────
 const MEAL_META = {
-  colazione: { label:'Colazione', cls:'col', icon:'☀️' },
-  spuntino:  { label:'Spuntino',  cls:'spu', icon:'🍎' },
-  pranzo:    { label:'Pranzo',    cls:'pra', icon:'🍝' },
-  merenda:   { label:'Merenda',   cls:'mer', icon:'🥜' },
-  cena:      { label:'Cena',      cls:'cen', icon:'🌙' },
-  postcena:  { label:'Post-cena', cls:'pos', icon:'🍵' },
-  condimento:{ label:'Condimento',cls:'con', icon:'🫒' },
+  colazione:  {label:'Colazione', icon:'☀️', color:'#c8f55a', bg:'rgba(200,245,90,.18)'},
+  spuntino:   {label:'Spuntino',  icon:'🍎', color:'#c084fc', bg:'rgba(192,132,252,.12)'},
+  pranzo:     {label:'Pranzo',    icon:'🍝', color:'#f5c84a', bg:'rgba(245,200,74,.12)'},
+  merenda:    {label:'Merenda',   icon:'🥜', color:'#ff6b4a', bg:'rgba(255,107,74,.12)'},
+  cena:       {label:'Cena',      icon:'🌙', color:'#4af5c8', bg:'rgba(74,245,200,.11)'},
+  postcena:   {label:'Post-cena', icon:'🍵', color:'#60a5fa', bg:'rgba(96,165,250,.11)'},
+  condimento: {label:'Condimento',icon:'🫒', color:'#555',    bg:'rgba(255,255,255,.04)'},
 };
+const KCAL_DEF = {colazione:470,spuntino:200,pranzo:620,merenda:220,cena:820,postcena:110,condimento:270};
+const MEAL_KW  = {
+  colazione:['colazione'],
+  spuntino: ['spuntino'],
+  pranzo:   ['pranzo'],
+  merenda:  ['merenda'],
+  cena:     ['cena'],
+  postcena: ['post-cena','post cena','postcena'],
+  condimento:['condimento'],
+};
+const SKIP_KW = ['giorno ','menu settimanale','nutrizione sportiva','valutazione',
+  'antropometrica','allenamento','proprietà','nutrizionali','integrazione consigliata',
+  'idratazione','*frutta','**verdura','***pane','avvertenze','evitare di consumare',
+  'contatti','firma','dott','biologa','whatsapp','email','sito web','instagram',
+  'nome ','sesso ','età ','peso ','altezza ','bmi ','met.','tdee ','obiettivo ',
+  'tipologia ','frequenza ','fascia ','calorie ','carboidrati ','proteine ','lipidi ','fibra ','note '];
 
 // ── DEMO DATA ─────────────────────────────────────────────────────────────────
-const DEMO_DATA = {
-  nome: "Edoardo Botta",
-  calorie_target: "2600–2700 kcal",
-  giorni: [
-    {
-      giorno: 1,
-      kcal_stimate: 2650,
-      pasti: {
-        colazione: { items:["Yogurt greco magro 150g + miele/marmellata + cioccolato fondente 20g","Fiocchi d'avena/farro/riso 60-70g"], kcal:480 },
-        spuntino:  { items:["Triangoloni si&no di legumi 1 pacchetto","Parmigiano 20g"], kcal:190 },
-        pranzo:    { items:["Pasta/riso/couscous 130g","Piselli secchi 30-40g o legumi 120-150g","Frutta fresca 150g"], kcal:620 },
-        merenda:   { items:["Frutta fresca 150g","Whey protein 30g"], kcal:220 },
-        cena:      { items:["Pane di segale/integrale 110g oppure patate 300g","Vellutata di carote e finocchi","Hamburger pollo e tacchino 250g"], kcal:820 },
-        postcena:  { items:["Tè o tisana + biscotti Oro Saiwa 20g"], kcal:100 },
-        condimento:{ items:["Olio EVO 30g (3 cucchiai)"], kcal:270 },
-      }
-    },
-    {
-      giorno: 2,
-      kcal_stimate: 2680,
-      pasti: {
-        colazione: { items:["Latte parz. scremato/avena/riso/soia 1 tazza","Pane bianco 70g oppure 4 fette biscottate integrali","Burro d'arachidi 100% + marmellata"], kcal:490 },
-        spuntino:  { items:["Frutta fresca 150g","Frutta secca 20g"], kcal:210 },
-        pranzo:    { items:["Pasta/riso basmati 130g o crostini 80g","Zucca o verdura a volontà","Quark magro 250g oppure ricotta 150g","Frutta fresca 150g"], kcal:630 },
-        merenda:   { items:["Crostini integrali o gallette 30g","Arrosto di tacchino o bresaola 50g"], kcal:180 },
-        cena:      { items:["Pane di segale 110g oppure polenta 110g","Salmone con arancio e timo 250g","Melanzane o verdura a volontà"], kcal:830 },
-        postcena:  { items:["Tè o tisana + cioccolata fondente 20g"], kcal:130 },
-        condimento:{ items:["Olio EVO 30g (3 cucchiai)"], kcal:270 },
-      }
-    },
-    {
-      giorno: 3,
-      kcal_stimate: 2620,
-      pasti: {
-        colazione: { items:["Spremuta di arance 150-200ml (2 arance)","Pane bianco 70g o crostini integrali 40g","2 uova"], kcal:450 },
-        spuntino:  { items:["Crackers di riso e cereali 1 pacchetto","Cioccolata fondente 20g"], kcal:200 },
-        pranzo:    { items:["Pasta/riso/farro/couscous 130g o crostini 80g","Lenticchie secche 30-40g o legumi 120-150g","Frutta fresca 150g"], kcal:620 },
-        merenda:   { items:["1 banana o frutta a scelta","1 barretta proteica"], kcal:250 },
-        cena:      { items:["Pane integrale/segale 110g o patate 350g","Carne magra vitello/manzo/maiale 250g ai funghi","Verdura a volontà"], kcal:830 },
-        postcena:  { items:["Tè o tisana + biscotti Oro Saiwa 20g"], kcal:100 },
-        condimento:{ items:["Olio EVO 30g (3 cucchiai)"], kcal:270 },
-      }
-    },
-    {
-      giorno: 4,
-      kcal_stimate: 2660,
-      pasti: {
-        colazione: { items:["Latte parz. scremato delattosato/avena 1 tazza","Pane bianco 70g o 4 fette biscottate integrali","Burro d'arachidi 100% + marmellata"], kcal:490 },
-        spuntino:  { items:["Frutta fresca 150g","Frutta secca 20g"], kcal:210 },
-        pranzo:    { items:["Pasta/riso basmati 130g o crostini 80g","Frittatina 2 uova + 1 albume","Pomodori o verdura a volontà","Frutta fresca 150g"], kcal:600 },
-        merenda:   { items:["Crostini integrali o gallette 30g","Arrosto di tacchino o bresaola 50g"], kcal:180 },
-        cena:      { items:["Pane integrale/segale 110g o patate 350g","Orata o pesce a scelta 250g al forno con pomodorini e timo","Verdura a scelta"], kcal:830 },
-        postcena:  { items:["Tè o tisana + cioccolata fondente 20g"], kcal:130 },
-        condimento:{ items:["Olio EVO 30g (3 cucchiai)"], kcal:270 },
-      }
-    },
-    {
-      giorno: 5,
-      kcal_stimate: 2640,
-      pasti: {
-        colazione: { items:["Yogurt greco magro 150g + miele/marmellata + cioccolato fondente 20g","Fiocchi d'avena/farro/riso 60-70g"], kcal:480 },
-        spuntino:  { items:["Frutta fresca 150g","Parmigiano 20g"], kcal:190 },
-        pranzo:    { items:["Pasta/riso/couscous 130g o crostini 80g","Pomodori o verdura a scelta","Tonno in scatola sgocciolato 120-150g","Frutta fresca 150g"], kcal:620 },
-        merenda:   { items:["1 banana o frutta a scelta","1 barretta proteica"], kcal:250 },
-        cena:      { items:["Pane integrale/segale 110g o polenta 110g","Pollo/tacchino/agnello/coniglio 250g","Finocchi gratinati con pangrattato"], kcal:820 },
-        postcena:  { items:["Tè o tisana + biscotti Oro Saiwa 20g"], kcal:100 },
-        condimento:{ items:["Olio EVO 30g (3 cucchiai)"], kcal:270 },
-      }
-    },
-    {
-      giorno: 6,
-      kcal_stimate: 2700,
-      pasti: {
-        colazione: { items:["Pancake: 180g albumi + 60-70g farina avena/riso + bicarbonato + cannella","Frutta fresca 150-200g","Sciroppo d'acero o marmellata 2 cucchiaini"], kcal:510 },
-        spuntino:  { items:["Frutta fresca 150g","Cioccolata fondente 20g"], kcal:200 },
-        pranzo:    { items:["Pasta/riso/farro 130g o crostini 80g","Zucchine o verdura a scelta","Frittatina 2 uova + 1 albume","Frutta fresca 150g"], kcal:590 },
-        merenda:   { items:["Triangolini si&no di legumi 20g"], kcal:100 },
-        cena:      { items:["🎉 Pasto libero: pizza / panino / sushi / poké","N.1 bibita a scelta"], kcal:900 },
-        condimento:{ items:["Olio EVO 30g (3 cucchiai)"], kcal:270 },
-      }
-    },
-    {
-      giorno: 7,
-      kcal_stimate: 2600,
-      pasti: {
-        colazione: { items:["Colazione a scelta tra le precedenti"], kcal:480 },
-        pranzo:    { items:["Pasta o riso con condimento a scelta 150g","Secondo piatto a scelta 200g","Insalata o verdure a volontà"], kcal:800 },
-        merenda:   { items:["1 coppetta di gelato oppure porzione di dolce semplice"], kcal:250 },
-        cena:      { items:["Verdure a scelta a volontà","Fonte proteica magra + 2 fette di pane"], kcal:500 },
-        condimento:{ items:["Olio EVO 30g (3 cucchiai)"], kcal:270 },
-      }
-    }
+const DEMO = {
+  nome:'Edoardo Botta', calorie_target:'2600–2700 kcal',
+  giorni:[
+    {giorno:1,pasti:{
+      colazione:{items:["Yogurt greco magro 150g + miele/marmellata + cioccolato fondente 20g","Fiocchi d'avena/farro/riso 60-70g"]},
+      spuntino: {items:["Triangoloni si&no di legumi 1 pacchetto","Parmigiano 20g"]},
+      pranzo:   {items:["Pasta/riso/couscous 130g","Piselli secchi 30-40g o legumi 120-150g","Frutta fresca 150g"]},
+      merenda:  {items:["Frutta fresca 150g","Whey protein 30g"]},
+      cena:     {items:["Pane integrale 110g oppure patate 300g","Vellutata di carote e finocchi","Hamburger pollo e tacchino 250g"]},
+      postcena: {items:["Tè o tisana + biscotti Oro Saiwa 20g"]},
+      condimento:{items:["Olio EVO 30g (3 cucchiai)"]},
+    }},
+    {giorno:2,pasti:{
+      colazione:{items:["Latte parz. scremato o vegetale 1 tazza","Pane bianco 70g o 4 fette biscottate integrali","Burro d'arachidi 100% + marmellata"]},
+      spuntino: {items:["Frutta fresca 150g","Frutta secca 20g"]},
+      pranzo:   {items:["Pasta/riso basmati 130g o crostini 80g","Zucca o verdura a volontà","Quark magro 250g oppure ricotta 150g","Frutta fresca 150g"]},
+      merenda:  {items:["Crostini integrali o gallette 30g","Arrosto di tacchino o bresaola 50g"]},
+      cena:     {items:["Pane di segale 110g oppure polenta 110g","Salmone con arancio e timo 250g","Melanzane o verdura a volontà"]},
+      postcena: {items:["Tè o tisana + cioccolata fondente 20g"]},
+      condimento:{items:["Olio EVO 30g (3 cucchiai)"]},
+    }},
+    {giorno:3,pasti:{
+      colazione:{items:["Spremuta di arance 150-200ml (2 arance)","Pane bianco 70g o crostini 40g","2 uova"]},
+      spuntino: {items:["Crackers di riso e cereali 1 pacchetto","Cioccolata fondente 20g"]},
+      pranzo:   {items:["Pasta/riso/farro/couscous 130g","Lenticchie secche 30-40g o legumi 120-150g","Frutta fresca 150g"]},
+      merenda:  {items:["1 banana o frutta a scelta","1 barretta proteica"]},
+      cena:     {items:["Pane integrale 110g o patate 350g","Carne magra vitello/manzo/maiale 250g ai funghi","Verdura a volontà"]},
+      postcena: {items:["Tè o tisana + biscotti Oro Saiwa 20g"]},
+      condimento:{items:["Olio EVO 30g (3 cucchiai)"]},
+    }},
+    {giorno:4,pasti:{
+      colazione:{items:["Latte parz. scremato delattosato o vegetale 1 tazza","Pane bianco 70g o 4 fette biscottate","Burro d'arachidi + marmellata"]},
+      spuntino: {items:["Frutta fresca 150g","Frutta secca 20g"]},
+      pranzo:   {items:["Pasta/riso basmati 130g o crostini 80g","Frittatina 2 uova + 1 albume","Pomodori o verdura a volontà","Frutta fresca 150g"]},
+      merenda:  {items:["Crostini integrali o gallette 30g","Arrosto di tacchino o bresaola 50g"]},
+      cena:     {items:["Pane integrale 110g o patate 350g","Orata o pesce a scelta 250g al forno con pomodorini e timo"]},
+      postcena: {items:["Tè o tisana + cioccolata fondente 20g"]},
+      condimento:{items:["Olio EVO 30g (3 cucchiai)"]},
+    }},
+    {giorno:5,pasti:{
+      colazione:{items:["Yogurt greco magro 150g + miele/marmellata + cioccolato fondente 20g","Fiocchi d'avena/farro/riso 60-70g"]},
+      spuntino: {items:["Frutta fresca 150g","Parmigiano 20g"]},
+      pranzo:   {items:["Pasta/riso/couscous 130g o crostini 80g","Pomodori o verdura a scelta","Tonno in scatola sgocciolato 120-150g","Frutta fresca 150g"]},
+      merenda:  {items:["1 banana o frutta a scelta","1 barretta proteica"]},
+      cena:     {items:["Pane integrale 110g o polenta 110g","Pollo/tacchino/agnello/coniglio 250g","Finocchi gratinati con pangrattato"]},
+      postcena: {items:["Tè o tisana + biscotti Oro Saiwa 20g"]},
+      condimento:{items:["Olio EVO 30g (3 cucchiai)"]},
+    }},
+    {giorno:6,pasti:{
+      colazione:{items:["Pancake: 180g albumi + 60-70g farina avena/riso + bicarbonato + cannella","Frutta fresca 150-200g","Sciroppo d'acero o marmellata 2 cucchiaini"]},
+      spuntino: {items:["Frutta fresca 150g","Cioccolata fondente 20g"]},
+      pranzo:   {items:["Pasta/riso/farro 130g o crostini 80g","Zucchine o verdura a scelta","Frittatina 2 uova + 1 albume","Frutta fresca 150g"]},
+      merenda:  {items:["Triangolini si&no di legumi 20g"]},
+      cena:     {items:["🎉 Pasto libero: pizza / panino / sushi / poké","N.1 bibita a scelta"]},
+      condimento:{items:["Olio EVO 30g (3 cucchiai)"]},
+    }},
+    {giorno:7,pasti:{
+      colazione:{items:["Colazione a scelta tra le precedenti"]},
+      pranzo:   {items:["Pasta o riso con condimento a scelta 150g","Secondo piatto a scelta 200g","Insalata o verdure a volontà"]},
+      merenda:  {items:["1 coppetta di gelato o porzione di dolce semplice"]},
+      cena:     {items:["Verdure a scelta a volontà","Fonte proteica magra + 2 fette di pane"]},
+      condimento:{items:["Olio EVO 30g (3 cucchiai)"]},
+    }},
   ],
-  integratori: [
-    "Creatina monoidrato — 5g/die (4 settimane sì, 2 no)",
-    "Omega 3 — 2g/die a colazione",
-    "Glutammina — 5g post workout"
-  ]
+  integratori:["Creatina monoidrato — 5g/die (4 settimane sì, 2 no)","Omega 3 — 2g/die a colazione","Glutammina — 5g post workout"],
 };
 
-// ── RENDER ────────────────────────────────────────────────────────────────────
+// ── STATE ─────────────────────────────────────────────────────────────────────
 let currentData = null;
+let activeDay = 0;
 
-function renderData(data) {
+// ── NOTES (localStorage) ──────────────────────────────────────────────────────
+const NOTES_KEY = 'diet_notes_v1';
+function getNotes(){ try{return JSON.parse(localStorage.getItem(NOTES_KEY)||'{}')}catch(e){return{}} }
+function saveNote(k,v){ const n=getNotes(); if(v) n[k]=v; else delete n[k]; localStorage.setItem(NOTES_KEY,JSON.stringify(n)); }
+
+// ── PDF EXTRACTION ────────────────────────────────────────────────────────────
+async function extractTextFromPDF(file) {
+  const ab = await file.arrayBuffer();
+  const pdf = await pdfjsLib.getDocument({data:ab}).promise;
+  let text = '';
+  for (let i=1; i<=pdf.numPages; i++) {
+    const page = await pdf.getPage(i);
+    const content = await page.getTextContent();
+    // Group by Y to reconstruct lines properly
+    const byY = {};
+    content.items.forEach(item => {
+      const y = Math.round(item.transform[5]);
+      if (!byY[y]) byY[y] = [];
+      byY[y].push(item.str);
+    });
+    const ys = Object.keys(byY).map(Number).sort((a,b)=>b-a);
+    ys.forEach(y => { text += byY[y].join(' ') + '\n'; });
+    text += '\n';
+  }
+  return text;
+}
+
+// ── PDF PARSER ────────────────────────────────────────────────────────────────
+function isSkip(line) {
+  const ll = line.toLowerCase().trim();
+  return SKIP_KW.some(k => ll.startsWith(k.toLowerCase())) || ll.length < 3;
+}
+function getMealKey(line) {
+  const ll = line.toLowerCase().trim();
+  for (const [key, kws] of Object.entries(MEAL_KW)) {
+    if (kws.some(kw => ll === kw || ll.startsWith(kw+' ') || ll.startsWith(kw+':'))) return key;
+  }
+  return null;
+}
+function isDayHeader(line) { return /^giorno\s+\d+/i.test(line.trim()); }
+
+function parsePDFText(raw) {
+  const lines = raw.replace(/\r/g,'\n').split('\n').map(l=>l.trim()).filter(l=>l.length>2);
+  const giorni = [];
+  let currentDay = null, currentMeal = null;
+  let nome = '', calorieTarget = '';
+
+  // Extract name & calorie target
+  for (const line of lines) {
+    const ll = line.toLowerCase();
+    if (ll.startsWith('nome') && line.length < 60) {
+      nome = line.replace(/^nome\s*/i,'').trim();
+    }
+    if ((ll.includes('calorie') || ll.includes('kcal')) && ll.match(/\d[\d\-–]+/)) {
+      const m = line.match(/(\d[\d\s\-–]+\s*kcal)/i);
+      if (m && !calorieTarget) calorieTarget = m[1].trim();
+    }
+  }
+
+  for (const line of lines) {
+    // New day
+    if (isDayHeader(line)) {
+      const m = line.match(/\d+/);
+      currentDay = {giorno: m ? parseInt(m[0]) : giorni.length+1, pasti:{}};
+      giorni.push(currentDay);
+      currentMeal = null;
+      continue;
+    }
+    if (!currentDay) continue;
+    if (isSkip(line)) { currentMeal = null; continue; }
+
+    // New meal
+    const mk = getMealKey(line);
+    if (mk) {
+      currentMeal = mk;
+      if (!currentDay.pasti[currentMeal]) currentDay.pasti[currentMeal] = {items:[]};
+      continue;
+    }
+
+    // Add item
+    if (currentMeal && line.length > 4) {
+      const cleaned = line.replace(/^[•·\-–—*▪►◆]\s*/,'').trim();
+      if (cleaned.length > 4) currentDay.pasti[currentMeal].items.push(cleaned);
+    }
+  }
+
+  // Add kcal estimates
+  giorni.forEach(g => {
+    Object.entries(g.pasti).forEach(([k,p]) => { p.kcal = KCAL_DEF[k] || 200; });
+  });
+
+  // Extract integratori
+  const integratori = [];
+  let inSupps = false;
+  for (const line of lines) {
+    const ll = line.toLowerCase();
+    if (ll.includes('integrazion') && ll.includes('consigliat')) { inSupps=true; continue; }
+    if (inSupps) {
+      if (ll.includes('idratazione') || ll.includes('*frutta') || ll.includes('evitare')) break;
+      const c = line.replace(/^[•·\-–*]\s*/,'').trim();
+      if (c.length > 4 && !isDayHeader(line)) integratori.push(c);
+    }
+  }
+
+  return {
+    nome: nome || 'Piano alimentare',
+    calorie_target: calorieTarget || '—',
+    giorni: giorni.filter(g => Object.keys(g.pasti).length > 0),
+    integratori,
+  };
+}
+
+// ── RENDER ────────────────────────────────────────────────────────────────────
+function renderData(data, showWarn) {
   currentData = data;
   document.getElementById('emptyState').style.display = 'none';
-  document.getElementById('uploadSection').style.display = 'none';
   document.getElementById('contentArea').style.display = 'block';
-
-  const hm = document.getElementById('headerMeta');
-  hm.style.display = 'block';
-  document.getElementById('headerName').textContent = data.nome || '—';
-  document.getElementById('headerKcal').textContent = 'Target: ' + (data.calorie_target || '—');
+  document.getElementById('hMeta').style.display = 'block';
+  document.getElementById('hName').textContent = data.nome;
+  document.getElementById('hKcal').textContent = 'Target: ' + data.calorie_target;
+  document.getElementById('warnBox').style.display = showWarn ? 'block' : 'none';
 
   const nav = document.getElementById('dayNav');
   const container = document.getElementById('daysContainer');
   nav.innerHTML = ''; container.innerHTML = '';
 
-  const giorniNomi = ['Lunedì','Martedì','Mercoledì','Giovedì','Venerdì','Sabato','Domenica'];
-
   data.giorni.forEach((g, i) => {
-    // Tab
+    // Nav tab
     const btn = document.createElement('button');
-    btn.className = 'day-btn' + (i===0?' active':'');
+    btn.className = 'day-btn' + (i===0?' on':'');
     btn.textContent = 'Giorno ' + g.giorno;
-    btn.onclick = () => {
-      document.querySelectorAll('.day-btn').forEach(b=>b.classList.remove('active'));
-      document.querySelectorAll('.day-view').forEach(v=>v.classList.remove('active'));
-      btn.classList.add('active');
-      document.getElementById('day-'+i).classList.add('active');
-    };
+    btn.onclick = () => switchDay(i);
     nav.appendChild(btn);
 
-    // Day view
+    // Day container
+    const totalKcal = Object.values(g.pasti).reduce((s,p)=>s+(p.kcal||0),0);
     const div = document.createElement('div');
-    div.className = 'day-view' + (i===0?' active':'');
+    div.className = 'day-view' + (i===0?' on':'');
     div.id = 'day-'+i;
 
-    const kcalDisplay = g.kcal_stimate ? `~${g.kcal_stimate} kcal` : '';
-
-    let mealCards = '';
-    for (const [mkey, mval] of Object.entries(g.pasti)) {
-      const meta = MEAL_META[mkey] || { label: mkey, cls:'col', icon:'🍽️' };
-      const noteKey = `g${g.giorno}_${mkey}`;
+    let cards = '';
+    for (const [mkey, meal] of Object.entries(g.pasti)) {
+      const meta = MEAL_META[mkey] || {label:mkey,icon:'🍽️',color:'#555',bg:'rgba(255,255,255,.04)'};
+      const noteKey = 'g'+g.giorno+'_'+mkey;
       const savedNote = getNotes()[noteKey] || '';
-      const hasNote = savedNote ? 'has-note' : '';
-      const noteOpenClass = savedNote ? 'open' : '';
-
-      mealCards += `
-      <div class="meal-card ${meta.cls}">
-        <div class="meal-top">
-          <span class="meal-tag">${meta.icon} ${meta.label}</span>
-          <div style="display:flex;align-items:center;gap:6px">
-            <div class="note-dot"></div>
-            ${mval.kcal ? `<span class="meal-kcal">${mval.kcal} kcal</span>` : ''}
+      cards += `
+        <div class="meal-card">
+          <div class="meal-bar" style="background:${meta.color}"></div>
+          <div class="meal-top">
+            <span class="meal-tag" style="background:${meta.bg};color:${meta.color}">${meta.icon} ${meta.label}</span>
+            ${meal.kcal ? `<span class="meal-kcal">~${meal.kcal} kcal</span>` : ''}
           </div>
-        </div>
-        <ul class="meal-items">
-          ${mval.items.map(it=>`<li>${it}</li>`).join('')}
-        </ul>
-        <div class="note-area ${hasNote}" id="noteArea_${noteKey}">
-          <button class="note-toggle ${noteOpenClass}" id="noteToggle_${noteKey}" onclick="toggleNote('${noteKey}')">
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            ${savedNote ? 'Nota salvata' : 'Aggiungi nota'}
+          <ul class="meal-items">
+            ${meal.items.map(it=>`<li><span class="bullet"></span>${it}</li>`).join('')}
+          </ul>
+          <button class="note-toggle ${savedNote?'open':''}" id="nt_${noteKey}" onclick="toggleNote('${noteKey}')">
+            <svg width="11" height="11" viewBox="0 0 11 11" fill="none">
+              <path d="M1.5 3.5l4 4 4-4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span id="ntlbl_${noteKey}">${savedNote ? 'Nota salvata' : 'Aggiungi nota'}</span>
+            ${savedNote ? '<span class="note-dot"></span>' : '<span class="note-dot" style="display:none"></span>'}
           </button>
-          <div class="note-input-wrap ${noteOpenClass}" id="noteWrap_${noteKey}">
-            <textarea class="note-input" placeholder="Es: ho sostituito il tacchino con il pollo…" id="noteInput_${noteKey}" onchange="handleNoteChange('${noteKey}')">${savedNote}</textarea>
-            <div class="note-saved" id="noteSaved_${noteKey}">✓ Salvata</div>
+          <div class="note-wrap ${savedNote?'open':''}" id="nw_${noteKey}">
+            <textarea class="note-ta" id="na_${noteKey}" placeholder="Es: ho sostituito con petto di pollo…" oninput="handleNote('${noteKey}')">${savedNote}</textarea>
+            <div class="note-saved" id="ns_${noteKey}">✓ Salvata</div>
           </div>
-        </div>
-      </div>`;
+        </div>`;
     }
 
     div.innerHTML = `
-      <div class="day-header">
-        <div class="day-title-big">Giorno <em>${g.giorno}</em></div>
-        ${kcalDisplay ? `<div class="day-kcal-badge">⚡ ${kcalDisplay}</div>` : ''}
+      <div class="day-hdr">
+        <div class="day-big">Giorno <em>${g.giorno}</em></div>
+        ${totalKcal ? `<div class="kcal-badge">⚡ ~${totalKcal} kcal</div>` : ''}
       </div>
-      <div class="meals-grid">${mealCards}</div>
-    `;
+      <div class="meals-grid">${cards}</div>`;
     container.appendChild(div);
   });
 
   // Integratori
+  const suppsSection = document.getElementById('suppsSection');
   if (data.integratori && data.integratori.length) {
-    const sec = document.getElementById('suppsSection');
-    sec.style.display = 'block';
-    document.getElementById('suppsGrid').innerHTML = data.integratori.map(s => {
+    suppsSection.style.display = 'block';
+    document.getElementById('suppsPills').innerHTML = data.integratori.map(s => {
       const parts = s.split('—');
-      return `<div class="supp-pill"><strong>${parts[0].trim()}</strong>${parts[1] ? ' — '+parts[1].trim() : ''}</div>`;
+      return `<div class="supp-pill"><b>${parts[0].trim()}</b>${parts[1]?' — '+parts[1].trim():''}</div>`;
     }).join('');
-  }
-}
-
-function toggleNote(key) {
-  const wrap = document.getElementById('noteWrap_'+key);
-  const btn = document.getElementById('noteToggle_'+key);
-  const isOpen = wrap.classList.contains('open');
-  wrap.classList.toggle('open', !isOpen);
-  btn.classList.toggle('open', !isOpen);
-}
-
-function handleNoteChange(key) {
-  const val = document.getElementById('noteInput_'+key).value;
-  saveNote(key, val);
-  const saved = document.getElementById('noteSaved_'+key);
-  const area = document.getElementById('noteArea_'+key);
-  const btn = document.getElementById('noteToggle_'+key);
-  saved.style.display = 'block';
-  setTimeout(() => saved.style.display = 'none', 1800);
-  if (val.trim()) {
-    area.classList.add('has-note');
-    btn.childNodes[btn.childNodes.length-1].textContent = ' Nota salvata';
   } else {
-    area.classList.remove('has-note');
-    btn.childNodes[btn.childNodes.length-1].textContent = ' Aggiungi nota';
+    suppsSection.style.display = 'none';
   }
 }
 
-function loadDemo() {
-  renderData(DEMO_DATA);
+function switchDay(i) {
+  activeDay = i;
+  document.querySelectorAll('.day-btn').forEach((b,j) => b.classList.toggle('on', j===i));
+  document.querySelectorAll('.day-view').forEach((v,j) => v.classList.toggle('on', j===i));
 }
 
-// ── PDF UPLOAD ────────────────────────────────────────────────────────────────
-async function extractPDFText(file) {
-  const ab = await file.arrayBuffer();
-  const pdf = await pdfjsLib.getDocument({ data: ab }).promise;
-  let text = '';
-  for (let i = 1; i <= pdf.numPages; i++) {
-    const page = await pdf.getPage(i);
-    const content = await page.getTextContent();
-    text += content.items.map(it => it.str).join(' ') + '\n';
-  }
-  return text;
+// ── NOTES ─────────────────────────────────────────────────────────────────────
+function toggleNote(key) {
+  const wrap = document.getElementById('nw_'+key);
+  const btn  = document.getElementById('nt_'+key);
+  const open = wrap.classList.contains('open');
+  wrap.classList.toggle('open', !open);
+  btn.classList.toggle('open', !open);
 }
 
-async function analyzeWithAI(pdfText) {
-  const prompt = `Sei un nutrizionista esperto. Analizza questo piano alimentare e restituisci un JSON strutturato.
-
-TESTO DEL PDF:
-${pdfText.slice(0, 6000)}
-
-Rispondi SOLO con JSON valido (nessun testo prima o dopo), seguendo ESATTAMENTE questa struttura:
-{
-  "nome": "nome paziente",
-  "calorie_target": "es. 2600-2700 kcal",
-  "giorni": [
-    {
-      "giorno": 1,
-      "kcal_stimate": 2650,
-      "pasti": {
-        "colazione": { "items": ["alimento 1", "alimento 2"], "kcal": 480 },
-        "spuntino":  { "items": ["alimento 1"], "kcal": 200 },
-        "pranzo":    { "items": ["alimento 1", "alimento 2", "alimento 3"], "kcal": 620 },
-        "merenda":   { "items": ["alimento 1"], "kcal": 200 },
-        "cena":      { "items": ["alimento 1", "alimento 2"], "kcal": 800 },
-        "postcena":  { "items": ["alimento 1"], "kcal": 100 },
-        "condimento":{ "items": ["olio EVO quantità"], "kcal": 270 }
-      }
-    }
-  ],
-  "integratori": ["Creatina — dose", "Omega 3 — dose"]
+let noteTimers = {};
+function handleNote(key) {
+  const val = document.getElementById('na_'+key).value;
+  saveNote(key, val);
+  const lbl  = document.getElementById('ntlbl_'+key);
+  const dot  = document.getElementById('nt_'+key).querySelector('.note-dot');
+  const saved = document.getElementById('ns_'+key);
+  lbl.textContent = val.trim() ? 'Nota salvata' : 'Aggiungi nota';
+  dot.style.display = val.trim() ? 'inline-block' : 'none';
+  saved.style.display = 'block';
+  clearTimeout(noteTimers[key]);
+  noteTimers[key] = setTimeout(() => saved.style.display='none', 1600);
 }
 
-REGOLE:
-- Estrai tutti i giorni presenti (fino a 7)
-- Per le kcal_stimate di ogni pasto usa valori realistici in base agli alimenti
-- kcal_stimate del giorno = somma dei pasti
-- Se un pasto non è presente per quel giorno, omettilo
-- Usa solo le chiavi: colazione, spuntino, pranzo, merenda, cena, postcena, condimento`;
-
-  const resp = await fetch('https://api.anthropic.com/v1/messages', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      model: 'claude-sonnet-4-20250514',
-      max_tokens: 4000,
-      messages: [{ role: 'user', content: prompt }]
-    })
-  });
-  const data = await resp.json();
-  const raw = data.content.map(c => c.text || '').join('');
-  const clean = raw.replace(/```json|```/g, '').trim();
-  return JSON.parse(clean);
+// ── FILE UPLOAD ───────────────────────────────────────────────────────────────
+function setLoading(on, msg) {
+  document.getElementById('progBar').classList.toggle('on', on);
+  const pt = document.getElementById('progTxt');
+  pt.style.display = on ? 'block' : 'none';
+  pt.textContent = msg || '';
+  document.getElementById('upIcon').textContent = on ? '⏳' : '📄';
+  document.getElementById('upTitle').textContent = on ? 'Lettura in corso…' : 'Carica il tuo piano alimentare';
+  document.getElementById('upDesc').style.display = on ? 'none' : 'block';
 }
-
-// Upload handlers
-const zone = document.getElementById('uploadZone');
-const fileInput = document.getElementById('fileInput');
-
-zone.addEventListener('click', () => fileInput.click());
-zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('drag-over'); });
-zone.addEventListener('dragleave', () => zone.classList.remove('drag-over'));
-zone.addEventListener('drop', e => {
-  e.preventDefault();
-  zone.classList.remove('drag-over');
-  const file = e.dataTransfer.files[0];
-  if (file && file.type === 'application/pdf') processFile(file);
-});
-fileInput.addEventListener('change', e => {
-  if (e.target.files[0]) processFile(e.target.files[0]);
-});
+function showErr(msg) {
+  const el = document.getElementById('errMsg');
+  el.textContent = msg; el.style.display = msg ? 'block' : 'none';
+}
 
 async function processFile(file) {
-  const bar = document.getElementById('loadingBar');
-  const lt = document.getElementById('loadingText');
-  bar.classList.add('active');
-  lt.classList.add('active');
-  lt.textContent = 'Lettura PDF…';
-
+  if (!file || file.type !== 'application/pdf') { showErr('Carica un file PDF valido.'); return; }
+  showErr(''); setLoading(true, 'Lettura PDF…');
   try {
-    const text = await extractPDFText(file);
-    lt.textContent = 'Analisi AI in corso…';
-    const parsed = await analyzeWithAI(text);
-    bar.classList.remove('active');
-    lt.classList.remove('active');
-    renderData(parsed);
-  } catch(err) {
-    bar.classList.remove('active');
-    lt.classList.remove('active');
-    lt.style.display = 'block';
-    lt.textContent = 'Errore nell\'analisi. Usa il piano demo.';
-    lt.style.color = '#ff6b4a';
-    setTimeout(() => { lt.style.display = 'none'; }, 3000);
-    console.error(err);
+    const text = await extractTextFromPDF(file);
+    const result = parsePDFText(text);
+    if (result.giorni.length === 0) {
+      showErr('Nessun giorno trovato. Il formato PDF potrebbe non essere supportato.');
+      setLoading(false); return;
+    }
+    setLoading(false);
+    renderData(result, true);
+    localStorage.setItem('diet_plan_v1', JSON.stringify(result));
+  } catch(e) {
+    console.error(e);
+    showErr('Errore nella lettura del PDF. Prova con il piano demo.');
+    setLoading(false);
   }
 }
+
+// Upload zone events
+const zone = document.getElementById('uploadZone');
+zone.addEventListener('click', () => document.getElementById('fileInput').click());
+zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('drag'); });
+zone.addEventListener('dragleave', () => zone.classList.remove('drag'));
+zone.addEventListener('drop', e => {
+  e.preventDefault(); zone.classList.remove('drag');
+  processFile(e.dataTransfer.files[0]);
+});
+document.getElementById('fileInput').addEventListener('change', e => {
+  processFile(e.target.files[0]); e.target.value='';
+});
+
+function loadDemo() { renderData(DEMO, false); localStorage.setItem('diet_plan_v1', JSON.stringify(DEMO)); }
+function resetApp() {
+  currentData = null;
+  document.getElementById('contentArea').style.display = 'none';
+  document.getElementById('emptyState').style.display = 'block';
+  document.getElementById('hMeta').style.display = 'none';
+  document.getElementById('warnBox').style.display = 'none';
+  setLoading(false); showErr('');
+  localStorage.removeItem('diet_plan_v1');
+}
+
+// ── INIT: restore saved plan ──────────────────────────────────────────────────
+(function init() {
+  try {
+    const saved = localStorage.getItem('diet_plan_v1');
+    if (saved) renderData(JSON.parse(saved), false);
+  } catch(e) {}
+})();
 </script>
 </body>
 </html>
