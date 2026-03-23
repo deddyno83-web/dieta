@@ -2,79 +2,46 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dieta Edoardo Botta</title>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        body { background: #0d0d0d; color: #f0ede8; font-family: 'DM Sans', sans-serif; padding: 20px; line-height: 1.5; }
-        .container { max-width: 800px; margin: 0 auto; }
-        header { border-bottom: 1px solid #333; padding-bottom: 20px; margin-bottom: 30px; display: flex; justify-content: space-between; align-items: center; }
-        .logo { color: #c8f55a; font-weight: bold; font-size: 24px; }
-        .day-section { background: #161616; border-radius: 15px; padding: 20px; margin-bottom: 30px; border: 1px solid #222; }
-        h2 { color: #c8f55a; border-bottom: 1px solid #c8f55a33; padding-bottom: 10px; margin-bottom: 20px; text-transform: uppercase; font-size: 18px; }
-        .meal { margin-bottom: 15px; padding-left: 15px; border-left: 3px solid #333; }
-        .meal-name { font-weight: bold; color: #999; font-size: 12px; text-transform: uppercase; display: block; margin-bottom: 5px; }
-        .meal-content { font-size: 15px; color: #ddd; }
-        .supps { background: #1f1f1f; padding: 20px; border-radius: 15px; border: 1px solid #c8f55a44; }
-        .badge { background: #c8f55a22; color: #c8f55a; padding: 2px 8px; border-radius: 5px; font-size: 12px; font-weight: bold; }
+        body { background-color: #1a1a1a; color: #ffffff; font-family: sans-serif; padding: 20px; }
+        .box { background-color: #262626; border: 1px solid #404040; border-radius: 8px; padding: 15px; margin-bottom: 20px; }
+        h1 { color: #c8f55a; font-size: 22px; border-bottom: 2px solid #c8f55a; padding-bottom: 5px; }
+        h2 { color: #c8f55a; font-size: 18px; margin-top: 0; }
+        .pasto { margin-bottom: 10px; border-left: 3px solid #555; padding-left: 10px; }
+        .label { font-weight: bold; color: #aaaaaa; font-size: 12px; text-transform: uppercase; }
+        .info { font-size: 15px; display: block; margin-top: 2px; }
+        .integrazione { background-color: #333333; padding: 15px; border-radius: 8px; border: 1px solid #c8f55a; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <div class="logo">nutr.</div>
-            <div style="text-align:right">
-                <div style="font-weight:bold">Edoardo Botta</div>
-                <div style="font-size:12px; color:#666">Gennaio 2026 | 2600-2700 kcal</div>
-            </div>
-        </header>
 
-        <div class="day-section">
-            <h2>Giorno 1 <span class="badge">~2650 kcal</span></h2>
-            <div class="meal"><span class="meal-name">Colazione</span><div class="meal-content">Yogurt greco 150g + miele/marmellata + cioccolato 20g. Fiocchi d'avena/riso 60-70g.</div></div>
-            <div class="meal"><span class="meal-name">Spuntino</span><div class="meal-content">1 pacchetto triangolini legumi + parmigiano 20g.</div></div>
-            <div class="meal"><span class="meal-name">Pranzo</span><div class="meal-content">Pasta/Riso 130g + Piselli secchi 40g (o legumi 150g) + Frutta 150g.</div></div>
-            <div class="meal"><span class="meal-name">Merenda</span><div class="meal-content">Frutta fresca 150g + whey protein 30g.</div></div>
-            <div class="meal"><span class="meal-name">Cena</span><div class="meal-content">Hamburger pollo/tacchino 250g + Vellutata verdure + Pane integrale 110g.</div></div>
-        </div>
-
-        <div class="day-section">
-            <h2>Giorno 2</h2>
-            <div class="meal"><span class="meal-name">Colazione</span><div class="meal-content">Latte parz. scremato + Pane bianco 70g + Burro d'arachidi e marmellata.</div></div>
-            <div class="meal"><span class="meal-name">Pranzo</span><div class="meal-content">Pasta/Riso 130g + Quark magro 250g (o Ricotta 150g) + Zucca + Frutta 150g.</div></div>
-            <div class="meal"><span class="meal-name">Cena</span><div class="meal-content">Salmone 250g + Melanzane + Pane integrale 110g.</div></div>
-        </div>
-
-        <div class="day-section">
-            <h2>Giorno 3</h2>
-            <div class="meal"><span class="meal-name">Colazione</span><div class="meal-content">Spremuta 2 arance + Pane bianco 70g + 2 uova.</div></div>
-            <div class="meal"><span class="meal-name">Pranzo</span><div class="meal-content">Pasta/Riso 130g + Lenticchie 150g + Frutta 150g.</div></div>
-            <div class="meal"><span class="meal-name">Cena</span><div class="meal-content">Vitello/Manzo 250g ai funghi + Patate 350g.</div></div>
-        </div>
-
-        <div class="day-section">
-            <h2>Giorno 4</h2>
-            <div class="meal"><span class="meal-name">Pranzo</span><div class="meal-content">Pasta/Riso 130g + Frittatina (2 uova + 1 albume) + Pomodori + Frutta.</div></div>
-            <div class="meal"><span class="meal-name">Cena</span><div class="meal-content">Orata/Pesce 250g + Patate 350g.</div></div>
-        </div>
-
-        <div class="day-section">
-            <h2>Giorno 6 <span class="badge">Libero</span></h2>
-            <div class="meal"><span class="meal-name">Cena</span><div class="meal-content">PIZZA / SUSHI / POKE + 1 bibita a scelta.</div></div>
-        </div>
-
-        <div class="supps">
-            <h2 style="border:none">Integrazione</h2>
-            <ul style="font-size:14px; color:#aaa; padding-left:20px">
-                <li>Creatina Monoidrato: 5g al giorno</li>
-                <li>Omega 3: 2g a colazione</li>
-                <li>Glutammina: 5g post-allenamento</li>
-            </ul>
-        </div>
-        
-        <p style="text-align:center; font-size:10px; color:#444; margin-top:40px">
-            Dati estratti dal piano nutrizionale di Gennaio 2026.
-        </p>
+    <div style="margin-bottom: 30px;">
+        <h1>Edoardo Botta - Gennaio 2026</h1>
+        <p style="color: #999;">Target: 2600-2700 kcal | 3 Allenamenti/settimana</p>
     </div>
-</body>
-</html>
+
+    <div class="box">
+        <h2>GIORNO 1</h2>
+        <div class="pasto"><span class="label">Colazione</span><span class="info">Yogurt greco 150g, miele, cioccolato 20g, Cereali 60-70g</span></div>
+        <div class="pasto"><span class="label">Pranzo</span><span class="info">Pasta/Riso 130g, Legumi 150g, Frutta 150g</span></div>
+        <div class="pasto"><span class="label">Cena</span><span class="info">Hamburger pollo/tacchino 250g, Verdure, Pane integrale 110g</span></div>
+    </div>
+
+    <div class="box">
+        <h2>GIORNO 2</h2>
+        <div class="pasto"><span class="label">Colazione</span><span class="info">Latte, Pane 70g, Burro arachidi e marmellata</span></div>
+        <div class="pasto"><span class="label">Pranzo</span><span class="info">Pasta/Riso 130g, Quark 250g o Ricotta 150g, Verdura, Frutta 150g</span></div>
+        <div class="pasto"><span class="label">Cena</span><span class="info">Salmone/Pesce 250g, Melanzane, Pane integrale 110g</span></div>
+    </div>
+
+    <div class="box">
+        <h2>GIORNO 3</h2>
+        <div class="pasto"><span class="label">Colazione</span><span class="info">Spremuta (2 arance), Pane 70g, 2 uova</span></div>
+        <div class="pasto"><span class="label">Pranzo</span><span class="info">Pasta/Riso 130g, Lenticchie 150g, Frutta 150g</span></div>
+        <div class="pasto"><span class="label">Cena</span><span class="info">Carne magra 250g, Verdura, Patate 350g</span></div>
+    </div>
+
+    <div class="box">
+        <h2>GIORNO 4</h2>
+        <div class="pasto"><span class="label
