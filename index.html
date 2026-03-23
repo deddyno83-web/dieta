@@ -23,7 +23,7 @@ header{display:flex;align-items:center;justify-content:space-between;padding:28p
 #hName{font-size:15px;font-weight:600}
 #hKcal{font-size:12px;color:var(--txt3)}
 .day-nav{display:flex;gap:8px;margin-bottom:28px;overflow-x:auto;padding-bottom:10px;scrollbar-width:none}
-.day-btn{flex-shrink:0;padding:8px 18px;border-radius:100px;border:1px solid var(--b2);background:var(--s1);color:var(--txt2);cursor:pointer;font-size:13px}
+.day-btn{flex-shrink:0;padding:8px 18px;border-radius:100px;border:1px solid var(--b2);background:var(--s1);color:var(--txt2);cursor:pointer;font-size:13px;border:1px solid var(--b2)}
 .day-btn.on{background:var(--acc);color:#0d0d0d;font-weight:600;border-color:var(--acc)}
 .day-view{display:none}
 .day-view.on{display:block;animation:fade .3s ease}
@@ -33,68 +33,6 @@ header{display:flex;align-items:center;justify-content:space-between;padding:28p
 .day-big em{color:var(--acc);font-style:italic}
 .kcal-badge{background:var(--adim);color:var(--acc);padding:6px 14px;border-radius:100px;font-size:13px;font-weight:600}
 .meals-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
-.meal-card{background:var(--s1);border:1px solid var(--b1);border-radius:20px;padding:20px;position:relative}
+.meal-card{background:var(--s1);border:1px solid var(--b1);border-radius:20px;padding:20px;position:relative;margin-bottom:10px}
 .meal-bar{position:absolute;top:0;left:0;right:0;height:3px;border-radius:20px 20px 0 0}
-.meal-tag{font-size:10px;font-weight:700;text-transform:uppercase;padding:4px 10px;border-radius:100px;display:inline-block;margin-bottom:12px}
-.meal-items{list-style:none;font-size:13px;color:var(--txt2);line-height:1.6}
-.meal-items li{margin-bottom:8px;padding-left:12px;position:relative}
-.meal-items li::before{content:'';position:absolute;left:0;top:8px;width:4px;height:4px;background:#444;border-radius:50%}
-.supps{margin-top:32px;background:var(--s1);padding:24px;border-radius:20px;border:1px solid var(--b1)}
-.supp-pill{display:inline-block;background:var(--s2);padding:8px 16px;border-radius:100px;margin:4px;font-size:13px;border:1px solid var(--b2)}
-.supp-pill b{color:var(--acc)}
-@media(max-width:600px){.meals-grid{grid-template-columns:1fr}}
-</style>
-</head>
-<body>
-<div class="app">
-  <header>
-    <div class="logo-mark">nutr. <span style="font-size:12px;color:var(--txt3);font-family:'DM Sans'">Gennaio 2026</span></div>
-    <div id="hMeta"><div id="hName">Edoardo Botta</div><div id="hKcal">Target: 2600-2700 kcal</div></div>
-  </header>
-  <div class="day-nav" id="dayNav"></div>
-  <div id="daysContainer"></div>
-  <div class="supps">
-    <h3 style="margin-bottom:16px;font-family:'DM Serif Display'">Integrazione Consigliata</h3>
-    <div id="suppsPills"></div>
-  </div>
-</div>
-
-<script>
-const DIETA = {
-  giorni: [
-    { g: 1, pasti: { 
-        colazione: ["Yogurt greco magro 150g + miele/marmellata + cioccolato fondente 20g", "Fiocchi d'avena/farro/riso 60-70g"],
-        spuntino: ["1 pacchetto triangolini si&no legumi + parmigiano 20g"],
-        pranzo: ["Pasta/Riso/Farro 130g (o crostini 80g)", "Piselli secchi 30-40g o legumi 150g", "Frutta fresca 150g"],
-        merenda: ["Frutta fresca 150g + whey protein 30g"],
-        cena: ["Pane integrale 110g (o patate 300g)", "Vellutata di carote e finocchi", "Hamburger pollo e tacchino 250g"],
-        condimento: ["Olio EVO 30g (3 cucchiai)"]
-    }},
-    { g: 2, pasti: {
-        colazione: ["1 tazza latte parz. scremato/vegetale", "Pane bianco 70g o 4 fette biscottate integrali", "Burro d'arachidi + marmellata (velo)"],
-        spuntino: ["Frutta fresca 150g + frutta secca 20g"],
-        pranzo: ["Pasta/Riso 130g (o pane/crostini)", "Zucca o verdura a volontà", "Quark magro 250g o Ricotta 150g", "Frutta fresca 150g"],
-        merenda: ["Crostini/gallette 30g + bresaola/tacchino 50g"],
-        cena: ["Pane integrale 110g o Polenta 110g", "Salmone o pesce a scelta 250g", "Melanzane a volontà"],
-        condimento: ["Olio EVO 30g (3 cucchiai)"]
-    }},
-    { g: 3, pasti: {
-        colazione: ["Spremuta d'arancia (2 arance)", "Pane bianco 70g o crostini 40g", "2 uova"],
-        spuntino: ["Crackers riso e cereali + cioccolato fondente 20g"],
-        pranzo: ["Crostini 80g o Pasta/Riso 130g", "Lenticchie 150g o secche 40g", "Frutta fresca 150g"],
-        merenda: ["1 banana + 1 barretta proteica"],
-        cena: ["Pane integrale 110g o patate 350g", "Carne magra vitello/manzo 250g ai funghi"],
-        condimento: ["Olio EVO 30g (3 cucchiai)"]
-    }},
-    { g: 4, pasti: {
-        colazione: ["Latte vegetale/scremato", "Fette biscottate n.4 + burro arachidi", "Marmellata"],
-        spuntino: ["Frutta fresca 150g + frutta secca 20g"],
-        pranzo: ["Pasta/Riso 130g", "Frittatina 2 uova + 1 albume", "Pomodori a volontà", "Frutta fresca 150g"],
-        merenda: ["Crostini 30g + bresaola 50g"],
-        cena: ["Patate 350g o Pane 110g", "Orata o pesce 250g al forno"],
-        condimento: ["Olio EVO 30g (3 cucchiai)"]
-    }},
-    { g: 5, pasti: {
-        colazione: ["Yogurt greco 150g + cioccolato 20g", "Fiocchi d'avena 70g"],
-        spuntino: ["Frutta fresca 150g + parmigiano 20g"],
-        pranzo: ["Pasta/Couscous 130g", "Tonno sgocciolato 150g", "Verdura a
+.meal-tag{font-size:10px
