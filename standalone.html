@@ -10,15 +10,16 @@
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='75' font-size='75'>🍽️</text></svg>">
   <link rel="preconnect" href="https://rsms.me/">
   <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
   
   <style>
     :root {
-      --yellow: #FFD93D;       /* Giallo acceso - primary */
-      --green: #6BCB77;        /* Verde fresco - secondary */
-      --purple: #B84FCC;       /* Viola magenta - accent */
-      --bg-primary: #FFFFFF;   /* Bianco */
-      --bg-secondary: #F8F9FA; /* Grigio molto chiaro */
-      --bg-tertiary: #F0F1F3;  /* Grigio chiaro */
+      --yellow: #FFD93D;
+      --green: #6BCB77;
+      --purple: #B84FCC;
+      --bg-primary: #FFFFFF;
+      --bg-secondary: #F8F9FA;
+      --bg-tertiary: #F0F1F3;
       --text-primary: #1A1A1A;
       --text-secondary: #666666;
       --text-light: #999999;
@@ -26,7 +27,6 @@
       --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
       --shadow-yellow: 0 4px 16px rgba(255, 217, 61, 0.25);
       --shadow-green: 0 4px 16px rgba(107, 203, 119, 0.25);
-      --shadow-purple: 0 4px 16px rgba(184, 79, 204, 0.25);
     }
 
     * {
@@ -56,7 +56,6 @@
       background: var(--bg-primary);
     }
 
-    /* Header */
     .header {
       background: linear-gradient(135deg, var(--yellow) 0%, #FFC93A 100%);
       color: #1A1A1A;
@@ -342,6 +341,61 @@
       letter-spacing: -0.3px;
     }
 
+    .highlight-card {
+      background: linear-gradient(135deg, var(--yellow) 0%, #FFC93A 100%);
+      border-radius: 16px;
+      padding: 24px;
+      color: #1A1A1A;
+      margin-bottom: 24px;
+      box-shadow: var(--shadow-yellow);
+      border: 2px solid #FFE57A;
+    }
+
+    .highlight-card h4 {
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      opacity: 0.8;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .highlight-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .highlight-item {
+      background: rgba(255,255,255,0.3);
+      border-radius: 12px;
+      padding: 12px;
+      text-align: center;
+    }
+
+    .highlight-label {
+      font-size: 11px;
+      font-weight: 700;
+      margin-bottom: 6px;
+      opacity: 0.8;
+    }
+
+    .highlight-value {
+      font-size: 18px;
+      font-weight: 800;
+    }
+
+    .chart-container {
+      background: white;
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: var(--shadow);
+      margin-bottom: 24px;
+      border: 1px solid #F0F0F0;
+      position: relative;
+      height: 320px;
+    }
+
     .table-container {
       background: white;
       border-radius: 16px;
@@ -355,7 +409,7 @@
     .comparison-table {
       width: 100%;
       border-collapse: collapse;
-      font-size: 13px;
+      font-size: 12px;
       font-family: 'Inter', sans-serif;
     }
 
@@ -364,20 +418,27 @@
     }
 
     .comparison-table th {
-      padding: 14px;
+      padding: 12px 10px;
       text-align: left;
       font-weight: 700;
       color: var(--text-primary);
       border-bottom: 2px solid var(--yellow);
+      white-space: nowrap;
     }
 
     .comparison-table td {
-      padding: 12px 14px;
+      padding: 10px;
       border-bottom: 1px solid #E8E8E8;
     }
 
     .comparison-table tbody tr:hover {
       background: #FFFAF0;
+    }
+
+    .comparison-table tbody tr.highlight {
+      background: #FFF8E1;
+      font-weight: 600;
+      border: 1px solid var(--yellow);
     }
 
     .param-name {
@@ -397,38 +458,32 @@
       color: #FF6B6B;
     }
 
-    .trend-cards {
+    .kpi-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
       gap: 12px;
       margin-bottom: 24px;
     }
 
-    .trend-card {
+    .kpi-card {
       background: white;
       border-radius: 16px;
       padding: 16px;
       box-shadow: var(--shadow);
       border: 2px solid #F0F0F0;
-      transition: all 0.3s ease;
       text-align: center;
     }
 
-    .trend-card.positive {
+    .kpi-card.positive {
       border-color: var(--green);
       box-shadow: var(--shadow-green);
     }
 
-    .trend-card.negative {
+    .kpi-card.negative {
       border-color: #FF6B6B;
     }
 
-    .trend-card:hover {
-      box-shadow: var(--shadow-lg);
-      transform: translateY(-4px);
-    }
-
-    .trend-label {
+    .kpi-label {
       font-size: 11px;
       color: var(--text-light);
       font-weight: 700;
@@ -437,57 +492,36 @@
       letter-spacing: 0.5px;
     }
 
-    .trend-value {
-      font-size: 20px;
+    .kpi-value {
+      font-size: 18px;
       font-weight: 800;
       color: var(--text-primary);
-      margin-bottom: 4px;
+      margin-bottom: 6px;
     }
 
-    .trend-baseline {
+    .kpi-detail {
       font-size: 11px;
       color: var(--text-secondary);
-      margin-bottom: 12px;
+      margin-bottom: 8px;
     }
 
-    .trend-change {
+    .kpi-change {
       display: inline-block;
-      padding: 6px 12px;
+      padding: 4px 10px;
       background: var(--bg-secondary);
-      border-radius: 8px;
-      font-size: 11px;
+      border-radius: 6px;
+      font-size: 10px;
       font-weight: 700;
-      color: var(--text-primary);
     }
 
-    .trend-card.positive .trend-change {
+    .kpi-card.positive .kpi-change {
       background: #E8F8F0;
       color: var(--green);
     }
 
-    .trend-card.negative .trend-change {
+    .kpi-card.negative .kpi-change {
       background: #FFE8E8;
       color: #FF6B6B;
-    }
-
-    .info-card {
-      background: white;
-      border-radius: 16px;
-      padding: 16px;
-      box-shadow: var(--shadow);
-      border: 1px solid #F0F0F0;
-    }
-
-    .info-card p {
-      font-size: 12px;
-      margin-bottom: 8px;
-      color: var(--text-secondary);
-      font-weight: 500;
-    }
-
-    .info-card strong {
-      color: var(--text-primary);
-      font-weight: 700;
     }
 
     .profile-card {
@@ -613,22 +647,38 @@
         grid-template-columns: 1fr;
       }
 
-      .trend-cards {
+      .highlight-grid {
         grid-template-columns: repeat(2, 1fr);
+      }
+
+      .kpi-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .chart-container {
+        height: 280px;
       }
     }
 
     @media (max-width: 480px) {
-      .trend-cards {
-        grid-template-columns: 1fr;
-      }
-
       .header h1 {
         font-size: 20px;
       }
 
       .day-title {
         font-size: 22px;
+      }
+
+      .highlight-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .kpi-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .chart-container {
+        height: 240px;
       }
     }
   </style>
@@ -694,18 +744,30 @@
 
       <!-- Controlli Section -->
       <div id="controlliSection" class="hidden">
-        <h3 class="section-title">Confronto Dati Antropometrici</h3>
+        <!-- Ultimo Controllo in Evidenza -->
+        <div class="highlight-card" id="ultimoControllo"></div>
+
+        <h3 class="section-title">Andamento Completo</h3>
+        <div class="chart-container">
+          <canvas id="andamentoChart"></canvas>
+        </div>
+
+        <h3 class="section-title">Storico Completo Controlli</h3>
         <div class="table-container">
-          <table class="comparison-table" id="comparisonTable"></table>
+          <table class="comparison-table" id="storiaTable"></table>
+        </div>
+      </div>
+
+      <!-- Confronto Section -->
+      <div id="confrontoSection" class="hidden">
+        <h3 class="section-title">Confronto Ultimi 2 Controlli</h3>
+        
+        <div class="table-container">
+          <table class="comparison-table" id="confrontoTable"></table>
         </div>
 
-        <h3 class="section-title">Andamento Parametri</h3>
-        <div class="trend-cards" id="trendCards"></div>
-
-        <div class="info-card">
-          <p><strong>Baseline:</strong> 15/01/2026</p>
-          <p><strong>Controllo Attuale:</strong> 26/03/2026</p>
-        </div>
+        <h3 class="section-title">KPI - Variazioni Dettagliate</h3>
+        <div class="kpi-grid" id="kpiGrid"></div>
       </div>
 
       <!-- Profilo Section -->
@@ -778,6 +840,10 @@
         <span class="nav-icon">📊</span>
         <span class="nav-label">Controlli</span>
       </button>
+      <button class="nav-item" onclick="switchTab('confronto')">
+        <span class="nav-icon">📈</span>
+        <span class="nav-label">Confronto</span>
+      </button>
       <button class="nav-item" onclick="switchTab('profilo')">
         <span class="nav-icon">👤</span>
         <span class="nav-label">Profilo</span>
@@ -786,70 +852,78 @@
   </div>
 
   <script>
-    // Data
+    // Dati dieta ESATTI dal PDF
     const dieta = {
       lunedi: {
-        colazione: { pasti: '1 tazza di spremuta di arance, Crostini integrali 60g, 2 uova', calorie: 550 },
+        colazione: { pasti: '1 tazza di spremuta di arance\nCrostini integrali 60g\n2 uova', calorie: 520 },
         spuntino: { pasti: '-', calorie: 0 },
-        pranzo: { pasti: 'Spatzle/Pasta/Riso 150g, Peperoni a volontà, Philadelphia protein 200g, Frutta 150g', calorie: 680 },
-        merenda: { pasti: 'Crackers di riso e cereali + whey protein 30g', calorie: 280 },
-        cena: { pasti: 'Pane di segale 130g, Salmone/Pesce 250g, Spinaci a volontà, Frutta 150g', calorie: 620 },
+        pranzo: { pasti: 'Spatzle 120g oppure Pasta di semola o di mais/Riso basmati o integrale 150g\nPeperoni o verdura a scelta a volontà\nPhiladelphia protein 200g oppure primo sale/ricotta/fiocchi di latte 150g\nFrutta fresca 150g', calorie: 720 },
+        merenda: { pasti: '1 pacchetto di crackers di riso e cereali + whey protein 30g', calorie: 280 },
+        cena: { pasti: 'Pane di segale o integrale 130g oppure farina di polenta 130g\nSalmone con arancio e timo o pesce a scelta tra pesce spada/gamberi/orata 250g\nSpinaci o verdura a scelta a volontà\nFrutta fresca 150g', calorie: 680 },
         postCena: { pasti: 'Cioccolata fondente 20g', calorie: 110 }
       },
       martedi: {
-        colazione: { pasti: 'Yogurt greco magro 150g, Fiocchi d\'avena/farro/riso 60g', calorie: 480 },
+        colazione: { pasti: 'Yogurt greco magro bianco 150g\nFiocchi d\'avena/farro/riso oppure Riso soffiato al cioccolato 60g', calorie: 460 },
         spuntino: { pasti: '-', calorie: 0 },
-        pranzo: { pasti: 'Crostini integrali 80g, Piselli secchi 40-50g, Frutta 150g', calorie: 550 },
-        merenda: { pasti: 'Crostini integrali 30g + arrosto di tacchino 50g', calorie: 240 },
-        cena: { pasti: 'Pane di segale 130g, Vellutata di carote e pomodori, Hamburger di pollo/tacchino 250g, Frutta 150g', calorie: 680 },
+        pranzo: { pasti: 'Crostini integrali 80g oppure Pasta di semola/mais o integrale/Riso o Riso Basmati/Farro 130g\nPiselli secchi 40-50g o legumi a scelta (120-150g freschi, ben sgocciolati e sciacquati sotto abbondante acqua corrente)\nFrutta fresca 150g', calorie: 580 },
+        merenda: { pasti: 'Crostini integrali 30g + arrosto di tacchino o bresaola 50g', calorie: 240 },
+        cena: { pasti: 'Pane di segale o integrale 130g oppure Crostini integrali 80g\nVellutata di carote e pomodori o verdure a scelta\nHamburger di pollo e tacchino 250g\nFrutta fresca 150g', calorie: 720 },
         postCena: { pasti: 'Cioccolata fondente 20g', calorie: 110 }
       },
       mercoledi: {
-        colazione: { pasti: '1 tazza di spremuta di arance, Crostini integrali 60g, Arrosto di tacchino 100g', calorie: 600 },
+        colazione: { pasti: '1 tazza di spremuta di arance\nCrostini integrali 60g\nArrosto di tacchino o bresaola 100g', calorie: 580 },
         spuntino: { pasti: '-', calorie: 0 },
-        pranzo: { pasti: 'Crostini integrali 90g, Pasta/Riso 150g, Pomodorini a volontà, 2 scatolette di tonno', calorie: 720 },
+        pranzo: { pasti: 'Crostini integrali 90g oppure Pasta di semola/mais o integrale/Riso o Riso Basmati/Farro/Couscous 150g\nPomodorini o verdura a scelta\n2 scatolette di tonno ben sgocciolato\nFrutta fresca 150g', calorie: 680 },
         merenda: { pasti: 'Yogurt greco bianco magro 150g + cioccolata fondente 20g', calorie: 280 },
-        cena: { pasti: 'Pane di segale 130g, Carne magra di manzo/vitello 250g, Peperoni a volontà, Frutta 150g', calorie: 680 },
-        postCena: { pasti: '30g di biscotti integrali', calorie: 140 }
+        cena: { pasti: 'Pane di segale o integrale 130g oppure farina di polenta 130g\nCarne magra di manzo/vitello 250g\nPeperoni o verdura a scelta\nFrutta fresca 150g', calorie: 720 },
+        postCena: { pasti: '30g di biscotti integrali o di grano saraceno', calorie: 140 }
       },
       giovedi: {
-        colazione: { pasti: 'Yogurt greco magro 150g, Fiocchi d\'avena/farro/riso 60g', calorie: 480 },
+        colazione: { pasti: 'Yogurt greco magro bianco 150g\nFiocchi d\'avena/farro/riso oppure Riso soffiato al cioccolato 60g', calorie: 460 },
         spuntino: { pasti: '-', calorie: 0 },
-        pranzo: { pasti: 'Gnocchi di patate 350g, Zucchine a volontà, Frittatina di 3 uova, Frutta 150g', calorie: 750 },
-        merenda: { pasti: 'Crackers di riso e cereali + whey protein 30g', calorie: 280 },
-        cena: { pasti: 'Pane di segale 130g, Orata/Pesce 250g al forno, Frutta 150g', calorie: 620 },
-        postCena: { pasti: 'Cioccolata fondente 20g', calorie: 110 }
+        pranzo: { pasti: 'Gnocchi di patate 350g oppure Pasta di semola o di mais/Riso basmati o integrale 150g\nZucchine o verdura a scelta a volontà\nFrittatina di 3 uova\nFrutta fresca 150g', calorie: 820 },
+        merenda: { pasti: '1 pacchetto di crackers di riso e cereali + whey protein 30g', calorie: 280 },
+        cena: { pasti: 'Pane di segale o integrale 130g oppure Crostini integrali 80g\nOrata o pesce a scelta 250g al forno con pomodorini e timo o verdura a scelta\nFrutta fresca 150g', calorie: 680 },
+        postCena: { pasti: 'cioccolata fondente 20g', calorie: 110 }
       },
       venerdi: {
-        colazione: { pasti: '1 tazza di spremuta di arance, Crostini integrali 60g, 2 uova', calorie: 550 },
+        colazione: { pasti: '1 tazza di spremuta di arance\nCrostini integrali 60g\n2 uova', calorie: 520 },
         spuntino: { pasti: '-', calorie: 0 },
-        pranzo: { pasti: 'Crostini integrali 80g, Fagioli secchi 40-50g, Frutta 150g', calorie: 550 },
+        pranzo: { pasti: 'Crostini integrali 80g oppure Pasta di semola/mais o integrale/Riso o Riso Basmati/Farro/Couscous 130g\nFagioli secchi 40-50g o legumi a scelta (120-150g freschi, ben sgocciolati e sciacquati sotto abbondante acqua corrente)\nFrutta fresca 150g', calorie: 580 },
         merenda: { pasti: 'Yogurt greco bianco magro 150g + cioccolata fondente 20g', calorie: 280 },
-        cena: { pasti: 'Pane di segale 130g, Carne magra di pollo/tacchino 250g, Spinaci a volontà, Frutta 150g', calorie: 680 },
-        postCena: { pasti: '30g di biscotti integrali', calorie: 140 }
+        cena: { pasti: 'Pane di segale o integrale 130g oppure farina di polenta 130g\nCarne magra di pollo/tacchino oppure salsicce di pollo e/o tacchino 250g\nSpinaci o verdura a scelta a volontà\nFrutta fresca 150g', calorie: 720 },
+        postCena: { pasti: '30g di biscotti integrali o di grano saraceno', calorie: 140 }
       },
       sabato: {
-        colazione: { pasti: 'Pancake con albumi 150g + farina di avena 50g + sciroppo d\'acero', calorie: 620 },
+        colazione: { pasti: 'Pancake con 150 g di albumi + 50 g di farina di avena o riso + ½ cucchiaino di bicarbonato + cannella/cacao qb + latte/yogurt qb per raggiungere consistenza\nSciroppo d\'acero/marmellata 2 cucchiaini', calorie: 540 },
         spuntino: { pasti: '-', calorie: 0 },
-        pranzo: { pasti: 'Gnocchi di patate 350g, Zucchine a volontà, Gamberetti 150g, Frutta 150g', calorie: 780 },
-        merenda: { pasti: 'Frutta fresca 150g + parmigiano 20g', calorie: 220 },
-        cena: { pasti: 'Pizza/Panino/Sushi/Pokè + contorno, 2 bicchieri di vino/birra/bibita', calorie: 1200 },
+        pranzo: { pasti: 'Gnocchi di patate 350g oppure Pasta di semola o di mais/Riso basmati o integrale 150g oppure Crostini integrali 90g\nzucchine o verdura a scelta\nGamberetti 150g oppure Merluzzo/nasello/orata 200g\nFrutta fresca 150g', calorie: 820 },
+        merenda: { pasti: 'Frutta fresca 150g + parmigiano 20g', calorie: 240 },
+        cena: { pasti: 'Pizza /panino/sushi/pokè/Secondo + contorno a scelta\n2 bicchieri di vino oppure n.1 pinta di birra oppure n.1 bibita a scelta', calorie: 1100 },
         postCena: { pasti: '-', calorie: 0 }
       },
       domenica: {
-        colazione: { pasti: 'Una colazione a scelta tra le precedenti', calorie: 550 },
+        colazione: { pasti: 'Una colazione a scelta tra le precedenti', calorie: 500 },
         spuntino: { pasti: '-', calorie: 0 },
-        pranzo: { pasti: 'Pasta o riso con condimento 180g, Secondo piatto 200g, Contorno a volontà', calorie: 850 },
-        merenda: { pasti: '1 coppetta di gelato/1 porzione di dolce semplice', calorie: 350 },
-        cena: { pasti: 'Verdure a volontà + fonte proteica magra + 2 fette di pane', calorie: 550 },
+        pranzo: { pasti: 'Pasta o riso con condimento a scelta 180 g\nSecondo piatto a scelta 200g\nContorno di insalate o verdure a scelta a volontà', calorie: 850 },
+        merenda: { pasti: 'N.1 coppetta di gelato/1 porzione di dolce semplice', calorie: 350 },
+        cena: { pasti: 'Verdure a scelta a volontà con una fonte proteica magra a scelta + 2 fette di pane', calorie: 550 },
         postCena: { pasti: '-', calorie: 0 }
       }
     };
 
-    const datiControlli = {
-      baseline: { peso: 65.5, bmi: 21.6, tBW: 37.7, fFM: 51.8, fM: 13.7, mM: 35.5 },
-      attuale: { peso: 67.0, bmi: 22.1, tBW: 39.1, fFM: 53.6, fM: 13.4, mM: 36.8 }
-    };
+    // TUTTI GLI 8 CONTROLLI con dati da Bodygram
+    const controlli = [
+      { data: '23/09/2024', peso: 67.0, bmi: 22.1, fFM: 51.0, fM: 16.0, mM: 34.5 },
+      { data: '28/10/2024', peso: 67.0, bmi: 22.1, fFM: 51.2, fM: 15.8, mM: 34.8 },
+      { data: '16/01/2025', peso: 67.0, bmi: 22.1, fFM: 51.5, fM: 15.5, mM: 35.0 },
+      { data: '17/03/2025', peso: 69.0, bmi: 22.8, fFM: 52.0, fM: 17.0, mM: 35.3 },
+      { data: '26/05/2025', peso: 70.5, bmi: 23.3, fFM: 52.8, fM: 17.7, mM: 35.8 },
+      { data: '15/09/2025', peso: 67.0, bmi: 22.1, fFM: 51.8, fM: 15.2, mM: 35.2 },
+      { data: '06/11/2025', peso: 65.5, bmi: 21.6, fFM: 51.3, fM: 14.2, mM: 34.8 },
+      { data: '15/01/2026', peso: 65.5, bmi: 21.6, fFM: 51.8, fM: 13.7, mM: 35.5 },
+      { data: '26/03/2026', peso: 67.0, bmi: 22.1, fFM: 53.6, fM: 13.4, mM: 36.8, tBW: 39.1, ecw: 17.0, icw: 22.1, bcm: 30.1, smm: 28.0, asmm: 21.8, phA: 6.5, bmr: 1622.9, tdee: 2434.4 }
+    ];
 
     const giorni = ['Lunedì', 'Martedì', 'Mercoledì', 'Giovedì', 'Venerdì', 'Sabato', 'Domenica'];
     const keysGiorni = ['lunedi', 'martedi', 'mercoledi', 'giovedi', 'venerdi', 'sabato', 'domenica'];
@@ -857,6 +931,7 @@
     const pasti_labels = ['🌅 Colazione', '🥤 Spuntino', '🍽️ Pranzo', '☕ Merenda', '🌙 Cena', '🍫 Post-Cena'];
 
     let selectedDay = getTodayIndex();
+    let andamentoChart = null;
 
     function getTodayIndex() {
       const today = new Date().getDay();
@@ -866,8 +941,10 @@
     function render() {
       renderDays();
       renderMeals();
-      renderTable();
-      renderTrendCards();
+      renderUltimoControllo();
+      renderStorico();
+      renderConfronto();
+      renderChart();
     }
 
     function renderDays() {
@@ -894,7 +971,7 @@
           <div class="meal-card ${cardClass}">
             <div class="meal-info">
               <h3>${pasti_labels[idx]}</h3>
-              <p class="meal-description">${meal.pasti}</p>
+              <p class="meal-description">${meal.pasti.replace(/\n/g, '<br>')}</p>
             </div>
             <div class="meal-calories">
               <span class="calories-number">${meal.calorie}</span>
@@ -906,33 +983,48 @@
       }).join('');
     }
 
-    function renderTable() {
-      const params = [
-        { label: 'Peso (kg)', key: 'peso' },
-        { label: 'BMI (kg/m²)', key: 'bmi' },
-        { label: 'Acqua Totale (L)', key: 'tBW' },
-        { label: 'Massa Magra (kg)', key: 'fFM' },
-        { label: 'Massa Grassa (kg)', key: 'fM' },
-        { label: 'Massa Muscolare (kg)', key: 'mM' }
-      ];
+    function renderUltimoControllo() {
+      const ultimo = controlli[controlli.length - 1];
+      const penultimo = controlli[controlli.length - 2];
+      
+      const diffPeso = (ultimo.peso - penultimo.peso).toFixed(1);
+      const diffFFM = (ultimo.fFM - penultimo.fFM).toFixed(1);
+      const diffFM = (ultimo.fM - penultimo.fM).toFixed(1);
 
-      const table = document.getElementById('comparisonTable');
-      let html = '<thead><tr><th>Parametro</th><th>Baseline</th><th>Attuale</th><th>Variazione</th></tr></thead><tbody>';
+      document.getElementById('ultimoControllo').innerHTML = `
+        <h4>📊 Ultimo Controllo - ${ultimo.data}</h4>
+        <div class="highlight-grid">
+          <div class="highlight-item">
+            <div class="highlight-label">Peso</div>
+            <div class="highlight-value">${ultimo.peso} kg</div>
+          </div>
+          <div class="highlight-item">
+            <div class="highlight-label">BMI</div>
+            <div class="highlight-value">${ultimo.bmi}</div>
+          </div>
+          <div class="highlight-item">
+            <div class="highlight-label">Massa Magra</div>
+            <div class="highlight-value">${ultimo.fFM.toFixed(1)} kg</div>
+          </div>
+        </div>
+      `;
+    }
 
-      params.forEach(p => {
-        const baseline = datiControlli.baseline[p.key];
-        const attuale = datiControlli.attuale[p.key];
-        const diff = (attuale - baseline).toFixed(1);
-        const percentuale = ((diff / baseline) * 100).toFixed(1);
-        const isPositive = diff >= 0;
-        const className = isPositive ? 'positive' : 'negative';
+    function renderStorico() {
+      const table = document.getElementById('storiaTable');
+      let html = '<thead><tr><th>Data</th><th>Peso (kg)</th><th>BMI</th><th>Massa Magra</th><th>Massa Grassa</th><th>Massa Muscolare</th></tr></thead><tbody>';
 
+      controlli.forEach((c, idx) => {
+        const isLast = idx === controlli.length - 1;
+        const rowClass = isLast ? 'highlight' : '';
         html += `
-          <tr>
-            <td class="param-name">${p.label}</td>
-            <td>${baseline.toFixed(1)}</td>
-            <td>${attuale.toFixed(1)}</td>
-            <td class="variazione ${className}">${isPositive ? '+' : ''}${diff} (${percentuale}%)</td>
+          <tr class="${rowClass}">
+            <td class="param-name">${c.data} ${isLast ? '⭐' : ''}</td>
+            <td>${c.peso.toFixed(1)}</td>
+            <td>${c.bmi.toFixed(1)}</td>
+            <td>${c.fFM.toFixed(1)}</td>
+            <td>${c.fM.toFixed(1)}</td>
+            <td>${c.mM.toFixed(1)}</td>
           </tr>
         `;
       });
@@ -941,35 +1033,141 @@
       table.innerHTML = html;
     }
 
-    function renderTrendCards() {
+    function renderConfronto() {
+      const ultimo = controlli[controlli.length - 1];
+      const penultimo = controlli[controlli.length - 2];
+
+      // Tabella confronto
+      const table = document.getElementById('confrontoTable');
+      let html = '<thead><tr><th>Parametro</th><th>Precedente<br>' + penultimo.data + '</th><th>Attuale<br>' + ultimo.data + '</th><th>Variazione</th><th>%</th></tr></thead><tbody>';
+
       const params = [
         { label: 'Peso (kg)', key: 'peso' },
         { label: 'BMI (kg/m²)', key: 'bmi' },
-        { label: 'Acqua Totale (L)', key: 'tBW' },
         { label: 'Massa Magra (kg)', key: 'fFM' },
         { label: 'Massa Grassa (kg)', key: 'fM' },
         { label: 'Massa Muscolare (kg)', key: 'mM' }
       ];
 
-      const container = document.getElementById('trendCards');
-      container.innerHTML = params.map(p => {
-        const baseline = datiControlli.baseline[p.key];
-        const attuale = datiControlli.attuale[p.key];
-        const diff = (attuale - baseline).toFixed(1);
-        const percentuale = ((diff / baseline) * 100).toFixed(1);
-        const isPositive = diff >= 0;
+      params.forEach(p => {
+        const prev = penultimo[p.key];
+        const curr = ultimo[p.key];
+        const diff = (curr - prev).toFixed(1);
+        const pct = ((diff / prev) * 100).toFixed(1);
+        const isPos = diff >= 0;
+        const className = isPos ? 'positive' : 'negative';
 
-        return `
-          <div class="trend-card ${isPositive ? 'positive' : 'negative'}">
-            <p class="trend-label">${p.label}</p>
-            <p class="trend-value">${attuale.toFixed(1)}</p>
-            <p class="trend-baseline">da ${baseline.toFixed(1)}</p>
-            <div class="trend-change">
-              ${isPositive ? '📈' : '📉'} ${isPositive ? '+' : ''}${diff}
-            </div>
+        html += `
+          <tr>
+            <td class="param-name">${p.label}</td>
+            <td>${prev.toFixed(1)}</td>
+            <td>${curr.toFixed(1)}</td>
+            <td class="variazione ${className}">${isPos ? '+' : ''}${diff}</td>
+            <td class="variazione ${className}">${isPos ? '+' : ''}${pct}%</td>
+          </tr>
+        `;
+      });
+
+      html += '</tbody>';
+      table.innerHTML = html;
+
+      // KPI Cards
+      const kpiContainer = document.getElementById('kpiGrid');
+      let kpiHtml = '';
+
+      params.forEach(p => {
+        const prev = penultimo[p.key];
+        const curr = ultimo[p.key];
+        const diff = (curr - prev).toFixed(1);
+        const pct = ((diff / prev) * 100).toFixed(1);
+        const isPos = diff >= 0;
+        const className = isPos ? 'positive' : 'negative';
+
+        kpiHtml += `
+          <div class="kpi-card ${className}">
+            <div class="kpi-label">${p.label}</div>
+            <div class="kpi-value">${curr.toFixed(1)}</div>
+            <div class="kpi-detail">da ${prev.toFixed(1)}</div>
+            <div class="kpi-change">${isPos ? '📈' : '📉'} ${isPos ? '+' : ''}${diff} (${pct}%)</div>
           </div>
         `;
-      }).join('');
+      });
+
+      kpiContainer.innerHTML = kpiHtml;
+    }
+
+    function renderChart() {
+      const ctx = document.getElementById('andamentoChart').getContext('2d');
+      
+      if (andamentoChart) {
+        andamentoChart.destroy();
+      }
+
+      const labels = controlli.map(c => c.data);
+      const pesi = controlli.map(c => c.peso);
+      const ffm = controlli.map(c => c.fFM);
+      const fm = controlli.map(c => c.fM);
+
+      const datasets = [
+        {
+          label: 'Peso (kg)',
+          data: pesi,
+          borderColor: '#FFD93D',
+          backgroundColor: 'rgba(255, 217, 61, 0.1)',
+          tension: 0.4,
+          fill: true,
+          pointRadius: 4,
+          pointBackgroundColor: '#FFD93D'
+        },
+        {
+          label: 'Massa Magra (kg)',
+          data: ffm,
+          borderColor: '#6BCB77',
+          backgroundColor: 'rgba(107, 203, 119, 0.1)',
+          tension: 0.4,
+          fill: true,
+          pointRadius: 4,
+          pointBackgroundColor: '#6BCB77'
+        },
+        {
+          label: 'Massa Grassa (kg)',
+          data: fm,
+          borderColor: '#B84FCC',
+          backgroundColor: 'rgba(184, 79, 204, 0.1)',
+          tension: 0.4,
+          fill: true,
+          pointRadius: 4,
+          pointBackgroundColor: '#B84FCC'
+        }
+      ];
+
+      andamentoChart = new Chart(ctx, {
+        type: 'line',
+        data: { labels, datasets },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          interaction: { mode: 'index', intersect: false },
+          plugins: {
+            legend: {
+              display: true,
+              position: 'bottom',
+              labels: { font: { family: 'Inter', size: 12 }, padding: 15, usePointStyle: true }
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: false,
+              grid: { drawBorder: false, color: 'rgba(0,0,0,0.05)' },
+              ticks: { font: { family: 'Inter', size: 11 } }
+            },
+            x: {
+              grid: { display: false },
+              ticks: { font: { family: 'Inter', size: 10 } }
+            }
+          }
+        }
+      });
     }
 
     function setDay(day) {
@@ -990,15 +1188,15 @@
     function switchTab(tab) {
       document.getElementById('dietaSection').classList.toggle('hidden', tab !== 'dieta');
       document.getElementById('controlliSection').classList.toggle('hidden', tab !== 'controlli');
+      document.getElementById('confrontoSection').classList.toggle('hidden', tab !== 'confronto');
       document.getElementById('profiloSection').classList.toggle('hidden', tab !== 'profilo');
 
-      document.querySelectorAll('.nav-item').forEach((btn, i) => {
+      document.querySelectorAll('.nav-item').forEach((btn) => {
         btn.classList.remove('active');
       });
       event.target.closest('.nav-item').classList.add('active');
     }
 
-    // Initial render
     render();
   </script>
 </body>
