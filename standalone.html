@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="App per consultare dieta e controlli antropometrici">
+  <meta name="theme-color" content="#FF6B35">
+  <title>Edoardo - Dieta & Controlli</title>
+  
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='75' font-size='75'>🍽️</text></svg>">
+  
+  <style>
+    :root {
+      --primary: #FF6B35;
+      --primary-light: #FF8C5A;
+      --primary-dark: #E54800;
+      --secondary: #00D9FF;
+      --secondary-light: #33E9FF;
+      --secondary-dark: #00B8CC;
+      --accent: #6BCB77;
+      --accent-light: #8FDB99;
+      --accent-dark: #52A456;
+      --bg-primary: #FFFFFF;
+      --bg-secondary: #F7F7F7;
+      --bg-tertiary: #F0F0F0;
+      --text-primary: #1A1A1A;
+      --text-secondary: #666666;
+      --text-light: #999999;
+      --border-color: #E0E0E0;
+      --shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      --shadow-lg: 0 4px 16px rgba(0, 0, 0, 0.12);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', sans-serif;
+      background: var(--bg-secondary);
+      color: var(--text-primary);
+      overflow-x: hidden;
+    }
+
+    .app-container {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      background: var(--bg-secondary);
+    }
+
+    .header {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      color: white;
+      padding: 24px 16px 32px;
+      box-shadow: var(--shadow);
+    }
+
+    .header h1 {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .header p {
+      font-size: 14px;
+      opacity: 0.95;
+      letter-spacing: 0.5px;
+    }
+
+    .main-content {
+      flex: 1;
+      padding: 20px 16px 100px 16px;
+      overflow-y: auto;
+    }
+
+    .day-selector {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px;
+      background: var(--bg-primary);
+      padding: 12px;
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+    }
+
+    .nav-btn {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-primary);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      white-space: nowrap;
+    }
+
+    .nav-btn:hover {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+
+    .days-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 6px;
+      flex: 1;
+    }
+
+    .day-btn {
+      padding: 10px 8px;
+      border: 2px solid var(--border-color);
+      border-radius: 10px;
+      background: white;
+      color: var(--text-primary);
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .day-btn:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .day-btn.active {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+      box-shadow: var(--shadow);
+    }
+
+    .day-title {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 20px;
+      color: var(--text-primary);
+    }
+
+    .meals-container {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .meal-card {
+      background: white;
+      border-radius: 12px;
+      padding: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      box-shadow: var(--shadow);
+      transition: all 0.3s ease;
+      border-left: 5px solid var(--primary);
+    }
+
+    .meal-card:hover {
+      box-shadow: var(--shadow-lg);
+      transform: translateY(-2px);
+    }
+
+    .meal-card.breakfast { border-left-color: var(--primary); }
+    .meal-card.lunch { border-left-color: var(--accent); }
+    .meal-card.dinner { border-left-color: var(--secondary); }
+    .meal-card.snack { border-left-color: #FFB627; }
+
+    .meal-info h3 {
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--text-primary);
+    }
+
+    .meal-description {
+      font-size: 12px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+      margin: 0;
+    }
+
+    .meal-calories {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      margin-left: 16px;
+      min-width: 70px;
+    }
+
+    .calories-number {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .calories-label {
+      font-size: 11px;
+      color: var(--text-light);
+      font-weight: 600;
+    }
+
+    .calories-percent {
+      font-size: 11px;
+      color: var(--text-secondary);
+      margin-top: 4px;
+      font-weight: 600;
+    }
+
+    .total-calories {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+      border-radius: 12px;
+      padding: 24px;
+      color: white;
+      margin-bottom: 24px;
+      box-shadow: var(--shadow-lg);
+      text-align: center;
+    }
+
+    .total-calories h3 {
+      font-size: 13px;
+      font-weight: 600;
+      opacity: 0.95;
+      margin-bottom: 12px;
+      letter-spacing: 0.5px;
+    }
+
+    .total-display {
+      display: flex;
+      align-items: baseline;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .total-number {
+      font-size: 36px;
+      font-weight: 700;
+    }
+
+    .total-unit {
+      font-size: 16px;
+      font-weight: 600;
+      opacity: 0.9;
+    }
+
+    .total-target {
+      font-size: 12px;
+      opacity: 0.85;
+      margin-top: 8px;
+    }
+
+    .macro-card {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: var(--shadow);
+      margin-bottom: 24px;
+    }
+
+    .macro-card h4 {
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      color: var(--text-primary);
+    }
+
+    .macro-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .macro-item {
+      background: var(--bg-secondary);
+      border-radius: 10px;
+      padding: 12px;
+      border: 1px solid var(--border-color);
+    }
+
+    .macro-label {
+      display: block;
+      font-size: 11px;
+      color: var(--text-light);
+      font-weight: 600;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .macro-value {
+      display: block;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .section-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 12px;
+    }
+
+    .table-container {
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      overflow-x: auto;
+      margin-bottom: 24px;
+    }
+
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    .comparison-table thead {
+      background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
+    }
+
+    .comparison-table th {
+      padding: 14px;
+      text-align: left;
+      font-weight: 700;
+      color: var(--text-primary);
+      border-bottom: 2px solid var(--border-color);
+    }
+
+    .comparison-table td {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .comparison-table tbody tr:hover {
+      background: var(--bg-secondary);
+    }
+
+    .param-name {
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .variazione {
+      font-weight: 700;
+    }
+
+    .variazione.positive {
+      color: var(--accent);
+    }
+
+    .variazione.negative {
+      color: var(--secondary);
+    }
+
+    .trend-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .trend-card {
+      background: white;
+      border-radius: 12px;
+      padding: 16px;
+      box-shadow: var(--shadow);
+      border-top: 4px solid var(--primary);
+      transition: all 0.3s ease;
+    }
+
+    .trend-card:hover {
+      box-shadow: var(--shadow-lg);
+      transform: translateY(-4px);
+    }
+
+    .trend-card.positive {
+      border-top-color: var(--accent);
+    }
+
+    .trend-card.negative {
+      border-top-color: var(--secondary);
+    }
+
+    .trend-label {
+      font-size: 11px;
+      color: var(--text-light);
+      font-weight: 600;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .trend-value {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+    }
+
+    .trend-baseline {
+      font-size: 11px;
+      color: var(--text-secondary);
+      margin-bottom: 12px;
+    }
+
+    .trend-change {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px;
+      background: var(--bg-secondary);
+      border-radius: 8px;
+    }
+
+    .trend-icon {
+      font-size: 14px;
+    }
+
+    .trend-text {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .trend-card.positive .trend-text {
+      color: var(--accent);
+    }
+
+    .trend-card.negative .trend-text {
+      color: var(--secondary);
+    }
+
+    .info-card {
+      background: white;
+      border-radius: 12px;
+      padding: 16px;
+      box-shadow: var(--shadow);
+    }
+
+    .info-card p {
+      font-size: 12px;
+      margin-bottom: 8px;
+      color: var(--text-secondary);
+    }
+
+    .info-card strong {
+      color: var(--text-primary);
+    }
+
+    .profile-card {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: var(--shadow);
+      margin-bottom: 16px;
+    }
+
+    .profile-card h3 {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      color: var(--text-primary);
+    }
+
+    .profile-info {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px;
+      background: var(--bg-secondary);
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+    }
+
+    .info-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-light);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .info-value {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: white;
+      border-top: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-around;
+      padding: 0;
+      box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.08);
+      z-index: 100;
+      height: 70px;
+    }
+
+    .nav-item {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--text-light);
+      transition: all 0.3s ease;
+      padding: 8px;
+      gap: 4px;
+    }
+
+    .nav-item.active {
+      color: var(--primary);
+    }
+
+    .nav-icon {
+      font-size: 20px;
+    }
+
+    .nav-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+    }
+
+    .nav-item:active {
+      background: rgba(255, 107, 53, 0.08);
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    @media (max-width: 768px) {
+      .header h1 {
+        font-size: 24px;
+      }
+
+      .meal-card {
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .meal-calories {
+        margin-left: 0;
+      }
+
+      .macro-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .trend-cards {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .trend-cards {
+        grid-template-columns: 1fr;
+      }
+
+      .header h1 {
+        font-size: 20px;
+      }
+
+      .day-title {
+        font-size: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <!-- Header -->
+    <div class="header">
+      <h1>Edoardo Botta</h1>
+      <p>42 anni • 174 cm • Performance & Massa Magra</p>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <!-- Dieta Section -->
+      <div id="dietaSection">
+        <!-- Day Selector -->
+        <div class="day-selector">
+          <button class="nav-btn" onclick="previousDay()">← Prev</button>
+          <div class="days-grid" id="daysGrid"></div>
+          <button class="nav-btn" onclick="nextDay()">Next →</button>
+        </div>
+
+        <!-- Day Title -->
+        <h2 class="day-title" id="dayTitle">Lunedì</h2>
+
+        <!-- Meals -->
+        <div class="meals-container" id="mealsContainer"></div>
+
+        <!-- Total Calories -->
+        <div class="total-calories">
+          <h3>Calorie Totali</h3>
+          <div class="total-display">
+            <span class="total-number" id="totalCalories">2600</span>
+            <span class="total-unit">kcal</span>
+          </div>
+          <p class="total-target">Target: 2900-3000 kcal</p>
+        </div>
+
+        <!-- Macro Card -->
+        <div class="macro-card">
+          <h4>Macro Nutrizionali Target</h4>
+          <div class="macro-grid">
+            <div class="macro-item">
+              <span class="macro-label">Proteine</span>
+              <span class="macro-value">1.9-2.2g/kg</span>
+            </div>
+            <div class="macro-item">
+              <span class="macro-label">Carboidrati</span>
+              <span class="macro-value">45-50%</span>
+            </div>
+            <div class="macro-item">
+              <span class="macro-label">Lipidi</span>
+              <span class="macro-value">1-1.2g/kg</span>
+            </div>
+            <div class="macro-item">
+              <span class="macro-label">Fibra</span>
+              <span class="macro-value">30-35g</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Controlli Section -->
+      <div id="controlliSection" class="hidden">
+        <h3 class="section-title">Confronto Dati Antropometrici</h3>
+        <div class="table-container">
+          <table class="comparison-table" id="comparisonTable"></table>
+        </div>
+
+        <h3 class="section-title">Andamento Parametri</h3>
+        <div class="trend-cards" id="trendCards"></div>
+
+        <div class="info-card">
+          <p><strong>Baseline:</strong> 15/01/2026</p>
+          <p><strong>Controllo Attuale:</strong> 26/03/2026</p>
+        </div>
+      </div>
+
+      <!-- Profilo Section -->
+      <div id="profiloSection" class="hidden">
+        <div class="profile-card">
+          <h3>Profilo Personale</h3>
+          <div class="profile-info">
+            <div class="info-row">
+              <span class="info-label">Nome</span>
+              <span class="info-value">Edoardo Botta</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Età</span>
+              <span class="info-value">42 anni</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Altezza</span>
+              <span class="info-value">174 cm</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Peso Attuale</span>
+              <span class="info-value">67.0 kg</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">BMI</span>
+              <span class="info-value">22.1 kg/m²</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Metabolismo Basale</span>
+              <span class="info-value">1623 kcal</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">TDEE</span>
+              <span class="info-value">2434 kcal</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Obiettivo</span>
+              <span class="info-value">Ottimizzazione Performance</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="profile-card">
+          <h3>Allenamento</h3>
+          <div class="profile-info">
+            <div class="info-row">
+              <span class="info-label">Tipologia</span>
+              <span class="info-value">Personal Training</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Frequenza</span>
+              <span class="info-value">3/7 giorni</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Fascia Oraria</span>
+              <span class="info-value">Pomeridiana</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+      <button class="nav-item active" onclick="switchTab('dieta')">
+        <span class="nav-icon">🍽️</span>
+        <span class="nav-label">Dieta</span>
+      </button>
+      <button class="nav-item" onclick="switchTab('controlli')">
+        <span class="nav-icon">📊</span>
+        <span class="nav-label">Controlli</span>
+      </button>
+      <button class="nav-item" onclick="switchTab('profilo')">
+        <span class="nav-icon">👤</span>
+        <span class="nav-label">Profilo</span>
+      </button>
+    </nav>
+  </div>
+
+  <script>
+    // Data
+    const dieta = {
+      lunedi: {
+        colazione: { pasti: '1 tazza di spremuta di arance, Crostini integrali 60g, 2 uova', calorie: 550 },
+        spuntino: { pasti: '-', calorie: 0 },
+        pranzo: { pasti: 'Spatzle/Pasta/Riso 150g, Peperoni a volontà, Philadelphia protein 200g, Frutta 150g', calorie: 680 },
+        merenda: { pasti: 'Crackers di riso e cereali + whey protein 30g', calorie: 280 },
+        cena: { pasti: 'Pane di segale 130g, Salmone/Pesce 250g, Spinaci a volontà, Frutta 150g', calorie: 620 },
+        postCena: { pasti: 'Cioccolata fondente 20g', calorie: 110 }
+      },
+      martedi: {
+        colazione: { pasti: 'Yogurt greco magro 150g, Fiocchi d\'avena/farro/riso 60g', calorie: 480 },
+        spuntino: { pasti: '-', calorie: 0 },
+        pranzo: { pasti: 'Crostini integrali 80g, Piselli secchi 40-50g, Frutta 150g', calorie: 550 },
+        merenda: { pasti: 'Crostini integrali 30g + arrosto di tacchino 50g', calorie: 240 },
+        cena: { pasti: 'Pane di segale 130g, Vellutata di carote e pomodori, Hamburger di pollo/tacchino 250g, Frutta 150g', calorie: 680 },
+        postCena: { pasti: 'Cioccolata fondente 20g', calorie: 110 }
+      },
+      mercoledi: {
+        colazione: { pasti: '1 tazza di spremuta di arance, Crostini integrali 60g, Arrosto di tacchino 100g', calorie: 600 },
+        spuntino: { pasti: '-', calorie: 0 },
+        pranzo: { pasti: 'Crostini integrali 90g, Pasta/Riso 150g, Pomodorini a volontà, 2 scatolette di tonno', calorie: 720 },
+        merenda: { pasti: 'Yogurt greco bianco magro 150g + cioccolata fondente 20g', calorie: 280 },
+        cena: { pasti: 'Pane di segale 130g, Carne magra di manzo/vitello 250g, Peperoni a volontà, Frutta 150g', calorie: 680 },
+        postCena: { pasti: '30g di biscotti integrali', calorie: 140 }
+      },
+      giovedi: {
+        colazione: { pasti: 'Yogurt greco magro 150g, Fiocchi d\'avena/farro/riso 60g', calorie: 480 },
+        spuntino: { pasti: '-', calorie: 0 },
+        pranzo: { pasti: 'Gnocchi di patate 350g, Zucchine a volontà, Frittatina di 3 uova, Frutta 150g', calorie: 750 },
+        merenda: { pasti: 'Crackers di riso e cereali + whey protein 30g', calorie: 280 },
+        cena: { pasti: 'Pane di segale 130g, Orata/Pesce 250g al forno, Frutta 150g', calorie: 620 },
+        postCena: { pasti: 'Cioccolata fondente 20g', calorie: 110 }
+      },
+      venerdi: {
+        colazione: { pasti: '1 tazza di spremuta di arance, Crostini integrali 60g, 2 uova', calorie: 550 },
+        spuntino: { pasti: '-', calorie: 0 },
+        pranzo: { pasti: 'Crostini integrali 80g, Fagioli secchi 40-50g, Frutta 150g', calorie: 550 },
+        merenda: { pasti: 'Yogurt greco bianco magro 150g + cioccolata fondente 20g', calorie: 280 },
+        cena: { pasti: 'Pane di segale 130g, Carne magra di pollo/tacchino 250g, Spinaci a volontà, Frutta 150g', calorie: 680 },
+        postCena: { pasti: '30g di biscotti integrali', calorie: 140 }
+      },
+      sabato: {
+        colazione: { pasti: 'Pancake con albumi 150g + farina di avena 50g + sciroppo d\'acero', calorie: 620 },
+        spuntino: { pasti: '-', calorie: 0 },
+        pranzo: { pasti: 'Gnocchi di patate 350g, Zucchine a volontà, Gamberetti 150g, Frutta 150g', calorie: 780 },
+        merenda: { pasti: 'Frutta fresca 150g + parmigiano 20g', calorie: 220 },
+        cena: { pasti: 'Pizza/Panino/Sushi/Pokè + contorno, 2 bicchieri di vino/birra/bibita', calorie: 1200 },
+        postCena: { pasti: '-', calorie: 0 }
+      },
+      domenica: {
+        colazione: { pasti: 'Una colazione a scelta tra le precedenti', calorie: 550 },
+        spuntino: { pasti: '-', calorie: 0 },
+        pranzo: { pasti: 'Pasta o riso con condimento 180g, Secondo piatto 200g, Contorno a volontà', calorie: 850 },
+        merenda: { pasti: '1 coppetta di gelato/1 porzione di dolce semplice', calorie: 350 },
+        cena: { pasti: 'Verdure a volontà + fonte proteica magra + 2 fette di pane', calorie: 550 },
+        postCena: { pasti: '-', calorie: 0 }
+      }
+    };
+
+    const datiControlli = {
+      baseline: { peso: 65.5, bmi: 21.6, tBW: 37.7, fFM: 51.8, fM: 13.7, mM: 35.5 },
+      attuale: { peso: 67.0, bmi: 22.1, tBW: 39.1, fFM: 53.6, fM: 13.4, mM: 36.8 }
+    };
+
+    const giorni = ['Lunedì', 'Martedì', 'Mercoledì', 'Giovedì', 'Venerdì', 'Sabato', 'Domenica'];
+    const keysGiorni = ['lunedi', 'martedi', 'mercoledi', 'giovedi', 'venerdi', 'sabato', 'domenica'];
+    const pasti_order = ['colazione', 'spuntino', 'pranzo', 'merenda', 'cena', 'postCena'];
+    const pasti_labels = ['🌅 Colazione', '🥤 Spuntino', '🍽️ Pranzo', '☕ Merenda', '🌙 Cena', '🍫 Post-Cena'];
+    const pasti_colors = ['breakfast', 'snack', 'lunch', 'snack', 'dinner', 'snack'];
+
+    let selectedDay = getTodayIndex();
+
+    function getTodayIndex() {
+      const today = new Date().getDay();
+      return today === 0 ? 6 : today - 1;
+    }
+
+    function render() {
+      renderDays();
+      renderMeals();
+      renderTable();
+      renderTrendCards();
+    }
+
+    function renderDays() {
+      const grid = document.getElementById('daysGrid');
+      grid.innerHTML = giorni.map((g, i) => 
+        `<button class="day-btn ${i === selectedDay ? 'active' : ''}" onclick="setDay(${i})">${g.substring(0, 3)}</button>`
+      ).join('');
+    }
+
+    function renderMeals() {
+      const currentDayKey = keysGiorni[selectedDay];
+      const meals = dieta[currentDayKey];
+      const container = document.getElementById('mealsContainer');
+      const totalCalories = Object.values(meals).reduce((sum, m) => sum + m.calorie, 0);
+
+      document.getElementById('dayTitle').textContent = giorni[selectedDay];
+      document.getElementById('totalCalories').textContent = totalCalories;
+
+      container.innerHTML = pasti_order.map((pasto, idx) => {
+        const meal = meals[pasto];
+        const percent = ((meal.calorie / totalCalories) * 100).toFixed(0);
+        return `
+          <div class="meal-card ${pasti_colors[idx]}">
+            <div class="meal-info">
+              <h3>${pasti_labels[idx]}</h3>
+              <p class="meal-description">${meal.pasti}</p>
+            </div>
+            <div class="meal-calories">
+              <span class="calories-number">${meal.calorie}</span>
+              <span class="calories-label">kcal</span>
+              <span class="calories-percent">${percent}%</span>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderTable() {
+      const params = [
+        { label: 'Peso (kg)', key: 'peso' },
+        { label: 'BMI (kg/m²)', key: 'bmi' },
+        { label: 'Acqua Totale (L)', key: 'tBW' },
+        { label: 'Massa Magra (kg)', key: 'fFM' },
+        { label: 'Massa Grassa (kg)', key: 'fM' },
+        { label: 'Massa Muscolare (kg)', key: 'mM' }
+      ];
+
+      const table = document.getElementById('comparisonTable');
+      let html = '<thead><tr><th>Parametro</th><th>Baseline</th><th>Attuale</th><th>Variazione</th></tr></thead><tbody>';
+
+      params.forEach(p => {
+        const baseline = datiControlli.baseline[p.key];
+        const attuale = datiControlli.attuale[p.key];
+        const diff = (attuale - baseline).toFixed(1);
+        const percentuale = ((diff / baseline) * 100).toFixed(1);
+        const isPositive = diff >= 0;
+        const className = isPositive ? 'positive' : 'negative';
+
+        html += `
+          <tr>
+            <td class="param-name">${p.label}</td>
+            <td>${baseline.toFixed(1)}</td>
+            <td>${attuale.toFixed(1)}</td>
+            <td class="variazione ${className}">${isPositive ? '+' : ''}${diff} (${percentuale}%)</td>
+          </tr>
+        `;
+      });
+
+      html += '</tbody>';
+      table.innerHTML = html;
+    }
+
+    function renderTrendCards() {
+      const params = [
+        { label: 'Peso (kg)', key: 'peso' },
+        { label: 'BMI (kg/m²)', key: 'bmi' },
+        { label: 'Acqua Totale (L)', key: 'tBW' },
+        { label: 'Massa Magra (kg)', key: 'fFM' },
+        { label: 'Massa Grassa (kg)', key: 'fM' },
+        { label: 'Massa Muscolare (kg)', key: 'mM' }
+      ];
+
+      const container = document.getElementById('trendCards');
+      container.innerHTML = params.map(p => {
+        const baseline = datiControlli.baseline[p.key];
+        const attuale = datiControlli.attuale[p.key];
+        const diff = (attuale - baseline).toFixed(1);
+        const percentuale = ((diff / baseline) * 100).toFixed(1);
+        const isPositive = diff >= 0;
+
+        return `
+          <div class="trend-card ${isPositive ? 'positive' : 'negative'}">
+            <p class="trend-label">${p.label}</p>
+            <p class="trend-value">${attuale.toFixed(1)}</p>
+            <p class="trend-baseline">da ${baseline.toFixed(1)}</p>
+            <div class="trend-change">
+              <span class="trend-icon">${isPositive ? '📈' : '📉'}</span>
+              <span class="trend-text">${isPositive ? '+' : ''}${diff} (${percentuale}%)</span>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function setDay(day) {
+      selectedDay = day;
+      render();
+    }
+
+    function nextDay() {
+      selectedDay = (selectedDay + 1) % 7;
+      render();
+    }
+
+    function previousDay() {
+      selectedDay = (selectedDay - 1 + 7) % 7;
+      render();
+    }
+
+    function switchTab(tab) {
+      document.getElementById('dietaSection').classList.toggle('hidden', tab !== 'dieta');
+      document.getElementById('controlliSection').classList.toggle('hidden', tab !== 'controlli');
+      document.getElementById('profiloSection').classList.toggle('hidden', tab !== 'profilo');
+
+      document.querySelectorAll('.nav-item').forEach((btn, i) => {
+        btn.classList.remove('active');
+      });
+      event.target.closest('.nav-item').classList.add('active');
+    }
+
+    // Initial render
+    render();
+  </script>
+</body>
+</html>
