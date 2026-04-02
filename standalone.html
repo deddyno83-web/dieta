@@ -4,31 +4,29 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="App per consultare dieta e controlli antropometrici">
-  <meta name="theme-color" content="#FF6B35">
+  <meta name="theme-color" content="#FFD93D">
   <title>Edoardo - Dieta & Controlli</title>
   
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='75' font-size='75'>🍽️</text></svg>">
+  <link rel="preconnect" href="https://rsms.me/">
+  <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
   
   <style>
     :root {
-      --primary: #FF6B35;
-      --primary-light: #FF8C5A;
-      --primary-dark: #E54800;
-      --secondary: #00D9FF;
-      --secondary-light: #33E9FF;
-      --secondary-dark: #00B8CC;
-      --accent: #6BCB77;
-      --accent-light: #8FDB99;
-      --accent-dark: #52A456;
-      --bg-primary: #FFFFFF;
-      --bg-secondary: #F7F7F7;
-      --bg-tertiary: #F0F0F0;
+      --yellow: #FFD93D;       /* Giallo acceso - primary */
+      --green: #6BCB77;        /* Verde fresco - secondary */
+      --purple: #B84FCC;       /* Viola magenta - accent */
+      --bg-primary: #FFFFFF;   /* Bianco */
+      --bg-secondary: #F8F9FA; /* Grigio molto chiaro */
+      --bg-tertiary: #F0F1F3;  /* Grigio chiaro */
       --text-primary: #1A1A1A;
       --text-secondary: #666666;
       --text-light: #999999;
-      --border-color: #E0E0E0;
-      --shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-      --shadow-lg: 0 4px 16px rgba(0, 0, 0, 0.12);
+      --shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+      --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
+      --shadow-yellow: 0 4px 16px rgba(255, 217, 61, 0.25);
+      --shadow-green: 0 4px 16px rgba(107, 203, 119, 0.25);
+      --shadow-purple: 0 4px 16px rgba(184, 79, 204, 0.25);
     }
 
     * {
@@ -37,37 +35,47 @@
       box-sizing: border-box;
     }
 
+    html, body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', sans-serif;
-      background: var(--bg-secondary);
+      background: var(--bg-primary);
       color: var(--text-primary);
       overflow-x: hidden;
+      font-size: 16px;
+      line-height: 1.6;
     }
 
     .app-container {
       display: flex;
       flex-direction: column;
       min-height: 100vh;
-      background: var(--bg-secondary);
+      background: var(--bg-primary);
     }
 
+    /* Header */
     .header {
-      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-      color: white;
-      padding: 24px 16px 32px;
-      box-shadow: var(--shadow);
+      background: linear-gradient(135deg, var(--yellow) 0%, #FFC93A 100%);
+      color: #1A1A1A;
+      padding: 28px 16px 36px;
+      box-shadow: var(--shadow-yellow);
     }
 
     .header h1 {
       font-size: 28px;
       font-weight: 700;
       margin-bottom: 4px;
+      letter-spacing: -0.5px;
     }
 
     .header p {
       font-size: 14px;
-      opacity: 0.95;
-      letter-spacing: 0.5px;
+      opacity: 0.85;
+      letter-spacing: 0.3px;
+      font-weight: 500;
     }
 
     .main-content {
@@ -81,29 +89,32 @@
       align-items: center;
       gap: 12px;
       margin-bottom: 24px;
-      background: var(--bg-primary);
+      background: var(--bg-secondary);
       padding: 12px;
-      border-radius: 12px;
+      border-radius: 16px;
       box-shadow: var(--shadow);
+      border: 0.5px solid #E8E8E8;
     }
 
     .nav-btn {
-      background: var(--bg-secondary);
-      border: 1px solid var(--border-color);
+      background: white;
+      border: 1px solid #E0E0E0;
       padding: 8px 12px;
       border-radius: 8px;
       font-size: 12px;
       font-weight: 600;
-      color: var(--text-primary);
+      color: var(--text-secondary);
       cursor: pointer;
       transition: all 0.3s ease;
       white-space: nowrap;
+      font-family: 'Inter', sans-serif;
     }
 
     .nav-btn:hover {
-      background: var(--primary);
-      color: white;
-      border-color: var(--primary);
+      background: var(--yellow);
+      color: #1A1A1A;
+      border-color: var(--yellow);
+      box-shadow: var(--shadow-yellow);
     }
 
     .days-grid {
@@ -115,33 +126,36 @@
 
     .day-btn {
       padding: 10px 8px;
-      border: 2px solid var(--border-color);
-      border-radius: 10px;
+      border: 2px solid #E0E0E0;
+      border-radius: 12px;
       background: white;
-      color: var(--text-primary);
+      color: var(--text-secondary);
       font-size: 11px;
       font-weight: 600;
       cursor: pointer;
       transition: all 0.3s ease;
+      font-family: 'Inter', sans-serif;
     }
 
     .day-btn:hover {
-      border-color: var(--primary);
-      color: var(--primary);
+      border-color: var(--yellow);
+      color: var(--yellow);
     }
 
     .day-btn.active {
-      background: var(--primary);
-      color: white;
-      border-color: var(--primary);
-      box-shadow: var(--shadow);
+      background: var(--yellow);
+      color: #1A1A1A;
+      border-color: var(--yellow);
+      box-shadow: var(--shadow-yellow);
+      font-weight: 700;
     }
 
     .day-title {
-      font-size: 24px;
+      font-size: 26px;
       font-weight: 700;
       margin-bottom: 20px;
       color: var(--text-primary);
+      letter-spacing: -0.5px;
     }
 
     .meals-container {
@@ -153,25 +167,30 @@
 
     .meal-card {
       background: white;
-      border-radius: 12px;
+      border-radius: 16px;
       padding: 16px;
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
       box-shadow: var(--shadow);
       transition: all 0.3s ease;
-      border-left: 5px solid var(--primary);
+      border: 2px solid #F0F0F0;
+      border-left: 5px solid var(--yellow);
     }
 
     .meal-card:hover {
       box-shadow: var(--shadow-lg);
       transform: translateY(-2px);
+      border-color: var(--yellow);
     }
 
-    .meal-card.breakfast { border-left-color: var(--primary); }
-    .meal-card.lunch { border-left-color: var(--accent); }
-    .meal-card.dinner { border-left-color: var(--secondary); }
-    .meal-card.snack { border-left-color: #FFB627; }
+    .meal-card.snack {
+      border-left-color: var(--green);
+    }
+
+    .meal-card.dinner {
+      border-left-color: var(--purple);
+    }
 
     .meal-info h3 {
       font-size: 15px;
@@ -185,6 +204,7 @@
       color: var(--text-secondary);
       line-height: 1.5;
       margin: 0;
+      font-weight: 400;
     }
 
     .meal-calories {
@@ -198,7 +218,7 @@
     .calories-number {
       font-size: 18px;
       font-weight: 700;
-      color: var(--primary);
+      color: var(--yellow);
     }
 
     .calories-label {
@@ -212,24 +232,29 @@
       color: var(--text-secondary);
       margin-top: 4px;
       font-weight: 600;
+      background: #FFF8E1;
+      padding: 2px 6px;
+      border-radius: 6px;
     }
 
     .total-calories {
-      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
-      border-radius: 12px;
-      padding: 24px;
-      color: white;
+      background: linear-gradient(135deg, var(--yellow) 0%, #FFC93A 100%);
+      border-radius: 16px;
+      padding: 28px;
+      color: #1A1A1A;
       margin-bottom: 24px;
-      box-shadow: var(--shadow-lg);
+      box-shadow: var(--shadow-yellow);
       text-align: center;
+      font-weight: 600;
     }
 
     .total-calories h3 {
       font-size: 13px;
       font-weight: 600;
-      opacity: 0.95;
+      opacity: 0.8;
       margin-bottom: 12px;
       letter-spacing: 0.5px;
+      text-transform: uppercase;
     }
 
     .total-display {
@@ -241,28 +266,29 @@
     }
 
     .total-number {
-      font-size: 36px;
-      font-weight: 700;
+      font-size: 44px;
+      font-weight: 800;
     }
 
     .total-unit {
       font-size: 16px;
       font-weight: 600;
-      opacity: 0.9;
+      opacity: 0.75;
     }
 
     .total-target {
       font-size: 12px;
-      opacity: 0.85;
+      opacity: 0.75;
       margin-top: 8px;
     }
 
     .macro-card {
       background: white;
-      border-radius: 12px;
+      border-radius: 16px;
       padding: 20px;
       box-shadow: var(--shadow);
       margin-bottom: 24px;
+      border: 1px solid #F0F0F0;
     }
 
     .macro-card h4 {
@@ -280,16 +306,22 @@
 
     .macro-item {
       background: var(--bg-secondary);
-      border-radius: 10px;
-      padding: 12px;
-      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 14px;
+      border: 1px solid #E8E8E8;
+      transition: all 0.3s ease;
+    }
+
+    .macro-item:hover {
+      border-color: var(--yellow);
+      box-shadow: var(--shadow-yellow);
     }
 
     .macro-label {
       display: block;
       font-size: 11px;
       color: var(--text-light);
-      font-weight: 600;
+      font-weight: 700;
       margin-bottom: 6px;
       text-transform: uppercase;
       letter-spacing: 0.5px;
@@ -297,35 +329,38 @@
 
     .macro-value {
       display: block;
-      font-size: 14px;
+      font-size: 16px;
       font-weight: 700;
-      color: var(--primary);
+      color: var(--yellow);
     }
 
     .section-title {
-      font-size: 18px;
+      font-size: 20px;
       font-weight: 700;
       color: var(--text-primary);
-      margin-bottom: 12px;
+      margin-bottom: 16px;
+      letter-spacing: -0.3px;
     }
 
     .table-container {
       background: white;
-      border-radius: 12px;
+      border-radius: 16px;
       overflow: hidden;
       box-shadow: var(--shadow);
       overflow-x: auto;
       margin-bottom: 24px;
+      border: 1px solid #F0F0F0;
     }
 
     .comparison-table {
       width: 100%;
       border-collapse: collapse;
       font-size: 13px;
+      font-family: 'Inter', sans-serif;
     }
 
     .comparison-table thead {
-      background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
+      background: linear-gradient(135deg, var(--bg-secondary) 0%, #F5F5F5 100%);
     }
 
     .comparison-table th {
@@ -333,20 +368,20 @@
       text-align: left;
       font-weight: 700;
       color: var(--text-primary);
-      border-bottom: 2px solid var(--border-color);
+      border-bottom: 2px solid var(--yellow);
     }
 
     .comparison-table td {
       padding: 12px 14px;
-      border-bottom: 1px solid var(--border-color);
+      border-bottom: 1px solid #E8E8E8;
     }
 
     .comparison-table tbody tr:hover {
-      background: var(--bg-secondary);
+      background: #FFFAF0;
     }
 
     .param-name {
-      font-weight: 600;
+      font-weight: 700;
       color: var(--text-primary);
     }
 
@@ -355,27 +390,37 @@
     }
 
     .variazione.positive {
-      color: var(--accent);
+      color: var(--green);
     }
 
     .variazione.negative {
-      color: var(--secondary);
+      color: #FF6B6B;
     }
 
     .trend-cards {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
       gap: 12px;
       margin-bottom: 24px;
     }
 
     .trend-card {
       background: white;
-      border-radius: 12px;
+      border-radius: 16px;
       padding: 16px;
       box-shadow: var(--shadow);
-      border-top: 4px solid var(--primary);
+      border: 2px solid #F0F0F0;
       transition: all 0.3s ease;
+      text-align: center;
+    }
+
+    .trend-card.positive {
+      border-color: var(--green);
+      box-shadow: var(--shadow-green);
+    }
+
+    .trend-card.negative {
+      border-color: #FF6B6B;
     }
 
     .trend-card:hover {
@@ -383,26 +428,18 @@
       transform: translateY(-4px);
     }
 
-    .trend-card.positive {
-      border-top-color: var(--accent);
-    }
-
-    .trend-card.negative {
-      border-top-color: var(--secondary);
-    }
-
     .trend-label {
       font-size: 11px;
       color: var(--text-light);
-      font-weight: 600;
+      font-weight: 700;
       margin-bottom: 8px;
       text-transform: uppercase;
       letter-spacing: 0.5px;
     }
 
     .trend-value {
-      font-size: 18px;
-      font-weight: 700;
+      font-size: 20px;
+      font-weight: 800;
       color: var(--text-primary);
       margin-bottom: 4px;
     }
@@ -414,59 +451,56 @@
     }
 
     .trend-change {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      padding: 8px;
+      display: inline-block;
+      padding: 6px 12px;
       background: var(--bg-secondary);
       border-radius: 8px;
-    }
-
-    .trend-icon {
-      font-size: 14px;
-    }
-
-    .trend-text {
       font-size: 11px;
       font-weight: 700;
       color: var(--text-primary);
     }
 
-    .trend-card.positive .trend-text {
-      color: var(--accent);
+    .trend-card.positive .trend-change {
+      background: #E8F8F0;
+      color: var(--green);
     }
 
-    .trend-card.negative .trend-text {
-      color: var(--secondary);
+    .trend-card.negative .trend-change {
+      background: #FFE8E8;
+      color: #FF6B6B;
     }
 
     .info-card {
       background: white;
-      border-radius: 12px;
+      border-radius: 16px;
       padding: 16px;
       box-shadow: var(--shadow);
+      border: 1px solid #F0F0F0;
     }
 
     .info-card p {
       font-size: 12px;
       margin-bottom: 8px;
       color: var(--text-secondary);
+      font-weight: 500;
     }
 
     .info-card strong {
       color: var(--text-primary);
+      font-weight: 700;
     }
 
     .profile-card {
       background: white;
-      border-radius: 12px;
+      border-radius: 16px;
       padding: 20px;
       box-shadow: var(--shadow);
       margin-bottom: 16px;
+      border: 1px solid #F0F0F0;
     }
 
     .profile-card h3 {
-      font-size: 16px;
+      font-size: 18px;
       font-weight: 700;
       margin-bottom: 16px;
       color: var(--text-primary);
@@ -482,15 +516,21 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 12px;
+      padding: 12px 14px;
       background: var(--bg-secondary);
-      border-radius: 8px;
-      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      border: 1px solid #E8E8E8;
+      transition: all 0.3s ease;
+    }
+
+    .info-row:hover {
+      border-color: var(--yellow);
+      background: #FFFAF0;
     }
 
     .info-label {
-      font-size: 12px;
-      font-weight: 600;
+      font-size: 11px;
+      font-weight: 700;
       color: var(--text-light);
       text-transform: uppercase;
       letter-spacing: 0.5px;
@@ -499,7 +539,7 @@
     .info-value {
       font-size: 13px;
       font-weight: 700;
-      color: var(--primary);
+      color: var(--yellow);
     }
 
     .bottom-nav {
@@ -508,7 +548,7 @@
       left: 0;
       right: 0;
       background: white;
-      border-top: 1px solid var(--border-color);
+      border-top: 2px solid #F0F0F0;
       display: flex;
       justify-content: space-around;
       padding: 0;
@@ -530,24 +570,25 @@
       transition: all 0.3s ease;
       padding: 8px;
       gap: 4px;
+      font-family: 'Inter', sans-serif;
     }
 
     .nav-item.active {
-      color: var(--primary);
+      color: var(--yellow);
     }
 
     .nav-icon {
-      font-size: 20px;
+      font-size: 22px;
     }
 
     .nav-label {
       font-size: 11px;
       font-weight: 600;
-      letter-spacing: 0.3px;
+      letter-spacing: 0.2px;
     }
 
     .nav-item:active {
-      background: rgba(255, 107, 53, 0.08);
+      background: #FFFAF0;
     }
 
     .hidden {
@@ -587,7 +628,7 @@
       }
 
       .day-title {
-        font-size: 20px;
+        font-size: 22px;
       }
     }
   </style>
@@ -814,7 +855,6 @@
     const keysGiorni = ['lunedi', 'martedi', 'mercoledi', 'giovedi', 'venerdi', 'sabato', 'domenica'];
     const pasti_order = ['colazione', 'spuntino', 'pranzo', 'merenda', 'cena', 'postCena'];
     const pasti_labels = ['🌅 Colazione', '🥤 Spuntino', '🍽️ Pranzo', '☕ Merenda', '🌙 Cena', '🍫 Post-Cena'];
-    const pasti_colors = ['breakfast', 'snack', 'lunch', 'snack', 'dinner', 'snack'];
 
     let selectedDay = getTodayIndex();
 
@@ -849,8 +889,9 @@
       container.innerHTML = pasti_order.map((pasto, idx) => {
         const meal = meals[pasto];
         const percent = ((meal.calorie / totalCalories) * 100).toFixed(0);
+        const cardClass = idx % 3 === 1 ? 'snack' : idx % 3 === 2 ? 'dinner' : '';
         return `
-          <div class="meal-card ${pasti_colors[idx]}">
+          <div class="meal-card ${cardClass}">
             <div class="meal-info">
               <h3>${pasti_labels[idx]}</h3>
               <p class="meal-description">${meal.pasti}</p>
@@ -924,8 +965,7 @@
             <p class="trend-value">${attuale.toFixed(1)}</p>
             <p class="trend-baseline">da ${baseline.toFixed(1)}</p>
             <div class="trend-change">
-              <span class="trend-icon">${isPositive ? '📈' : '📉'}</span>
-              <span class="trend-text">${isPositive ? '+' : ''}${diff} (${percentuale}%)</span>
+              ${isPositive ? '📈' : '📉'} ${isPositive ? '+' : ''}${diff}
             </div>
           </div>
         `;
