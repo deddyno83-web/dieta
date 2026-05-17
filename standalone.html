@@ -548,52 +548,34 @@
 
     .day-pill {
       flex: 0 0 auto;
-      min-width: 56px;
-      padding: 10px 12px 12px;
+      min-width: 54px;
+      padding: 11px 14px;
       background: var(--glass-bg);
       border: 1px solid var(--glass-border);
-      border-radius: 14px;
+      border-radius: 12px;
       text-align: center;
       transition: all 220ms ease;
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
       scroll-snap-align: start;
-    }
-
-    .day-pill-dow {
-      font-size: 10px;
+      font-size: 12px;
       font-weight: 700;
-      color: var(--text-3);
+      color: var(--text-2);
       text-transform: uppercase;
       letter-spacing: 0.6px;
     }
 
-    .day-pill-num {
-      font-size: 17px;
-      font-weight: 700;
-      color: var(--text-1);
-      margin-top: 2px;
-      letter-spacing: -0.3px;
-    }
-
     .day-pill.is-today {
       border-color: var(--cyan);
-    }
-
-    .day-pill.is-today .day-pill-dow {
       color: var(--cyan);
     }
 
     .day-pill.is-active {
       background: var(--accent);
       border-color: var(--accent);
+      color: #0A0E1A;
       box-shadow: var(--shadow-glow-accent);
       transform: translateY(-2px);
-    }
-
-    .day-pill.is-active .day-pill-dow,
-    .day-pill.is-active .day-pill-num {
-      color: #0A0E1A;
     }
 
     /* Day header (dieta) */
@@ -858,6 +840,65 @@
     .macro[data-m="carb"] .macro-dot { background: var(--cyan); }
     .macro[data-m="fat"] .macro-dot { background: var(--coral); }
     .macro[data-m="fib"] .macro-dot { background: var(--violet); }
+
+    /* Supplements card */
+    .supp-card {
+      padding: 20px;
+      margin-top: 14px;
+    }
+
+    .supp-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .supp {
+      display: flex;
+      gap: 12px;
+      padding: 12px 14px;
+      background: var(--glass-bg-strong);
+      border: 1px solid var(--glass-border);
+      border-radius: 12px;
+      transition: all 200ms ease;
+    }
+
+    .supp:hover {
+      border-color: var(--glass-border-strong);
+    }
+
+    .supp-icon {
+      width: 34px;
+      height: 34px;
+      flex-shrink: 0;
+      display: grid;
+      place-items: center;
+      border-radius: 10px;
+      background: var(--violet-soft);
+      color: var(--violet);
+      font-size: 16px;
+    }
+
+    .supp-body {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .supp-name {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-1);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .supp-dose {
+      font-size: 13px;
+      color: var(--text-2);
+      line-height: 1.45;
+      margin-top: 3px;
+    }
 
     .macro-value {
       font-size: 15px;
@@ -1536,6 +1577,47 @@
             </div>
           </div>
         </div>
+
+        <div class="glass supp-card">
+          <div class="macro-card-title">Integrazione consigliata</div>
+          <div class="supp-list">
+            <div class="supp">
+              <div class="supp-icon">💪</div>
+              <div class="supp-body">
+                <div class="supp-name">Creatina Monoidrato</div>
+                <div class="supp-dose">5g al giorno al pasto pre o post allenamento (4 settimane sì – 2 no)</div>
+              </div>
+            </div>
+            <div class="supp">
+              <div class="supp-icon">🐟</div>
+              <div class="supp-body">
+                <div class="supp-name">Omega 3</div>
+                <div class="supp-dose">2g al giorno insieme ad uno dei pasti principali</div>
+              </div>
+            </div>
+            <div class="supp">
+              <div class="supp-icon">🌿</div>
+              <div class="supp-body">
+                <div class="supp-name">Simeflor</div>
+                <div class="supp-dose">1 bustina a digiuno per 15gg al mese</div>
+              </div>
+            </div>
+            <div class="supp">
+              <div class="supp-icon">⚡</div>
+              <div class="supp-body">
+                <div class="supp-name">Glutamina</div>
+                <div class="supp-dose">5g post workout</div>
+              </div>
+            </div>
+            <div class="supp">
+              <div class="supp-icon">💊</div>
+              <div class="supp-body">
+                <div class="supp-name">Armorlipid Plus</div>
+                <div class="supp-dose">1 capsula al giorno</div>
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
 
       <!-- ========== CONTROLLI ========== -->
@@ -1949,19 +2031,11 @@
     // ============================================================
     function renderDayPicker() {
       const picker = document.getElementById('dayPicker');
-      const today = new Date();
-      const monday = new Date(today);
-      monday.setDate(today.getDate() - todayIndex);
       picker.innerHTML = giorniShort.map((g, i) => {
-        const d = new Date(monday);
-        d.setDate(monday.getDate() + i);
         const classes = ['day-pill'];
         if (i === todayIndex) classes.push('is-today');
         if (i === selectedDay) classes.push('is-active');
-        return `<button class="${classes.join(' ')}" onclick="setDay(${i})">
-          <div class="day-pill-dow">${g}</div>
-          <div class="day-pill-num tabular">${d.getDate()}</div>
-        </button>`;
+        return `<button class="${classes.join(' ')}" onclick="setDay(${i})">${g}</button>`;
       }).join('');
 
       // scroll active into view
