@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Routine Addome – Chiara</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Serif+Display:ital@0;1&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --mint:    #3DBFA0;
+    --mint-lt: #E6F7F3;
+    --coral:   #F2856A;
+    --navy:    #1A2B3C;
+    --slate:   #5C6F7E;
+    --bg:      #F7FAF9;
+    --white:   #FFFFFF;
+    --rule:    #D6E8E3;
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--navy);
+    line-height: 1.6;
+    padding: 0 0 60px;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    background: var(--navy);
+    color: var(--white);
+    padding: 48px 24px 40px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 70% 0%, rgba(61,191,160,.25) 0%, transparent 65%);
+    pointer-events: none;
+  }
+  .hero-label {
+    font-size: 11px; letter-spacing: .18em; text-transform: uppercase;
+    color: var(--mint); margin-bottom: 12px;
+  }
+  .hero h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(28px, 7vw, 42px);
+    line-height: 1.15;
+    margin-bottom: 10px;
+  }
+  .hero h1 em { font-style: italic; color: var(--mint); }
+  .hero p { font-size: 14px; color: rgba(255,255,255,.65); max-width: 340px; margin: 0 auto; }
+
+  /* ── BADGES ── */
+  .badges {
+    display: flex; justify-content: center; gap: 10px;
+    flex-wrap: wrap; padding: 20px 16px 0;
+  }
+  .badge {
+    background: var(--white); border: 1px solid var(--rule);
+    border-radius: 99px; padding: 6px 14px;
+    font-size: 12px; font-weight: 500; color: var(--slate);
+    display: flex; align-items: center; gap: 6px;
+  }
+  .badge span { font-size: 15px; }
+
+  /* ── SECTION HEADER ── */
+  .section-label {
+    display: flex; align-items: center; gap: 10px;
+    padding: 32px 20px 12px;
+    font-size: 11px; letter-spacing: .16em; text-transform: uppercase;
+    color: var(--mint); font-weight: 600;
+  }
+  .section-label::after {
+    content: ''; flex: 1; height: 1px; background: var(--rule);
+  }
+
+  /* ── PHASE CARD ── */
+  .phase {
+    margin: 0 16px 10px;
+    background: var(--white);
+    border-radius: 16px;
+    border: 1px solid var(--rule);
+    overflow: hidden;
+  }
+  .phase-head {
+    display: flex; align-items: center; gap: 12px;
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .phase-icon {
+    width: 36px; height: 36px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; flex-shrink: 0;
+  }
+  .phase-head h2 { font-size: 15px; font-weight: 600; }
+  .phase-head .sub { font-size: 12px; color: var(--slate); margin-top: 1px; }
+
+  /* ── EXERCISE ROW ── */
+  .ex {
+    display: flex; align-items: flex-start; gap: 14px;
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .ex:last-child { border-bottom: none; }
+  .ex-num {
+    width: 26px; height: 26px; border-radius: 50%;
+    background: var(--mint-lt); color: var(--mint);
+    font-size: 12px; font-weight: 600;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; margin-top: 2px;
+  }
+  .ex-body { flex: 1; min-width: 0; }
+  .ex-name { font-size: 14px; font-weight: 600; margin-bottom: 3px; }
+  .ex-desc { font-size: 12px; color: var(--slate); margin-bottom: 8px; line-height: 1.5; }
+  .ex-meta {
+    display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px;
+  }
+  .pill {
+    font-size: 11px; font-weight: 500; padding: 3px 9px;
+    border-radius: 99px; border: 1px solid var(--rule);
+    color: var(--slate); background: var(--bg);
+  }
+  .pill.accent {
+    background: var(--mint-lt); border-color: var(--mint);
+    color: var(--mint);
+  }
+  .yt-link {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 12px; font-weight: 500;
+    color: var(--coral); text-decoration: none;
+    padding: 5px 11px; border-radius: 8px;
+    border: 1px solid rgba(242,133,106,.3);
+    background: rgba(242,133,106,.06);
+    transition: background .15s;
+  }
+  .yt-link:hover { background: rgba(242,133,106,.14); }
+  .yt-link svg { flex-shrink: 0; }
+
+  /* ── TIPS BOX ── */
+  .tips {
+    margin: 0 16px 10px;
+    background: var(--navy);
+    border-radius: 16px;
+    padding: 20px;
+    color: var(--white);
+  }
+  .tips h3 {
+    font-size: 13px; letter-spacing: .1em; text-transform: uppercase;
+    color: var(--mint); margin-bottom: 12px;
+  }
+  .tip-row {
+    display: flex; gap: 10px; margin-bottom: 10px;
+    font-size: 13px; line-height: 1.5; color: rgba(255,255,255,.8);
+  }
+  .tip-row:last-child { margin-bottom: 0; }
+  .tip-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+
+  /* ── CIRCUIT STRIP ── */
+  .circuit-strip {
+    margin: 0 16px 10px;
+    background: linear-gradient(135deg, var(--mint) 0%, #2AA88A 100%);
+    border-radius: 16px; padding: 18px 20px;
+    color: var(--white);
+  }
+  .circuit-strip h3 { font-size: 14px; font-weight: 600; margin-bottom: 6px; }
+  .circuit-strip p  { font-size: 12px; opacity: .85; }
+
+  footer {
+    text-align: center; font-size: 11px; color: var(--slate);
+    padding: 24px 16px 0; letter-spacing: .04em;
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-label">Routine casa · Nessun attrezzo</div>
+  <h1>Sgonfia <em>l'addome</em><br>ogni giorno</h1>
+  <p>Cardio dolce, core profondo e stretching drenante — 30–40 min al giorno.</p>
+</div>
+
+<div class="badges">
+  <div class="badge"><span>⏱</span> 30–40 min</div>
+  <div class="badge"><span>🔁</span> 4–7 volte/settimana</div>
+  <div class="badge"><span>🏠</span> Solo a casa</div>
+  <div class="badge"><span>🚫</span> Nessun attrezzo</div>
+</div>
+
+<!-- ══ FASE 1 ══ -->
+<div class="section-label">Fase 1 — Mattina</div>
+
+<div class="phase">
+  <div class="phase-head">
+    <div class="phase-icon" style="background:#E6F7F3;">🌅</div>
+    <div>
+      <div class="h2" style="font-size:15px;font-weight:600;">Respirazione diaframmatica</div>
+      <div class="sub">5 min · a digiuno · sdraiata</div>
+    </div>
+  </div>
+
+  <div class="ex">
+    <div class="ex-num">1</div>
+    <div class="ex-body">
+      <div class="ex-name">Respirazione diaframmatica</div>
+      <div class="ex-desc">Sdraiata, mani sulla pancia. Inspira gonfiando l'addome, espira svuotandolo completamente. Attiva il drenaggio linfatico e sveglia l'intestino.</div>
+      <div class="ex-meta">
+        <span class="pill accent">10 respiri profondi</span>
+        <span class="pill">ogni mattina</span>
+      </div>
+      <a class="yt-link" href="https://www.youtube.com/watch?v=E229d33XWqg" target="_blank">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.3 6.3 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V9.35a8.16 8.16 0 0 0 4.77 1.52V7.44a4.85 4.85 0 0 1-1-.75z"/></svg>
+        Guarda il tutorial
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- ══ FASE 2 ══ -->
+<div class="section-label">Fase 2 — Riscaldamento</div>
+
+<div class="phase">
+  <div class="phase-head">
+    <div class="phase-icon" style="background:#FFF0EB;">🔥</div>
+    <div>
+      <div style="font-size:15px;font-weight:600;">Cardio di attivazione</div>
+      <div class="sub">3 min · in piedi</div>
+    </div>
+  </div>
+
+  <div class="ex">
+    <div class="ex-num">2</div>
+    <div class="ex-body">
+      <div class="ex-name">Marcia sul posto con ginocchia alte</div>
+      <div class="ex-desc">Cammina sul posto sollevando le ginocchia fino all'altezza dei fianchi. Braccia che oscillano in sincronia con le gambe. Tieni la pancia contratta.</div>
+      <div class="ex-meta">
+        <span class="pill accent">3 min riscaldamento</span>
+        <span class="pill">poi 1 min × 3 circuiti</span>
+      </div>
+      <a class="yt-link" href="https://www.youtube.com/watch?v=ukOopTAacyA" target="_blank">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.3 6.3 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V9.35a8.16 8.16 0 0 0 4.77 1.52V7.44a4.85 4.85 0 0 1-1-.75z"/></svg>
+        Guarda il tutorial
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- ══ CIRCUITO ══ -->
+<div class="circuit-strip">
+  <h3>🔄 Circuito principale — ripeti 3 volte</h3>
+  <p>30 secondi di pausa tra ogni esercizio. Espira sempre nella fase di sforzo.</p>
+</div>
+
+<div class="section-label">Fase 3 — Circuito Core</div>
+
+<div class="phase">
+  <div class="phase-head">
+    <div class="phase-icon" style="background:#E6F7F3;">💪</div>
+    <div>
+      <div style="font-size:15px;font-weight:600;">4 esercizi · 3 serie</div>
+      <div class="sub">a terra · nessun attrezzo</div>
+    </div>
+  </div>
+
+  <div class="ex">
+    <div class="ex-num">3</div>
+    <div class="ex-body">
+      <div class="ex-name">Bicycle Crunch lento</div>
+      <div class="ex-desc">Sdraiata, mani dietro la testa. Porta il gomito destro verso il ginocchio sinistro e alterna. Lentamente e con controllo — non fare velocità.</div>
+      <div class="ex-meta">
+        <span class="pill accent">20 rip · 3 serie</span>
+        <span class="pill">pausa 30 sec</span>
+      </div>
+      <a class="yt-link" href="https://www.youtube.com/watch?v=RC4wOdLdZr0" target="_blank">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.3 6.3 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V9.35a8.16 8.16 0 0 0 4.77 1.52V7.44a4.85 4.85 0 0 1-1-.75z"/></svg>
+        Guarda il tutorial
+      </a>
+    </div>
+  </div>
+
+  <div class="ex">
+    <div class="ex-num">4</div>
+    <div class="ex-body">
+      <div class="ex-name">Dead Bug</div>
+      <div class="ex-desc">Sdraiata, braccia verso il soffitto, gambe a 90°. Abbassa un braccio e la gamba opposta senza staccare la schiena da terra. Poi torna e cambia lato.</div>
+      <div class="ex-meta">
+        <span class="pill accent">10 rip per lato · 3 serie</span>
+        <span class="pill">pausa 30 sec</span>
+      </div>
+      <a class="yt-link" href="https://www.youtube.com/watch?v=gjOBXwBO9LM" target="_blank">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.3 6.3 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V9.35a8.16 8.16 0 0 0 4.77 1.52V7.44a4.85 4.85 0 0 1-1-.75z"/></svg>
+        Guarda il tutorial
+      </a>
+    </div>
+  </div>
+
+  <div class="ex">
+    <div class="ex-num">5</div>
+    <div class="ex-body">
+      <div class="ex-name">Plank sui gomiti</div>
+      <div class="ex-desc">Appoggiati sugli avambracci, corpo in linea retta dalla testa ai piedi. Pancia tirata in dentro verso la schiena. Tieni la posizione senza trattenere il respiro.</div>
+      <div class="ex-meta">
+        <span class="pill accent">20–30 sec · 3 serie</span>
+        <span class="pill">pausa 30 sec</span>
+      </div>
+      <a class="yt-link" href="https://www.youtube.com/watch?v=iwJ5ux6nUVM" target="_blank">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.3 6.3 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V9.35a8.16 8.16 0 0 0 4.77 1.52V7.44a4.85 4.85 0 0 1-1-.75z"/></svg>
+        Guarda il tutorial
+      </a>
+    </div>
+  </div>
+
+  <div class="ex">
+    <div class="ex-num">6</div>
+    <div class="ex-body">
+      <div class="ex-name">Twist seduta (Russian Twist)</div>
+      <div class="ex-desc">Seduta a terra, piedi leggermente sollevati, schiena inclinata a 45°. Ruota il busto da destra a sinistra lentamente. Controlla il movimento, non usare la velocità.</div>
+      <div class="ex-meta">
+        <span class="pill accent">20 rip · 3 serie</span>
+        <span class="pill">pausa 30 sec</span>
+      </div>
+      <a class="yt-link" href="https://www.youtube.com/watch?v=KKJt9RhZIrs" target="_blank">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.3 6.3 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V9.35a8.16 8.16 0 0 0 4.77 1.52V7.44a4.85 4.85 0 0 1-1-.75z"/></svg>
+        Guarda il tutorial
+      </a>
+    </div>
+  </div>
+
+  <div class="ex">
+    <div class="ex-num">7</div>
+    <div class="ex-body">
+      <div class="ex-name">Passo laterale + alzata ginocchio</div>
+      <div class="ex-desc">3 passi laterali, poi alza il ginocchio sul posto. Ripeti dall'altro lato. Attiva i linfonodi inguinali: ottimo effetto drenante e anti-ritenzione sull'addome basso.</div>
+      <div class="ex-meta">
+        <span class="pill accent">1 min · 3 serie</span>
+        <span class="pill">pausa 30 sec</span>
+      </div>
+      <a class="yt-link" href="https://www.youtube.com/watch?v=3x_XVz4I4vo" target="_blank">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.3 6.3 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V9.35a8.16 8.16 0 0 0 4.77 1.52V7.44a4.85 4.85 0 0 1-1-.75z"/></svg>
+        Guarda il tutorial
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- ══ STRETCHING ══ -->
+<div class="section-label">Fase 4 — Stretching finale</div>
+
+<div class="phase">
+  <div class="phase-head">
+    <div class="phase-icon" style="background:#FFF0EB;">🧘</div>
+    <div>
+      <div style="font-size:15px;font-weight:600;">5 min obbligatori</div>
+      <div class="sub">non saltare questa fase — mobilizza l'intestino</div>
+    </div>
+  </div>
+
+  <div class="ex">
+    <div class="ex-num">8</div>
+    <div class="ex-body">
+      <div class="ex-name">Posizione del bambino</div>
+      <div class="ex-desc">In ginocchio, porta i glutei sui talloni e le braccia distese in avanti. Fronte a terra. Respira profondamente: massaggia gli organi interni e decomprime la schiena.</div>
+      <div class="ex-meta">
+        <span class="pill accent">30–45 sec</span>
+      </div>
+      <a class="yt-link" href="https://www.youtube.com/watch?v=ews4UCl1IZ0" target="_blank">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.3 6.3 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V9.35a8.16 8.16 0 0 0 4.77 1.52V7.44a4.85 4.85 0 0 1-1-.75z"/></svg>
+        Guarda il tutorial
+      </a>
+    </div>
+  </div>
+
+  <div class="ex">
+    <div class="ex-num">9</div>
+    <div class="ex-body">
+      <div class="ex-name">Torsione da sdraiata</div>
+      <div class="ex-desc">Sdraiata sulla schiena, porta un ginocchio al petto e fallo cadere dal lato opposto mentre apri il braccio. Tieni le spalle a terra. Ripeti sull'altro lato.</div>
+      <div class="ex-meta">
+        <span class="pill accent">30 sec per lato</span>
+      </div>
+      <a class="yt-link" href="https://www.youtube.com/watch?v=ews4UCl1IZ0" target="_blank">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.3 6.3 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V9.35a8.16 8.16 0 0 0 4.77 1.52V7.44a4.85 4.85 0 0 1-1-.75z"/></svg>
+        Guarda il tutorial
+      </a>
+    </div>
+  </div>
+
+  <div class="ex">
+    <div class="ex-num">10</div>
+    <div class="ex-body">
+      <div class="ex-name">Gatto / Vacca</div>
+      <div class="ex-desc">A quattro zampe: inspira inarcando la schiena verso il basso (Vacca), espira curvandola verso l'alto (Gatto). Lentamente, seguendo il respiro. Mobilizza l'intestino.</div>
+      <div class="ex-meta">
+        <span class="pill accent">10 respiri completi</span>
+      </div>
+      <a class="yt-link" href="https://www.youtube.com/watch?v=ews4UCl1IZ0" target="_blank">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.3 6.3 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V9.35a8.16 8.16 0 0 0 4.77 1.52V7.44a4.85 4.85 0 0 1-1-.75z"/></svg>
+        Guarda il tutorial
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- ══ TIPS ══ -->
+<div class="section-label">Consigli chiave</div>
+
+<div class="tips">
+  <h3>Per ottenere risultati</h3>
+  <div class="tip-row"><span class="tip-icon">💨</span><span>Espira sempre nella fase di sforzo — non trattenere mai il respiro durante gli esercizi.</span></div>
+  <div class="tip-row"><span class="tip-icon">📅</span><span>Almeno 4 volte a settimana, idealmente ogni giorno. La costanza batte l'intensità.</span></div>
+  <div class="tip-row"><span class="tip-icon">🚶</span><span>Aggiungi 20–30 min di camminata veloce al giorno: è il complemento ideale a questa routine.</span></div>
+  <div class="tip-row"><span class="tip-icon">⏳</span><span>I risultati visibili sull'addome arrivano in 3–4 settimane con continuità.</span></div>
+</div>
+
+<footer>Routine elaborata per Chiara Fiorentino · in abbinamento al piano della Dott.ssa Alice Scarrone</footer>
+
+</body>
+</html>
