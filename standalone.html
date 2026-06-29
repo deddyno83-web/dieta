@@ -841,6 +841,118 @@
     .macro[data-m="fat"] .macro-dot { background: var(--coral); }
     .macro[data-m="fib"] .macro-dot { background: var(--violet); }
 
+    /* Body measurements (Misure) */
+    .misure-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .misura {
+      padding: 14px 14px 12px;
+    }
+
+    .misura-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .misura-name {
+      font-size: 10px;
+      color: var(--text-3);
+      text-transform: uppercase;
+      letter-spacing: 0.7px;
+      font-weight: 700;
+    }
+
+    .misura-delta {
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 999px;
+      background: var(--glass-bg-strong);
+    }
+
+    .misura-delta.down { color: var(--accent); background: var(--accent-soft); }
+    .misura-delta.up   { color: var(--coral);  background: var(--coral-soft); }
+    .misura-delta.flat { color: var(--text-3); }
+
+    .misura-value {
+      font-size: 22px;
+      font-weight: 300;
+      color: var(--text-1);
+      letter-spacing: -0.8px;
+      line-height: 1;
+    }
+
+    .misura-unit {
+      font-size: 11px;
+      color: var(--text-3);
+      font-weight: 600;
+      margin-left: 3px;
+    }
+
+    .ratio-card {
+      padding: 18px;
+      margin-bottom: 14px;
+    }
+
+    .ratio-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--glass-border);
+    }
+
+    .ratio-row:last-child { border-bottom: none; }
+
+    .ratio-label {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .ratio-name {
+      font-size: 13px;
+      color: var(--text-1);
+      font-weight: 600;
+    }
+
+    .ratio-target {
+      font-size: 10px;
+      color: var(--text-3);
+      font-weight: 600;
+    }
+
+    .ratio-value {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .ratio-num {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: -0.4px;
+      color: var(--text-1);
+    }
+
+    .ratio-badge {
+      font-size: 9.5px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 999px;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+
+    .ratio-badge.ok   { color: var(--accent); background: var(--accent-soft); }
+    .ratio-badge.warn { color: var(--warn); background: rgba(251, 191, 36, 0.14); }
+
     /* Supplements card */
     .supp-card {
       padding: 20px;
@@ -1479,7 +1591,7 @@
             <div class="ring-center">
               <div class="ring-value tabular" id="homeKcal">0</div>
               <div class="ring-unit">kcal oggi</div>
-              <div class="ring-target">Target <span class="accent">~2700 kcal</span></div>
+              <div class="ring-target">Target <span class="accent">~2200 kcal</span></div>
             </div>
           </div>
         </div>
@@ -1551,7 +1663,7 @@
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
             </button>
           </div>
-          <div class="day-header-cal tabular"><span class="num" id="dietaDayCal">0</span> / 2700 kcal</div>
+          <div class="day-header-cal tabular"><span class="num" id="dietaDayCal">0</span> / 2200 kcal</div>
         </div>
 
         <div class="meals" id="mealsContainer"></div>
@@ -1561,15 +1673,15 @@
           <div class="macro-grid">
             <div class="macro" data-m="prot">
               <div class="macro-label"><span class="macro-dot"></span>Proteine</div>
-              <div class="macro-value tabular">1.9–2.1 g/kg</div>
+              <div class="macro-value tabular">1.9–2.2 g/kg</div>
             </div>
             <div class="macro" data-m="carb">
               <div class="macro-label"><span class="macro-dot"></span>Carboidrati</div>
-              <div class="macro-value tabular">45–50 %</div>
+              <div class="macro-value tabular">40–45 %</div>
             </div>
             <div class="macro" data-m="fat">
               <div class="macro-label"><span class="macro-dot"></span>Lipidi</div>
-              <div class="macro-value tabular">1.2–1.3 g/kg</div>
+              <div class="macro-value tabular">1.1–1.2 g/kg</div>
             </div>
             <div class="macro" data-m="fib">
               <div class="macro-label"><span class="macro-dot"></span>Fibra</div>
@@ -1582,30 +1694,23 @@
           <div class="macro-card-title">Integrazione consigliata</div>
           <div class="supp-list">
             <div class="supp">
-              <div class="supp-icon">💪</div>
-              <div class="supp-body">
-                <div class="supp-name">Creatina Monoidrato</div>
-                <div class="supp-dose">5g al giorno al pasto pre o post allenamento (4 settimane sì – 2 no)</div>
-              </div>
-            </div>
-            <div class="supp">
               <div class="supp-icon">🐟</div>
               <div class="supp-body">
                 <div class="supp-name">Omega 3</div>
-                <div class="supp-dose">2g al giorno insieme ad uno dei pasti principali</div>
+                <div class="supp-dose">2 cps in corrispondenza di un pasto</div>
               </div>
             </div>
             <div class="supp">
-              <div class="supp-icon">🌿</div>
+              <div class="supp-icon">💪</div>
               <div class="supp-body">
-                <div class="supp-name">Simeflor</div>
-                <div class="supp-dose">1 bustina a digiuno per 15gg al mese</div>
+                <div class="supp-name">Creatina Monoidrato</div>
+                <div class="supp-dose">3g al giorno insieme ad un pasto (4 settimane sì – 2 no)</div>
               </div>
             </div>
             <div class="supp">
               <div class="supp-icon">⚡</div>
               <div class="supp-body">
-                <div class="supp-name">Glutamina</div>
+                <div class="supp-name">Glutammina</div>
                 <div class="supp-dose">5g post workout</div>
               </div>
             </div>
@@ -1628,6 +1733,7 @@
         <div class="segment">
           <button class="segment-btn active" data-view="andamento" onclick="setControlliView('andamento')">Andamento</button>
           <button class="segment-btn" data-view="confronto" onclick="setControlliView('confronto')">Confronto</button>
+          <button class="segment-btn" data-view="misure" onclick="setControlliView('misure')">Misure</button>
           <button class="segment-btn" data-view="storico" onclick="setControlliView('storico')">Storico</button>
         </div>
 
@@ -1644,6 +1750,13 @@
           <div class="glass compare-card" id="compareCard"></div>
         </div>
 
+        <div id="viewMisure" class="hidden">
+          <div class="section-title" style="margin-top:8px">Circonferenze corporee</div>
+          <div class="misure-grid" id="misureGrid"></div>
+          <div class="section-title">Indici</div>
+          <div class="glass ratio-card" id="ratioCard"></div>
+        </div>
+
         <div id="viewStorico" class="hidden">
           <div class="glass table-card">
             <div class="table-scroll">
@@ -1658,7 +1771,7 @@
         <div class="glass profile-hero">
           <div class="avatar">EB</div>
           <div class="profile-name">Edoardo Botta</div>
-          <div class="profile-meta">42 anni · 174 cm · Performance & Composizione Corporea</div>
+          <div class="profile-meta">42 anni · 174 cm · Ottimizzazione Composizione Corporea</div>
         </div>
 
         <div class="section-title">Composizione corporea</div>
@@ -1769,70 +1882,70 @@
     // ============================================================
     // DATA — diet, controls and profile
     // ============================================================
-    // Menu settimanale — Maggio 2026 (Dott.ssa Barbara Polese)
+    // Menu settimanale — Giugno 2026 (Dott.ssa Barbara Polese)
     // Calorie per pasto sono stime calcolate sui pesi/porzioni indicati nel PDF.
-    // Target giornaliero: ~2700 kcal.
+    // Target giornaliero: ~2200 kcal.
     const dieta = {
       lunedi: {
-        colazione:  { pasti: '1 tazza di spremuta di arancia o frutta fresca 150g\n2 uova strapazzate\n20g di mandorle o noci', calorie: 410 },
+        colazione:  { pasti: '1 tazza di latte parz. scremato o vegetale + 30g di proteine\n40g di biscotti integrali Fibrextra Misura o similari', calorie: 350 },
         spuntino:   { pasti: '-', calorie: 0 },
-        pranzo:     { pasti: 'Crostini integrali 70g oppure Pasta di semola/mais o integrale/Riso o Riso Basmati/Farro/Couscous 120g\nCarote o verdura a scelta\nCeci secchi 30g o legumi a scelta + feta/primo sale 100g\nFrutta fresca 150g', calorie: 820 },
-        merenda:    { pasti: 'Yogurt greco bianco magro 150g + un cucchiaino di miele o marmellata + cioccolato fondente 20g', calorie: 230 },
-        cena:       { pasti: 'Pane di segale o integrale 120g oppure Crostini integrali 70g\nPeperoni o verdura a scelta\nMerluzzo o pesce a scelta 250g oppure 2 crocchette\nFrutta fresca 150g', calorie: 720 },
-        postCena:   { pasti: '1 pacchetto di crackers di riso ricoperti di cioccolata fondente', calorie: 160 },
+        pranzo:     { pasti: 'Fresella integrale 60g oppure Pasta integrale o di mais/Riso o Riso Basmati/farro 110g\nGamberetti 150g oppure 1 scatoletta di tonno ben sgocciolato\nPomodori o verdura a scelta\nFrutta fresca 150g', calorie: 640 },
+        merenda:    { pasti: '200g di macedonia + parmigiano 20g', calorie: 200 },
+        cena:       { pasti: 'Fagiolini o verdure a scelta\nPane con lievito madre o bianco 90g oppure patate 250-270g\nStraccetti di pollo e tacchino 200g', calorie: 600 },
+        postCena:   { pasti: 'Cioccolato fondente 20g', calorie: 110 },
         condimento: { pasti: 'Olio extravergine di oliva 30g (3 cucchiai = 6 cucchiaini)', calorie: 270 }
       },
       martedi: {
-        colazione:  { pasti: '1 tazza di latte parz. scremato o vegetale\n60g di pane di segale tostato oppure 3 fette biscottate\nCon un velo di burro d\'arachidi al 100% + un velo di miele o marmellata', calorie: 380 },
+        colazione:  { pasti: '1 tazza di spremuta di arance o frutta fresca 150g\n2 uova strapazzate', calorie: 240 },
         spuntino:   { pasti: '-', calorie: 0 },
-        pranzo:     { pasti: 'Gnocchi di patate 350g oppure Pasta di semola/mais o integrale/Riso o Riso Basmati/Farro/Couscous 140g\nFagiolini o verdura a scelta a volontà\nFrittatina di 3 uova + parmigiano 30g\nFrutta fresca 150g', calorie: 830 },
-        merenda:    { pasti: '1 pacchetto di crackers di riso e cereali oppure 1 bicchiere di latte vegetale + whey protein 30g', calorie: 270 },
-        cena:       { pasti: 'Pane di segale o integrale 120g oppure patate 350g\nPomodori o verdura a scelta a volontà\nHamburger di manzo o vitello 200g oppure carne magra di pollo/tacchino 200g\nFrutta fresca 150g', calorie: 770 },
-        postCena:   { pasti: 'Cioccolata fondente 20g', calorie: 110 },
+        pranzo:     { pasti: 'Piadina integrale 100g oppure Pasta integrale o di mais/Riso o Riso Basmati/farro/couscous 110g\nLattughino o verdura a scelta\nArrosto di tacchino o bresaola 100g\nFrutta fresca 150g', calorie: 600 },
+        merenda:    { pasti: 'Yogurt greco bianco magro 150g + un cucchiaino di miele o marmellata', calorie: 140 },
+        cena:       { pasti: '250g di Calamari all\'insalata o pesce a scelta\nPomodorini o verdura a scelta a volontà\nPane con lievito madre o bianco 90g oppure Crostini integrali 50g', calorie: 600 },
+        postCena:   { pasti: 'GELATO: 150–200g di frutta congelata a cubetti e frullata con un cucchiaino di miele e latte/yogurt q.b. per raggiungere la consistenza', calorie: 200 },
         condimento: { pasti: 'Olio extravergine di oliva 30g (3 cucchiai = 6 cucchiaini)', calorie: 270 }
       },
       mercoledi: {
-        colazione:  { pasti: '1 tazza di spremuta di arancia o frutta fresca 150g\n60g di pane di segale tostato oppure 3 fette biscottate\nArrosto di tacchino o bresaola 100g', calorie: 410 },
+        colazione:  { pasti: '1 tazza di latte parz. scremato o vegetale\n3 fette di pan bauletto integrale oppure 3 fette biscottate integrali\nUn velo di burro d\'arachidi 100% + un cucchiaino di miele o marmellata', calorie: 360 },
         spuntino:   { pasti: '-', calorie: 0 },
-        pranzo:     { pasti: 'Gnocchi di patate 350g oppure Pasta di semola/mais o integrale/Riso o Riso Basmati/Farro/Couscous 140g\nZucca o verdura a scelta a volontà\nPhiladelphia protein 1 vaschetta oppure primo sale/ricotta/fiocchi di latte 150g\nFrutta fresca 150g', calorie: 820 },
-        merenda:    { pasti: '1 barretta proteica es. Enervit + frutta fresca 150g', calorie: 230 },
-        cena:       { pasti: 'Piadina integrale 100g oppure Pane di segale o integrale 120g oppure patate 350g\nCarne magra di pollo/tacchino/agnello 200g\nAsparagi o verdure a scelta\nFrutta fresca 150g', calorie: 760 },
-        postCena:   { pasti: '1 pacchetto di crackers di riso ricoperti di cioccolata fondente', calorie: 160 },
+        pranzo:     { pasti: 'Fresella integrale 50g oppure Pasta integrale o di mais/Riso o Riso Basmati/farro/couscous 90g\nCeci secchi 30g (100g freschi) o legumi a scelta + feta/primo sale 50g\nPomodori o verdura a scelta\nFrutta fresca 150g', calorie: 620 },
+        merenda:    { pasti: '200g di macedonia + 30g di whey protein', calorie: 230 },
+        cena:       { pasti: 'Pane con lievito madre o bianco 90g oppure Crostini integrali 50g\nAsparagi o verdura a scelta\nCarne magra di pollo e/o tacchino 200g', calorie: 590 },
+        postCena:   { pasti: 'Cioccolato fondente 20g', calorie: 110 },
         condimento: { pasti: 'Olio extravergine di oliva 30g (3 cucchiai = 6 cucchiaini)', calorie: 270 }
       },
       giovedi: {
-        colazione:  { pasti: '1 tazza di latte parz. scremato o vegetale\n60g di pane di segale tostato oppure 3 fette biscottate\nCon un velo di burro d\'arachidi al 100% + un velo di miele o marmellata', calorie: 380 },
+        colazione:  { pasti: '1 tazza di spremuta di arance o frutta fresca 150g\n2 uova strapazzate', calorie: 240 },
         spuntino:   { pasti: '-', calorie: 0 },
-        pranzo:     { pasti: 'Crostini integrali 70g oppure Pasta di semola/mais o integrale/Riso o Riso Basmati/Farro/Couscous 120g\nPiselli secchi 30g o legumi a scelta + bresaola/arrosto di tacchino o prosciutto cotto a cubetti 50g\nPomodori o verdura a scelta\nFrutta fresca 150g', calorie: 760 },
-        merenda:    { pasti: '1 pacchetto di crackers di riso e cereali oppure 1 bicchiere di latte vegetale + whey protein 30g', calorie: 270 },
-        cena:       { pasti: 'Pane di segale o integrale 120g oppure Crostini integrali 70g\nLattughino o verdure a scelta\nPesce spada o pesce a scelta 250g\nFrutta fresca 150g', calorie: 750 },
-        postCena:   { pasti: 'Cioccolata fondente 20g', calorie: 110 },
+        pranzo:     { pasti: 'Piadina integrale 100g oppure Pasta integrale o di mais/Riso o Riso Basmati/farro/couscous 110g\n1 vaschetta di Philadelphia protein oppure ricotta/primo sale/fiocchi di latte 150g\nZucchine o verdura a scelta\nFrutta fresca 150g', calorie: 620 },
+        merenda:    { pasti: '1 barretta nature valley o similari', calorie: 180 },
+        cena:       { pasti: 'Pane con lievito madre o bianco 90g oppure patate 250-270g\nMerluzzo/nasello/alici o pesce a scelta 250g\nLattughino o verdura a scelta a volontà', calorie: 580 },
+        postCena:   { pasti: 'GELATO: 150–200g di frutta congelata a cubetti e frullata con un cucchiaino di miele e latte/yogurt q.b. per raggiungere la consistenza', calorie: 200 },
         condimento: { pasti: 'Olio extravergine di oliva 30g (3 cucchiai = 6 cucchiaini)', calorie: 270 }
       },
       venerdi: {
-        colazione:  { pasti: '1 tazza di spremuta di arancia o frutta fresca 150g\n2 uova strapazzate\n20g di mandorle o anacardi', calorie: 410 },
+        colazione:  { pasti: '1 tazza di latte parz. scremato o vegetale + 30g di proteine\n40g di biscotti integrali Fibrextra Misura o similari', calorie: 350 },
         spuntino:   { pasti: '-', calorie: 0 },
-        pranzo:     { pasti: 'Pasta di semola/mais o integrale/Riso o Riso Basmati/Farro/Couscous 140g\n150g di gamberetti o 1 scatoletta di tonno ben sgocciolata\nPomodori o verdura a scelta\nFrutta fresca 150g', calorie: 780 },
-        merenda:    { pasti: 'Yogurt greco bianco magro 150g + un cucchiaino di miele o marmellata + cioccolato fondente 20g', calorie: 230 },
-        cena:       { pasti: 'Piadina integrale 100g oppure Pane di segale o integrale 120g oppure patate 350g\nHamburger di pollo e/o tacchino 200g\nLattughino o verdura a scelta\nFrutta fresca 150g', calorie: 760 },
-        postCena:   { pasti: '1 pacchetto di crackers di riso ricoperti di cioccolata fondente', calorie: 160 },
+        pranzo:     { pasti: 'Fresella integrale 50g oppure Pasta integrale o di mais/Riso o Riso Basmati/farro/couscous 90g\nFagioli secchi 30g (100g freschi) o legumi a scelta + 1 scatoletta di tonno ben sgocciolato\nPomodori o verdure a scelta\nFrutta fresca 150g', calorie: 600 },
+        merenda:    { pasti: 'Yogurt greco bianco magro 150g + un cucchiaino di miele o marmellata', calorie: 140 },
+        cena:       { pasti: 'Pane con lievito madre o bianco 90g oppure Crostini integrali 50g oppure patate 250-270g\nHamburger di pollo e/o tacchino 200g\nPeperoni o verdura a scelta', calorie: 600 },
+        postCena:   { pasti: 'Cioccolato fondente 20g', calorie: 110 },
         condimento: { pasti: 'Olio extravergine di oliva 30g (3 cucchiai = 6 cucchiaini)', calorie: 270 }
       },
       sabato: {
-        colazione:  { pasti: '1 tazza di spremuta di arancia o frutta fresca 150g\n60g di pane di segale tostato oppure 3 fette biscottate\nUn velo di Philadelphia protein con un cucchiaino di miele', calorie: 350 },
+        colazione:  { pasti: '1 tazza di latte parz. scremato o vegetale\n3 fette di pan bauletto integrale oppure 3 fette biscottate integrali\nUn velo di burro d\'arachidi 100% + un cucchiaino di miele o marmellata', calorie: 360 },
         spuntino:   { pasti: '-', calorie: 0 },
-        pranzo:     { pasti: 'Gnocchi di patate 350g oppure Pasta di semola/mais o integrale/Riso o Riso Basmati/Farro/Couscous 140g\nCarote o verdura a scelta\n2 uova + prosciutto cotto a cubetti 50g\nFrutta fresca 150g', calorie: 820 },
-        merenda:    { pasti: '1 barretta proteica es. Enervit', calorie: 150 },
-        cena:       { pasti: 'Pizza / panino / sushi / pokè / Secondo + contorno a scelta\nn.1 bibita a scelta', calorie: 1100 },
+        pranzo:     { pasti: 'Piadina integrale 100g oppure Pasta integrale o di mais/Riso o Riso Basmati/farro/couscous 110g\nMelanzane o verdura a scelta\nFrittatina di 3 uova + 20g di parmigiano\nFrutta fresca 150g', calorie: 700 },
+        merenda:    { pasti: '1 barretta nature valley o similari', calorie: 180 },
+        cena:       { pasti: 'Pizza / panino / sushi / pokè / secondo + contorno a scelta\nN.1 bibita a scelta', calorie: 900 },
         postCena:   { pasti: '-', calorie: 0 },
         condimento: { pasti: 'Olio extravergine di oliva 30g (3 cucchiai = 6 cucchiaini)', calorie: 270 }
       },
       domenica: {
-        colazione:  { pasti: 'Una colazione a scelta tra le precedenti', calorie: 400 },
+        colazione:  { pasti: 'Una colazione a scelta tra le precedenti', calorie: 300 },
         spuntino:   { pasti: '-', calorie: 0 },
-        pranzo:     { pasti: 'Pasta o riso con condimento a scelta 150g\nSecondo piatto a scelta 200g\nContorno di insalate o verdure a scelta a volontà', calorie: 800 },
-        merenda:    { pasti: 'N.1 coppetta di gelato / 1 porzione di dolce semplice', calorie: 350 },
-        cena:       { pasti: 'Verdure a scelta a volontà con una fonte proteica magra a scelta + 2 fette di pane', calorie: 550 },
+        pranzo:     { pasti: 'Pasta o riso con condimento a scelta 120g\nSecondo piatto a scelta 200g\nContorno di insalate o verdure a scelta a volontà', calorie: 700 },
+        merenda:    { pasti: 'N.1 coppetta di gelato / 1 porzione di dolce semplice', calorie: 300 },
+        cena:       { pasti: 'Verdure a scelta a volontà con una fonte proteica magra a scelta + 2 fette di pane', calorie: 450 },
         postCena:   { pasti: '-', calorie: 0 },
         condimento: { pasti: 'Olio extravergine di oliva 30g (3 cucchiai = 6 cucchiaini)', calorie: 270 }
       }
@@ -1840,15 +1953,26 @@
 
     const controlli = [
       { data: '23/09/2024', peso: 67.0, bmi: 22.1, fFM: 51.0, fM: 16.0, mM: 34.5 },
-      { data: '28/10/2024', peso: 67.0, bmi: 22.1, fFM: 51.2, fM: 15.8, mM: 34.8 },
-      { data: '16/01/2025', peso: 67.0, bmi: 22.1, fFM: 51.5, fM: 15.5, mM: 35.0 },
-      { data: '17/03/2025', peso: 69.0, bmi: 22.8, fFM: 52.0, fM: 17.0, mM: 35.3 },
-      { data: '26/05/2025', peso: 70.5, bmi: 23.3, fFM: 52.8, fM: 17.7, mM: 35.8 },
-      { data: '15/09/2025', peso: 67.0, bmi: 22.1, fFM: 51.8, fM: 15.2, mM: 35.2 },
-      { data: '06/11/2025', peso: 65.5, bmi: 21.6, fFM: 51.3, fM: 14.2, mM: 34.8 },
-      { data: '15/01/2026', peso: 65.5, bmi: 21.6, fFM: 51.8, fM: 13.7, mM: 35.5 },
-      { data: '26/03/2026', peso: 67.0, bmi: 22.1, fFM: 53.6, fM: 13.4, mM: 36.8, tBW: 39.1, ecw: 17.0, icw: 22.1, bcm: 30.1, smm: 28.0, asmm: 21.8, phA: 6.5, bmr: 1622.9, tdee: 2434.4, rz: 551.7, xc: 62.7, naK: 1.0 },
-      { data: '11/05/2026', peso: 68.0, bmi: 22.5, fFM: 54.7, fM: 13.3, mM: 37.0, tBW: 39.9, ecw: 17.6, icw: 22.3, bcm: 30.2, smm: 28.5, asmm: 22.1, phA: 6.3, bmr: 1625.8, tdee: 2438.7, rz: 538.0, xc: 59.7, naK: 1.0 }
+      { data: '28/10/2024', peso: 67.0, bmi: 22.1, fFM: 51.2, fM: 15.8, mM: 34.8,
+        torace: 98, addom: 85, vita: 76, fianchi: 95, braccio: 34.5, polso: 15, coscia: 55, polpaccio: 34, whr: 0.80, wher: 0.44 },
+      { data: '16/01/2025', peso: 67.0, bmi: 22.1, fFM: 51.5, fM: 15.5, mM: 35.0,
+        torace: 98.5, addom: 84, vita: 76, fianchi: 94, braccio: 35, polso: 15, coscia: 55, polpaccio: 34.5, whr: 0.81, wher: 0.44 },
+      { data: '17/03/2025', peso: 69.0, bmi: 22.8, fFM: 52.0, fM: 17.0, mM: 35.3,
+        torace: 99, addom: 85, vita: 76, fianchi: 96.5, braccio: 37, polso: 16, coscia: 57, polpaccio: 35, whr: 0.79, wher: 0.44 },
+      { data: '26/05/2025', peso: 70.5, bmi: 23.3, fFM: 52.8, fM: 17.7, mM: 35.8,
+        torace: 102, addom: 89, vita: 80, fianchi: 100.5, braccio: 37, polso: 16, coscia: 57.5, polpaccio: 36, whr: 0.80, wher: 0.46 },
+      { data: '15/09/2025', peso: 67.0, bmi: 22.1, fFM: 51.8, fM: 15.2, mM: 35.2,
+        torace: 99, addom: 83, vita: 75, fianchi: 97, braccio: 35, polso: 15.5, coscia: 56, polpaccio: 34.5, whr: 0.77, wher: 0.43 },
+      { data: '06/11/2025', peso: 65.5, bmi: 21.6, fFM: 51.3, fM: 14.2, mM: 34.8,
+        torace: 99.5, addom: 85.5, vita: 77, fianchi: 95, braccio: 35, polso: 15.5, coscia: 53, polpaccio: 35, whr: 0.81, wher: 0.44 },
+      { data: '15/01/2026', peso: 65.5, bmi: 21.6, fFM: 51.8, fM: 13.7, mM: 35.5,
+        torace: 98, addom: 80, vita: 74, fianchi: 96.5, braccio: 35, polso: 16, coscia: 52.5, polpaccio: 36, whr: 0.77, wher: 0.43 },
+      { data: '26/03/2026', peso: 67.0, bmi: 22.1, fFM: 53.6, fM: 13.4, mM: 36.8, tBW: 39.1, ecw: 17.0, icw: 22.1, bcm: 30.1, smm: 28.0, asmm: 21.8, phA: 6.5, bmr: 1622.9, tdee: 2434.4, rz: 551.7, xc: 62.7, naK: 1.0,
+        torace: 99, addom: 78.5, vita: 78, fianchi: 94, braccio: 35.5, polso: 15.5, coscia: 54, polpaccio: 35, whr: 0.83, wher: 0.45 },
+      { data: '11/05/2026', peso: 68.0, bmi: 22.5, fFM: 54.7, fM: 13.3, mM: 37.0, tBW: 39.9, ecw: 17.6, icw: 22.3, bcm: 30.2, smm: 28.5, asmm: 22.1, phA: 6.3, bmr: 1625.8, tdee: 2438.7, rz: 538.0, xc: 59.7, naK: 1.0,
+        torace: 99, addom: 86, vita: 77, fianchi: 97, braccio: 36, polso: 17, coscia: 57.5, polpaccio: 36, whr: 0.79, wher: 0.44 },
+      { data: '22/06/2026', peso: 68.0, bmi: 22.5, fFM: 54.9, fM: 13.1, mM: 36.9, tBW: 40.1, ecw: 18.0, icw: 22.1, bcm: 30.1, smm: 28.7, asmm: 22.2, phA: 6.2, bmr: 1622.9, tdee: 2434.4, rz: 534.2, xc: 58.0, naK: 1.1,
+        torace: 96, addom: 81, vita: 75, fianchi: 98.5, braccio: 36, polso: 15.5, coscia: 55, polpaccio: 35, whr: 0.76, wher: 0.43 }
     ];
 
     const giorni = ['Lunedì', 'Martedì', 'Mercoledì', 'Giovedì', 'Venerdì', 'Sabato', 'Domenica'];
@@ -1865,7 +1989,7 @@
       condimento: { name: 'Condimento giornaliero', icon: '🫒', hour: 23.5 }
     };
 
-    const TARGET_KCAL = 2700;
+    const TARGET_KCAL = 2200;
 
     // ============================================================
     // STATE
@@ -2337,8 +2461,76 @@
       });
       document.getElementById('viewAndamento').classList.toggle('hidden', view !== 'andamento');
       document.getElementById('viewConfronto').classList.toggle('hidden', view !== 'confronto');
+      document.getElementById('viewMisure').classList.toggle('hidden', view !== 'misure');
       document.getElementById('viewStorico').classList.toggle('hidden', view !== 'storico');
       if (view === 'andamento') setTimeout(renderChart, 50);
+    }
+
+    function renderMisure() {
+      const fields = [
+        { key: 'torace',    label: 'Torace',    unit: 'cm', icon: '🫁' },
+        { key: 'addom',     label: 'Addome',    unit: 'cm', icon: '🎯' },
+        { key: 'vita',      label: 'Vita',      unit: 'cm', icon: '🩳' },
+        { key: 'fianchi',   label: 'Fianchi',   unit: 'cm', icon: '⚖️' },
+        { key: 'braccio',   label: 'Braccio',   unit: 'cm', icon: '💪' },
+        { key: 'coscia',    label: 'Coscia',    unit: 'cm', icon: '🦵' },
+        { key: 'polpaccio', label: 'Polpaccio', unit: 'cm', icon: '🏃' },
+        { key: 'polso',     label: 'Polso',     unit: 'cm', icon: '⌚' }
+      ];
+
+      const grid = document.getElementById('misureGrid');
+      grid.innerHTML = fields.map(f => {
+        const series = controlli.filter(c => c[f.key] != null);
+        if (series.length === 0) return '';
+        const last = series[series.length - 1];
+        const prev = series[series.length - 2];
+        const diff = prev ? +(last[f.key] - prev[f.key]).toFixed(1) : 0;
+        // For circumferences, going DOWN is generally good (less abdominal fat)
+        // Exception: braccio, coscia, polpaccio — could go either way
+        const isPositiveDirection = ['addom', 'vita'].includes(f.key) ? diff <= 0 : null;
+        let cls = 'flat';
+        if (Math.abs(diff) >= 0.5) {
+          if (isPositiveDirection === true)  cls = 'down';
+          else if (isPositiveDirection === false) cls = 'up';
+          else cls = diff > 0 ? 'flat' : 'flat'; // neutral coloring for muscle measures
+        }
+        const symbol = Math.abs(diff) < 0.05 ? '→' : (diff > 0 ? '↑' : '↓');
+        return `
+          <div class="glass misura">
+            <div class="misura-head">
+              <span class="misura-name">${f.label}</span>
+              <span class="misura-delta ${cls}">${symbol} ${diff > 0 ? '+' : ''}${diff}</span>
+            </div>
+            <span class="misura-value tabular">${last[f.key].toFixed(1)}</span>
+            <span class="misura-unit">${f.unit}</span>
+          </div>
+        `;
+      }).join('');
+
+      // Ratios card
+      const ratios = [
+        { key: 'whr',  name: 'Vita / Fianchi (WHR)',  target: '< 0.90', okThreshold: 0.90 },
+        { key: 'wher', name: 'Vita / Altezza (WHeR)', target: '< 0.50', okThreshold: 0.50 }
+      ];
+      const ratioCard = document.getElementById('ratioCard');
+      ratioCard.innerHTML = ratios.map(r => {
+        const series = controlli.filter(c => c[r.key] != null);
+        if (series.length === 0) return '';
+        const last = series[series.length - 1][r.key];
+        const ok = last < r.okThreshold;
+        return `
+          <div class="ratio-row">
+            <div class="ratio-label">
+              <span class="ratio-name">${r.name}</span>
+              <span class="ratio-target">Target: ${r.target}</span>
+            </div>
+            <div class="ratio-value">
+              <span class="ratio-num tabular">${last.toFixed(2)}</span>
+              <span class="ratio-badge ${ok ? 'ok' : 'warn'}">${ok ? '✓ OK' : 'Attenzione'}</span>
+            </div>
+          </div>
+        `;
+      }).join('');
     }
 
     // ============================================================
@@ -2433,6 +2625,7 @@
     renderKpiHero();
     renderExtras();
     renderConfronto();
+    renderMisure();
     renderStorico();
     renderProfilo();
     // chart is rendered lazily when entering Controlli tab
