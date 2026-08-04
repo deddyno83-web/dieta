@@ -11,6 +11,7 @@
   <link rel="preconnect" href="https://rsms.me/">
   <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
   <style>
     /* ========== THEME TOKENS ========== */
@@ -791,6 +792,28 @@
 
     .meal-foods li.empty::before { display: none; }
 
+    .meal-foods li.opt-header {
+      font-weight: 700;
+      color: var(--accent);
+      text-transform: uppercase;
+      font-size: 10.5px;
+      letter-spacing: 0.7px;
+      margin-top: 10px;
+      padding-left: 0;
+    }
+
+    .meal-foods li.opt-header::before { display: none; }
+
+    .meal-foods li.opt-header:first-child { margin-top: 0; }
+
+    .menu-note {
+      font-size: 12px;
+      color: var(--text-3);
+      text-align: center;
+      margin: -6px 4px 14px;
+      font-style: italic;
+    }
+
     /* Macro card */
     .macro-card {
       padding: 20px;
@@ -840,6 +863,399 @@
     .macro[data-m="carb"] .macro-dot { background: var(--cyan); }
     .macro[data-m="fat"] .macro-dot { background: var(--coral); }
     .macro[data-m="fib"] .macro-dot { background: var(--violet); }
+
+    /* ========== SESSO (compositore + storico) ========== */
+    .compose-card {
+      padding: 20px;
+      margin-bottom: 14px;
+    }
+
+    .compose-group {
+      margin-bottom: 16px;
+    }
+
+    .compose-group:last-child { margin-bottom: 0; }
+
+    .compose-label {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--text-3);
+      text-transform: uppercase;
+      letter-spacing: 0.7px;
+      margin-bottom: 8px;
+      padding-left: 4px;
+    }
+
+    .sesso-group {
+      display: flex;
+      gap: 6px;
+      padding: 4px;
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 12px;
+    }
+
+    .sesso-group button {
+      flex: 1;
+      padding: 10px 8px;
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--text-2);
+      border-radius: 9px;
+      transition: all 200ms ease;
+      white-space: nowrap;
+      background: transparent;
+    }
+
+    .sesso-group button:hover {
+      color: var(--text-1);
+    }
+
+    .sesso-group button.active {
+      background: var(--accent);
+      color: #0A0E1A;
+      box-shadow: var(--shadow-glow-accent);
+    }
+
+    .preview-card {
+      padding: 22px 20px;
+      text-align: center;
+      margin-bottom: 12px;
+      min-height: 70px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .preview-mini-label {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--text-3);
+      text-transform: uppercase;
+      letter-spacing: 0.7px;
+    }
+
+    .preview-text {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text-1);
+      letter-spacing: -0.2px;
+    }
+
+    .preview-text.empty {
+      color: var(--text-mute);
+      font-weight: 400;
+      font-style: italic;
+      font-size: 13px;
+    }
+
+    .sesso-actions {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+
+    .sesso-btn {
+      flex: 1;
+      padding: 14px;
+      border-radius: 14px;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+      transition: all 200ms ease;
+      border: 1px solid var(--glass-border);
+      background: var(--glass-bg);
+      color: var(--text-2);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+
+    .sesso-btn:hover:not(:disabled) {
+      border-color: var(--glass-border-strong);
+      color: var(--text-1);
+    }
+
+    .sesso-btn.primary {
+      background: var(--accent);
+      color: #0A0E1A;
+      border-color: var(--accent);
+      box-shadow: var(--shadow-glow-accent);
+      flex: 2;
+    }
+
+    .sesso-btn.primary:hover:not(:disabled) {
+      color: #0A0E1A;
+      transform: translateY(-1px);
+    }
+
+    .sesso-btn.primary:disabled {
+      background: var(--glass-bg-strong);
+      color: var(--text-mute);
+      border-color: var(--glass-border);
+      box-shadow: none;
+      cursor: not-allowed;
+    }
+
+    .sesso-list-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 4px 4px 12px;
+    }
+
+    .sesso-count {
+      font-size: 13px;
+      color: var(--text-2);
+      font-weight: 600;
+    }
+
+    .sesso-count .num {
+      color: var(--accent);
+      font-weight: 800;
+      font-size: 16px;
+      margin-right: 4px;
+    }
+
+    .export-btn {
+      padding: 8px 12px;
+      border-radius: 10px;
+      font-size: 11.5px;
+      font-weight: 700;
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      color: var(--text-2);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 200ms ease;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+
+    .export-btn:hover:not(:disabled) {
+      color: var(--accent);
+      border-color: var(--accent);
+    }
+
+    .export-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .export-btn svg {
+      width: 13px;
+      height: 13px;
+    }
+
+    .sesso-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .sess-card {
+      padding: 14px 14px 14px 18px;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .sess-card::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 12px;
+      bottom: 12px;
+      width: 3px;
+      border-radius: 3px;
+      background: var(--accent);
+    }
+
+    .sess-body {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .sess-date {
+      font-size: 10px;
+      color: var(--text-3);
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      font-weight: 700;
+      margin-bottom: 3px;
+    }
+
+    .sess-comp {
+      font-size: 13.5px;
+      color: var(--text-1);
+      font-weight: 600;
+      letter-spacing: -0.1px;
+    }
+
+    .sess-del {
+      width: 34px;
+      height: 34px;
+      flex-shrink: 0;
+      display: grid;
+      place-items: center;
+      border-radius: 10px;
+      background: var(--glass-bg-strong);
+      color: var(--text-3);
+      transition: all 180ms ease;
+    }
+
+    .sess-del:hover {
+      background: var(--coral-soft);
+      color: var(--coral);
+      transform: scale(1.05);
+    }
+
+    .empty-sess {
+      text-align: center;
+      color: var(--text-3);
+      font-size: 13px;
+      padding: 40px 20px;
+      font-style: italic;
+      background: var(--glass-bg);
+      border: 1px dashed var(--glass-border-strong);
+      border-radius: 14px;
+    }
+
+    .svuota-btn {
+      width: 100%;
+      padding: 12px;
+      margin-top: 16px;
+      border-radius: 12px;
+      font-size: 11.5px;
+      font-weight: 700;
+      background: transparent;
+      border: 1px dashed var(--glass-border-strong);
+      color: var(--text-mute);
+      transition: all 180ms ease;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+    }
+
+    .svuota-btn:hover {
+      color: var(--coral);
+      border-color: var(--coral);
+    }
+
+    /* Body measurements (Misure) */
+    .misure-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .misura {
+      padding: 14px 14px 12px;
+    }
+
+    .misura-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .misura-name {
+      font-size: 10px;
+      color: var(--text-3);
+      text-transform: uppercase;
+      letter-spacing: 0.7px;
+      font-weight: 700;
+    }
+
+    .misura-delta {
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 999px;
+      background: var(--glass-bg-strong);
+    }
+
+    .misura-delta.down { color: var(--accent); background: var(--accent-soft); }
+    .misura-delta.up   { color: var(--coral);  background: var(--coral-soft); }
+    .misura-delta.flat { color: var(--text-3); }
+
+    .misura-value {
+      font-size: 22px;
+      font-weight: 300;
+      color: var(--text-1);
+      letter-spacing: -0.8px;
+      line-height: 1;
+    }
+
+    .misura-unit {
+      font-size: 11px;
+      color: var(--text-3);
+      font-weight: 600;
+      margin-left: 3px;
+    }
+
+    .ratio-card {
+      padding: 18px;
+      margin-bottom: 14px;
+    }
+
+    .ratio-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--glass-border);
+    }
+
+    .ratio-row:last-child { border-bottom: none; }
+
+    .ratio-label {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .ratio-name {
+      font-size: 13px;
+      color: var(--text-1);
+      font-weight: 600;
+    }
+
+    .ratio-target {
+      font-size: 10px;
+      color: var(--text-3);
+      font-weight: 600;
+    }
+
+    .ratio-value {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .ratio-num {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: -0.4px;
+      color: var(--text-1);
+    }
+
+    .ratio-badge {
+      font-size: 9.5px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 999px;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+
+    .ratio-badge.ok   { color: var(--accent); background: var(--accent-soft); }
+    .ratio-badge.warn { color: var(--warn); background: rgba(251, 191, 36, 0.14); }
 
     /* Supplements card */
     .supp-card {
@@ -1479,7 +1895,7 @@
             <div class="ring-center">
               <div class="ring-value tabular" id="homeKcal">0</div>
               <div class="ring-unit">kcal oggi</div>
-              <div class="ring-target">Target <span class="accent">~1500 kcal</span></div>
+              <div class="ring-target">Target <span class="accent">~1800 kcal</span></div>
             </div>
           </div>
         </div>
@@ -1551,8 +1967,10 @@
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
             </button>
           </div>
-          <div class="day-header-cal tabular"><span class="num" id="dietaDayCal">0</span> / 1500 kcal</div>
+          <div class="day-header-cal tabular"><span class="num" id="dietaDayCal">0</span> / 1800 kcal</div>
         </div>
+
+        <div class="menu-note" id="menuNote">Menù settimanale a scelta — 1 opzione per pasto</div>
 
         <div class="meals" id="mealsContainer"></div>
 
@@ -1561,19 +1979,32 @@
           <div class="macro-grid">
             <div class="macro" data-m="prot">
               <div class="macro-label"><span class="macro-dot"></span>Proteine</div>
-              <div class="macro-value tabular">1.2–1.4 g/kg</div>
+              <div class="macro-value tabular">1.7–2.0 g/kg</div>
             </div>
             <div class="macro" data-m="carb">
               <div class="macro-label"><span class="macro-dot"></span>Carboidrati</div>
-              <div class="macro-value tabular">40–45 %</div>
+              <div class="macro-value tabular">45–50 %</div>
             </div>
             <div class="macro" data-m="fat">
               <div class="macro-label"><span class="macro-dot"></span>Lipidi</div>
-              <div class="macro-value tabular">1.0–1.1 g/kg</div>
+              <div class="macro-value tabular">1.1–1.3 g/kg</div>
             </div>
             <div class="macro" data-m="fib">
               <div class="macro-label"><span class="macro-dot"></span>Fibra</div>
-              <div class="macro-value tabular">25–30 g</div>
+              <div class="macro-value tabular">30–35 g</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="glass supp-card">
+          <div class="macro-card-title">Integrazione consigliata</div>
+          <div class="supp-list">
+            <div class="supp">
+              <div class="supp-icon">🐟</div>
+              <div class="supp-body">
+                <div class="supp-name">Omega 3</div>
+                <div class="supp-dose">2g al giorno insieme ad uno dei pasti principali</div>
+              </div>
             </div>
           </div>
         </div>
@@ -1588,6 +2019,7 @@
         <div class="segment">
           <button class="segment-btn active" data-view="andamento" onclick="setControlliView('andamento')">Andamento</button>
           <button class="segment-btn" data-view="confronto" onclick="setControlliView('confronto')">Confronto</button>
+          <button class="segment-btn" data-view="misure" onclick="setControlliView('misure')">Misure</button>
           <button class="segment-btn" data-view="storico" onclick="setControlliView('storico')">Storico</button>
         </div>
 
@@ -1604,6 +2036,13 @@
           <div class="glass compare-card" id="compareCard"></div>
         </div>
 
+        <div id="viewMisure" class="hidden">
+          <div class="section-title" style="margin-top:8px">Circonferenze corporee</div>
+          <div class="misure-grid" id="misureGrid"></div>
+          <div class="section-title">Indici</div>
+          <div class="glass ratio-card" id="ratioCard"></div>
+        </div>
+
         <div id="viewStorico" class="hidden">
           <div class="glass table-card">
             <div class="table-scroll">
@@ -1618,7 +2057,7 @@
         <div class="glass profile-hero">
           <div class="avatar">IP</div>
           <div class="profile-name">Ilaria Piccolo</div>
-          <div class="profile-meta">32 anni · 164 cm · Composizione Corporea</div>
+          <div class="profile-meta">32 anni · 164 cm · Ottimizzazione Composizione Corporea</div>
         </div>
 
         <div class="section-title">Composizione corporea</div>
@@ -1689,7 +2128,7 @@
         <div class="glass info-card">
           <div class="info-row">
             <span class="info-label">Tipologia</span>
-            <span class="info-value">Pilates + Sala</span>
+            <span class="info-value">Palestra</span>
           </div>
           <div class="info-row">
             <span class="info-label">Frequenza</span>
@@ -1700,6 +2139,62 @@
             <span class="info-value">Varia</span>
           </div>
         </div>
+      </section>
+
+      <!-- ========== SESSO ========== -->
+      <section id="sectionSesso" class="section hidden">
+        <div class="section-title" style="margin-top:8px">Componi sessione</div>
+
+        <div class="glass compose-card">
+          <div class="compose-group">
+            <div class="compose-label">Modalità</div>
+            <div class="sesso-group" data-group="modalita">
+              <button data-value="In due" onclick="toggleCompose('modalita', 'In due')">In due</button>
+              <button data-value="Da solo" onclick="toggleCompose('modalita', 'Da solo')">Da solo</button>
+              <button data-value="Guardo solo" onclick="toggleCompose('modalita', 'Guardo solo')">Guardo solo</button>
+            </div>
+          </div>
+
+          <div class="compose-group">
+            <div class="compose-label">Posizione</div>
+            <div class="sesso-group" data-group="posizione">
+              <button data-value="Da dietro" onclick="toggleCompose('posizione', 'Da dietro')">Da dietro</button>
+              <button data-value="Davanti" onclick="toggleCompose('posizione', 'Davanti')">Davanti</button>
+              <button data-value="Sul lato" onclick="toggleCompose('posizione', 'Sul lato')">Sul lato</button>
+            </div>
+          </div>
+
+          <div class="compose-group">
+            <div class="compose-label">Finale</div>
+            <div class="sesso-group" data-group="finale">
+              <button data-value="Addosso" onclick="toggleCompose('finale', 'Addosso')">Addosso</button>
+              <button data-value="In bocca" onclick="toggleCompose('finale', 'In bocca')">In bocca</button>
+              <button data-value="Dentro" onclick="toggleCompose('finale', 'Dentro')">Dentro</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="glass preview-card">
+          <div class="preview-mini-label">Anteprima</div>
+          <div class="preview-text empty" id="sessoPreview">Seleziona una voce per ogni gruppo</div>
+        </div>
+
+        <div class="sesso-actions">
+          <button class="sesso-btn" onclick="resetCompose()">Annulla</button>
+          <button class="sesso-btn primary" id="sessoSalva" onclick="salvaSessione()" disabled>Salva sessione</button>
+        </div>
+
+        <div class="sesso-list-head">
+          <div class="sesso-count"><span class="num" id="sessoCount">0</span>sessioni salvate</div>
+          <button class="export-btn" id="sessoExportBtn" onclick="esportaSessioniPdf()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+            Esporta PDF
+          </button>
+        </div>
+
+        <div class="sesso-list" id="sessoList"></div>
+
+        <button class="svuota-btn" id="sessoSvuotaBtn" onclick="svuotaSessioni()">Svuota storico</button>
       </section>
 
     </main>
@@ -1722,6 +2217,10 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a8 8 0 0 1 16 0v1"/></svg>
         <span class="nav-label">Profilo</span>
       </button>
+      <button class="nav-tab" data-tab="sesso" onclick="goTo('sesso')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        <span class="nav-label">Sesso</span>
+      </button>
     </nav>
   </div>
 
@@ -1729,81 +2228,193 @@
     // ============================================================
     // DATA — diet, controls and profile
     // ============================================================
-    // Menu settimanale — Maggio 2026 (Dott.ssa Barbara Polese)
-    // Calorie per pasto sono stime calcolate sui pesi/porzioni indicati nel PDF.
-    // Target giornaliero: ~1500 kcal.
-    const dieta = {
-      lunedi: {
-        colazione:  { pasti: '1 tazza di latte parz. scremato delattosato o vegetale\nFiocchi d\'avena/di riso 30g oppure cereali Kellogg\'s 30g', calorie: 200 },
-        spuntino:   { pasti: 'Frutta fresca 150g', calorie: 80 },
-        pranzo:     { pasti: '1 piadina integrale 50g oppure Riso venere o basmati/farro/couscous 50g\nPiselli decorticati secchi 20g o legumi a scelta + feta o primo sale 50g\nRucola + zucchine o verdura a scelta\nFrutta fresca 150g', calorie: 500 },
-        merenda:    { pasti: 'Kefir colato bianco 150g + un cucchiaino di miele o marmellata', calorie: 130 },
-        cena:       { pasti: 'Pane con lievito madre o bianco 50g oppure Crostini integrali 30g oppure patate 150g\nMerluzzo o pesce a scelta tollerato 200g\nPomodorini o verdura a scelta a volontà', calorie: 350 },
-        postCena:   { pasti: '1 pacchetto di crackers di riso ricoperti di cioccolato fondente', calorie: 130 },
-        condimento: { pasti: 'Olio extravergine di oliva 30g (3 cucchiai = 6 cucchiaini)', calorie: 270 }
+    // Menu settimanale — Luglio 2026 (Dott.ssa Barbara Polese)
+    // Formato "a opzioni": ogni pasto elenca più alternative, se ne sceglie una.
+    // I giorni feriali (lun-sab) condividono lo stesso menu, la domenica è "giorno libero".
+    // Calorie per pasto sono stime rappresentative (le opzioni possono variare).
+    // Target giornaliero: ~1800 kcal.
+    const menuFeriale = {
+      colazione: {
+        pasti: [
+          'Opzione 1',
+          'Pancake con 150g di albumi + 50g di farina di avena o riso + ½ cucchiaino di bicarbonato + cannella/cacao qb + latte/yogurt qb per raggiungere consistenza',
+          'Sciroppo d\'acero/marmellata 2 cucchiaini',
+          'Opzione 2',
+          'Yogurt greco magro bianco 150g + 1 cucchiaino di marmellata o miele',
+          'Fiocchi di avena/farro oppure Cereali Kellogg\'s Oaties 30g',
+          'Opzione 3',
+          'Spremuta di agrumi 150-200g (1 bicchiere, 2 arance)',
+          'Pane integrale/di segale 50g oppure fette biscottate integrali n.3',
+          'Uova 120g (2 uova)',
+          'Opzione 4',
+          '1 tazza di latte parz. scremato o vegetale',
+          'Biscotti di grano saraceno con cioccolato fondente 30g',
+          'Opzione 5',
+          '1 tazza di latte parz. scremato o vegetale',
+          'Pane integrale/di segale 50g oppure fette biscottate integrali n.3',
+          'Un velo di burro di arachidi 100% + un velo di marmellata o miele',
+          'Opzione 6',
+          '1 tazza di latte parz. scremato o vegetale',
+          'Fiocchi di avena/farro oppure Cereali Kellogg\'s Oaties 30g'
+        ].join('\n'),
+        calorie: 320
       },
-      martedi: {
-        colazione:  { pasti: 'Yogurt greco magro bianco 150g + un cucchiaino di miele o marmellata\nCioccolata fondente 20g', calorie: 200 },
-        spuntino:   { pasti: 'Frutta fresca 150g', calorie: 80 },
-        pranzo:     { pasti: 'Pasta integrale/Riso o Riso Basmati/farro/couscous 50g oppure Crostini integrali 30g\nFrittatina di due uova\nCarote o verdura a scelta\nFrutta fresca 150g', calorie: 500 },
-        merenda:    { pasti: '1 pacchetto di crackers di riso e cereali', calorie: 130 },
-        cena:       { pasti: 'Pane con lievito madre o bianco 50g oppure patate 150g\nFagiolini o verdure a scelta\nCarne magra di pollo/agnello/coniglio 150g', calorie: 330 },
-        postCena:   { pasti: 'Biscotti Privolat 30g', calorie: 130 },
-        condimento: { pasti: 'Olio extravergine di oliva 30g (3 cucchiai = 6 cucchiaini)', calorie: 270 }
+      spuntino: {
+        pasti: [
+          'Opzione 1',
+          'Yogurt greco magro bianco 150g + 1 cucchiaino di marmellata o miele',
+          'Opzione 2',
+          'Barretta nature valley o similari',
+          'Opzione 3',
+          'GELATO: 150-200g di banana/melone/fragole congelata a cubetti frullata + un cucchiaino di miele o marmellata con latte/yogurt qb per ottenere la consistenza desiderata',
+          'Opzione 4',
+          'Frutta fresca tollerata 150g + cioccolato fondente'
+        ].join('\n'),
+        calorie: 170
       },
-      mercoledi: {
-        colazione:  { pasti: '1 tazza di latte parz. scremato delattosato o vegetale\nFiocchi d\'avena/di riso 30g oppure cereali Kellogg\'s 30g', calorie: 200 },
-        spuntino:   { pasti: 'Frutta fresca 150g', calorie: 80 },
-        pranzo:     { pasti: 'Riso o Riso Basmati/farro/couscous 50g oppure Crostini integrali 30g\nProvola/fior di latte 100g oppure ricotta/fiocchi di latte 150g\nZucchine o verdura a scelta\nFrutta fresca 150g', calorie: 520 },
-        merenda:    { pasti: '1 pacchetto di crackers di riso ricoperti di cioccolato fondente', calorie: 130 },
-        cena:       { pasti: 'Pane con lievito madre o bianco 50g oppure Crostini integrali 30g oppure patate 150g\nPolpo 200g o pesce a scelta tollerato\nRucola o verdura a scelta', calorie: 340 },
-        postCena:   { pasti: 'Cioccolata fondente 20g', calorie: 110 },
-        condimento: { pasti: 'Olio extravergine di oliva 30g (3 cucchiai = 6 cucchiaini)', calorie: 270 }
+      pranzo: {
+        pasti: [
+          'Opzione 1',
+          'Fresella integrale 40g oppure Pasta di semola o integrale/Riso o Riso Basmati/Farro/Couscous 70g',
+          'Gamberetti 150g',
+          'Pomodori o verdura a scelta',
+          'Frutta fresca tollerata 150g',
+          'Opzione 2',
+          'Piadina integrale 75g oppure Pasta di semola o integrale/Riso o Riso Basmati/Farro/Couscous 70g',
+          'Bresaola o arrosto di tacchino 100g (se non mangi salumi durante la giornata)',
+          'Valeriana o verdura a scelta',
+          'Frutta fresca tollerata 150g',
+          'Opzione 3',
+          'Piadina integrale 75g oppure Pasta di semola o integrale/Riso o Riso Basmati/Farro/Couscous 70g',
+          '1 vaschetta di Philadelphia Protein oppure 150g di Ricotta/Fiocchi di latte',
+          'Zucchine o verdura a scelta',
+          'Frutta fresca tollerata 150g',
+          'Opzione 4',
+          'Piadina integrale 75g oppure Pasta di semola o integrale/Riso o Riso Basmati/Farro/Couscous 70g',
+          'Lattughino o verdura a scelta',
+          'Straccetti di pollo 150g',
+          'Frutta fresca tollerata 150g',
+          'Opzione 5',
+          'Piadina integrale 75g oppure Pasta di semola o integrale/Riso o Riso Basmati/Farro/Couscous 70g',
+          'Carote o verdura a scelta',
+          '2 uova sode o frittata + 100g di albume',
+          'Frutta fresca tollerata 150g',
+          'Opzione 6',
+          'Fresella integrale 30g oppure Pasta di semola o integrale/Riso o Riso Basmati/Farro/Couscous 50g',
+          'Piselli secchi 30g o legumi a scelta tra quelli tollerati + prosciutto cotto a cubetti 50g',
+          'Carote o verdura a scelta',
+          'Frutta fresca tollerata 150g',
+          'Opzione 7',
+          'Fresella integrale 30g oppure Pasta di semola o integrale/Riso o Riso Basmati/Farro/Couscous 50g',
+          'Ceci secchi 30g o legumi a scelta tra quelli tollerati + feta o primo sale 50g',
+          'Pomodori o verdura a scelta',
+          'Frutta fresca tollerata 150g'
+        ].join('\n'),
+        calorie: 480
       },
-      giovedi: {
-        colazione:  { pasti: 'Yogurt greco magro bianco 150g + un cucchiaino di miele o marmellata\nCioccolata fondente 20g', calorie: 200 },
-        spuntino:   { pasti: '1 pacchetto di crackers di riso e cereali', calorie: 130 },
-        pranzo:     { pasti: 'Pasta integrale/Riso o Riso Basmati/farro/couscous 50g oppure Crostini integrali 30g\n2 uova sode\nPomodori o verdura a scelta\nFrutta fresca 150g', calorie: 480 },
-        merenda:    { pasti: 'Frutta fresca 150g', calorie: 80 },
-        cena:       { pasti: 'Pane con lievito madre o bianco 50g oppure patate 150g\nSalsicce di pollo 150g oppure 150g carne magra di pollo\nSpinaci o verdura a scelta a volontà', calorie: 380 },
-        postCena:   { pasti: 'Biscotti Privolat 30g', calorie: 130 },
-        condimento: { pasti: 'Olio extravergine di oliva 30g (3 cucchiai = 6 cucchiaini)', calorie: 270 }
+      merenda: {
+        pasti: [
+          'Opzione 1',
+          '150g di frutta fresca tollerata + 50g di lupini ben sciacquati',
+          'Opzione 2',
+          '1 pacchetto di crackers di riso e cereali + 20g di grana/parmigiano (se non mangi formaggi in giornata)',
+          'Opzione 3',
+          'Kefir colato bianco 150g + un cucchiaino di miele o marmellata',
+          'Opzione 4',
+          '1 pacchetto di crackers di riso ricoperti di cioccolato fondente'
+        ].join('\n'),
+        calorie: 170
       },
-      venerdi: {
-        colazione:  { pasti: '1 tazza di latte parz. scremato delattosato o vegetale\nFiocchi d\'avena/di riso 30g oppure cereali Kellogg\'s 30g', calorie: 200 },
-        spuntino:   { pasti: 'Frutta fresca 150g', calorie: 80 },
-        pranzo:     { pasti: 'Pasta integrale/Riso o Riso Basmati/farro/couscous 50g oppure Crostini integrali 30g\nCeci decorticati secchi 20g o legumi a scelta + bresaola o prosciutto cotto a cubetti 50g\nPomodori o verdura a scelta\nFrutta fresca 150g', calorie: 500 },
-        merenda:    { pasti: 'Kefir colato bianco 150g + un cucchiaino di miele o marmellata', calorie: 130 },
-        cena:       { pasti: 'Pane con lievito madre o bianco 50g oppure Crostini integrali 30g\nMerluzzo/nasello/alici o pesce a scelta tollerato 200g\nAsparagi o verdura a scelta', calorie: 350 },
-        postCena:   { pasti: 'Cioccolata fondente 20g', calorie: 110 },
-        condimento: { pasti: 'Olio extravergine di oliva 30g (3 cucchiai = 6 cucchiaini)', calorie: 270 }
+      cena: {
+        pasti: [
+          'Opzione 1 — 2-3 volte a settimana',
+          'Pane di segale o integrale 60g oppure patate 180-200g oppure crostini integrali 30g',
+          'Rucola o verdura a scelta',
+          'Calamari/polpo all\'insalata 250g o pesce a scelta tra quelli tollerati',
+          'Opzione 2 — 1-2 volte a settimana',
+          'Pane di segale o integrale 60g oppure patate 180-200g oppure crostini integrali 30g',
+          'Pomodori o verdura a scelta',
+          'Carne magra di pollo/tacchino/agnello 200g',
+          'Opzione 3 — 1 volta a settimana',
+          'Pane di segale o integrale 60g oppure patate 180-200g oppure crostini integrali 30g',
+          'Ricotta/primo sale/fiocchi di latte 200g (se non mangi latticini a pranzo)',
+          'Lattughino o verdura a scelta',
+          'Opzione 4 — 1 volta a settimana',
+          'Pane di segale o integrale 60g oppure patate 180-200g oppure crostini integrali 30g',
+          'Hamburger di manzo o vitello 200g',
+          'Asparagi o verdure a scelta',
+          'Opzione 5 — 1-2 volte a settimana',
+          'Pane di segale o integrale 60g oppure patate 180-200g oppure crostini integrali 30g',
+          '2 uova + 100g di albume',
+          'Pomodori o verdura a scelta',
+          'Opzione fuori — 1 volta a settimana',
+          'Pizza / panino / sushi / pokè / Secondo + contorno a scelta tra quelli tollerati',
+          'N.1 bibita a scelta tra quelle tollerate'
+        ].join('\n'),
+        calorie: 500
       },
-      sabato: {
-        colazione:  { pasti: 'Yogurt greco magro bianco 150g + un cucchiaino di miele o marmellata\nCioccolata fondente 20g', calorie: 200 },
-        spuntino:   { pasti: 'Frutta fresca 150g', calorie: 80 },
-        pranzo:     { pasti: 'Pasta integrale/Riso o Riso Basmati/farro/couscous 50g oppure Crostini integrali 30g\nCarne magra di pollo 150g\nValeriana o verdura a scelta\nFrutta fresca 150g', calorie: 460 },
-        merenda:    { pasti: '1 pacchetto di crackers di riso ricoperti di cioccolato fondente', calorie: 130 },
-        cena:       { pasti: 'Pizza / panino / sushi / pokè / Secondo + contorno a scelta\nN.1 bibita a scelta', calorie: 900 },
-        postCena:   { pasti: '-', calorie: 0 },
-        condimento: { pasti: 'Olio extravergine di oliva 30g (3 cucchiai = 6 cucchiaini)', calorie: 270 }
+      postCena: {
+        pasti: [
+          'Opzione 1',
+          'Cioccolato fondente 20g',
+          'Opzione 2',
+          '1 fior di fragola o ghiacciolo',
+          'Opzione 3',
+          'Frutta fresca tollerata 150-200g'
+        ].join('\n'),
+        calorie: 90
       },
-      domenica: {
-        colazione:  { pasti: 'Una colazione a scelta tra le precedenti', calorie: 280 },
-        spuntino:   { pasti: '-', calorie: 0 },
-        pranzo:     { pasti: 'Pasta o riso con condimento a scelta 80g\nSecondo piatto a scelta 150g\nContorno di insalate o verdure a scelta a volontà', calorie: 500 },
-        merenda:    { pasti: 'N.1 coppetta di gelato / 1 porzione di dolce semplice', calorie: 250 },
-        cena:       { pasti: 'Verdure a scelta a volontà con una fonte proteica magra a scelta + 2 fette di pane', calorie: 380 },
-        postCena:   { pasti: '-', calorie: 0 },
-        condimento: { pasti: 'Olio extravergine di oliva 30g (3 cucchiai = 6 cucchiaini)', calorie: 270 }
+      condimento: {
+        pasti: 'Olio extravergine d\'oliva 30g (3 cucchiai = 6 cucchiaini)',
+        calorie: 270
       }
     };
 
-    // Report antropometrico Bodygram 11/05/2026 — versione "Report antropometrico"
-    // (più sintetica del "Confronto con esame basale"): non include FFM/FM/MM/SMM/ASMM
-    // in kg, solo: peso, BMI, PhA, idratazione % (TBW/FFM), BCM %, RZ, XC.
-    // BMR e TDEE presi dalla scheda dieta della stessa data.
+    const menuDomenica = {
+      colazione: { pasti: '1 opzione a scelta tra quelle elencate per la settimana', calorie: 320 },
+      spuntino:  { pasti: '1 opzione a scelta tra quelle elencate per la settimana', calorie: 170 },
+      pranzo:    {
+        pasti: [
+          'Primo piatto a scelta 90g',
+          'Secondo piatto a scelta 150g',
+          'Contorno di verdure a scelta tra quelle tollerate a volontà'
+        ].join('\n'),
+        calorie: 550
+      },
+      merenda:   { pasti: '1 porzione di dolce/gelato a scelta tra quelli tollerati (o post pranzo)', calorie: 250 },
+      cena:      {
+        pasti: [
+          'Opzione 1',
+          'Carne bianca o pesce 200-250g oppure 2 uova + Verdure a scelta tra quelle tollerate + pane 60g',
+          'Opzione 2',
+          '1 toast con 100-120g di prosciutto cotto/arrosto di tacchino + sottilette light n.2'
+        ].join('\n'),
+        calorie: 500
+      },
+      postCena:   { pasti: '-', calorie: 0 },
+      condimento: { pasti: 'Olio extravergine d\'oliva 30-40g (3-4 cucchiai = 6-8 cucchiaini)', calorie: 320 }
+    };
+
+    const dieta = {
+      lunedi: menuFeriale,
+      martedi: menuFeriale,
+      mercoledi: menuFeriale,
+      giovedi: menuFeriale,
+      venerdi: menuFeriale,
+      sabato: menuFeriale,
+      domenica: menuDomenica
+    };
+
+    // Bodygram + Follow-up antropometrici — Dott.ssa Barbara Polese
+    // 11/05: solo "Report antropometrico" (dati sintetici); circonferenze da follow-up
+    // 22/06, 27/07: "Confronto con esame basale" (dati completi) + follow-up
     const controlli = [
-      { data: '11/05/2026', peso: 53.5, bmi: 19.9, phA: 5.4, bmr: 1374, tdee: 1923, rz: 610.5, xc: 58.1, tbwPct: 73.2, bcmPct: 50.6 }
+      { data: '11/05/2026', peso: 53.5, bmi: 19.9, phA: 5.4, bmr: 1374, tdee: 1923, rz: 610.5, xc: 58.1, tbwPct: 73.2, bcmPct: 50.6,
+        torace: 84, addom: 73, vita: 70, fianchi: 98, braccio: 26.5, polso: 15, coscia: 57, polpaccio: 35, whr: 0.71, wher: 0.43 },
+      { data: '22/06/2026', peso: 52.0, bmi: 19.3, fFM: 41.3, fM: 10.7, mM: 25.9, tBW: 30.2, ecw: 14.6, icw: 15.6, bcm: 20.9, smm: 19.8, asmm: 15.2, phA: 5.4, bmr: 1356.1, tdee: 1898.5, rz: 635.4, xc: 60.5, naK: 1.1,
+        torace: 81, addom: 70, vita: 67, fianchi: 94, braccio: 26.5, polso: 14, coscia: 55, polpaccio: 34, whr: 0.71, wher: 0.41 },
+      { data: '27/07/2026', peso: 52.5, bmi: 19.5, fFM: 41.8, fM: 10.7, mM: 26.5, tBW: 30.6, ecw: 14.8, icw: 15.8, bcm: 21.4, smm: 20.2, asmm: 15.4, phA: 5.5, bmr: 1370.6, tdee: 1918.8, rz: 622.3, xc: 59.5, naK: 1.1,
+        torace: 83, addom: 70.5, vita: 68, fianchi: 97, braccio: 26, polso: 14.5, coscia: 56, polpaccio: 35, whr: 0.70, wher: 0.41 }
     ];
 
     const giorni = ['Lunedì', 'Martedì', 'Mercoledì', 'Giovedì', 'Venerdì', 'Sabato', 'Domenica'];
@@ -1820,7 +2431,7 @@
       condimento: { name: 'Condimento giornaliero', icon: '🫒', hour: 23.5 }
     };
 
-    const TARGET_KCAL = 1500;
+    const TARGET_KCAL = 1800;
 
     // ============================================================
     // STATE
@@ -2006,6 +2617,14 @@
       document.getElementById('dietaDayTitle').textContent = giorni[selectedDay];
       animateNumber(document.getElementById('dietaDayCal'), total);
 
+      // Menu note: different for weekday vs Sunday (giorno libero)
+      const note = document.getElementById('menuNote');
+      if (note) {
+        note.textContent = dayKey === 'domenica'
+          ? 'Domenica — giorno libero'
+          : 'Menù settimanale a scelta — 1 opzione per pasto';
+      }
+
       const container = document.getElementById('mealsContainer');
       container.innerHTML = pastiOrder.map((key) => {
         const meal = meals[key];
@@ -2019,7 +2638,10 @@
 
         const foodsHtml = (foods.length === 1 && foods[0] === '-')
           ? `<li class="empty">Non previsto</li>`
-          : foods.map(f => `<li>${escapeHtml(f)}</li>`).join('');
+          : foods.map(f => {
+              const isOptHeader = /^Opzione(\s|$)/i.test(f);
+              return `<li class="${isOptHeader ? 'opt-header' : ''}">${escapeHtml(f)}</li>`;
+            }).join('');
 
         return `
           <div class="glass meal" data-kind="${key}">
@@ -2320,8 +2942,73 @@
       });
       document.getElementById('viewAndamento').classList.toggle('hidden', view !== 'andamento');
       document.getElementById('viewConfronto').classList.toggle('hidden', view !== 'confronto');
+      document.getElementById('viewMisure').classList.toggle('hidden', view !== 'misure');
       document.getElementById('viewStorico').classList.toggle('hidden', view !== 'storico');
       if (view === 'andamento') setTimeout(renderChart, 50);
+    }
+
+    function renderMisure() {
+      const fields = [
+        { key: 'torace',    label: 'Torace',    unit: 'cm' },
+        { key: 'addom',     label: 'Addome',    unit: 'cm' },
+        { key: 'vita',      label: 'Vita',      unit: 'cm' },
+        { key: 'fianchi',   label: 'Fianchi',   unit: 'cm' },
+        { key: 'braccio',   label: 'Braccio',   unit: 'cm' },
+        { key: 'coscia',    label: 'Coscia',    unit: 'cm' },
+        { key: 'polpaccio', label: 'Polpaccio', unit: 'cm' },
+        { key: 'polso',     label: 'Polso',     unit: 'cm' }
+      ];
+
+      const grid = document.getElementById('misureGrid');
+      grid.innerHTML = fields.map(f => {
+        const series = controlli.filter(c => c[f.key] != null);
+        if (series.length === 0) return '';
+        const last = series[series.length - 1];
+        const prev = series[series.length - 2];
+        const diff = prev ? +(last[f.key] - prev[f.key]).toFixed(1) : 0;
+        // Addome/vita: down = good (less abdominal fat)
+        const isSlimming = ['addom', 'vita'].includes(f.key);
+        let cls = 'flat';
+        if (Math.abs(diff) >= 0.5) {
+          if (isSlimming) cls = diff < 0 ? 'down' : 'up';
+          else cls = 'flat';
+        }
+        const symbol = Math.abs(diff) < 0.05 ? '→' : (diff > 0 ? '↑' : '↓');
+        return `
+          <div class="glass misura">
+            <div class="misura-head">
+              <span class="misura-name">${f.label}</span>
+              <span class="misura-delta ${cls}">${symbol} ${diff > 0 ? '+' : ''}${diff}</span>
+            </div>
+            <span class="misura-value tabular">${last[f.key].toFixed(1)}</span>
+            <span class="misura-unit">${f.unit}</span>
+          </div>
+        `;
+      }).join('');
+
+      const ratios = [
+        { key: 'whr',  name: 'Vita / Fianchi (WHR)',  target: '< 0.85', okThreshold: 0.85 },
+        { key: 'wher', name: 'Vita / Altezza (WHeR)', target: '< 0.50', okThreshold: 0.50 }
+      ];
+      const ratioCard = document.getElementById('ratioCard');
+      ratioCard.innerHTML = ratios.map(r => {
+        const series = controlli.filter(c => c[r.key] != null);
+        if (series.length === 0) return '';
+        const last = series[series.length - 1][r.key];
+        const ok = last < r.okThreshold;
+        return `
+          <div class="ratio-row">
+            <div class="ratio-label">
+              <span class="ratio-name">${r.name}</span>
+              <span class="ratio-target">Target: ${r.target}</span>
+            </div>
+            <div class="ratio-value">
+              <span class="ratio-num tabular">${last.toFixed(2)}</span>
+              <span class="ratio-badge ${ok ? 'ok' : 'warn'}">${ok ? '✓ OK' : 'Attenzione'}</span>
+            </div>
+          </div>
+        `;
+      }).join('');
     }
 
     // ============================================================
@@ -2360,7 +3047,7 @@
     // ============================================================
     function goTo(tab) {
       activeTab = tab;
-      ['home', 'dieta', 'controlli', 'profilo'].forEach(t => {
+      ['home', 'dieta', 'controlli', 'profilo', 'sesso'].forEach(t => {
         const sec = document.getElementById('section' + t.charAt(0).toUpperCase() + t.slice(1));
         if (sec) sec.classList.toggle('hidden', t !== tab);
       });
@@ -2371,6 +3058,179 @@
       // Re-render meals so the entrance animation runs while the section is visible
       if (tab === 'dieta') renderMeals();
       if (tab === 'controlli' && controlliView === 'andamento') setTimeout(renderChart, 100);
+    }
+
+    // ============================================================
+    // SESSO — compositore + storico (localStorage)
+    // ============================================================
+    const STORE_KEY = 'ilaria-sessioni';
+    let composeState = { modalita: null, posizione: null, finale: null };
+    let sessioni = [];
+    try {
+      sessioni = JSON.parse(localStorage.getItem(STORE_KEY) || '[]');
+      if (!Array.isArray(sessioni)) sessioni = [];
+    } catch (e) { sessioni = []; }
+
+    function toggleCompose(group, value) {
+      composeState[group] = composeState[group] === value ? null : value;
+      renderCompose();
+    }
+
+    function renderCompose() {
+      document.querySelectorAll('.sesso-group').forEach(g => {
+        const group = g.dataset.group;
+        g.querySelectorAll('button').forEach(b => {
+          b.classList.toggle('active', b.dataset.value === composeState[group]);
+        });
+      });
+      const parts = [composeState.modalita, composeState.posizione, composeState.finale].filter(Boolean);
+      const preview = document.getElementById('sessoPreview');
+      if (parts.length === 0) {
+        preview.textContent = 'Seleziona una voce per ogni gruppo';
+        preview.classList.add('empty');
+      } else {
+        preview.textContent = parts.join('  ·  ');
+        preview.classList.toggle('empty', parts.length < 3);
+      }
+      const btn = document.getElementById('sessoSalva');
+      btn.disabled = parts.length < 3;
+    }
+
+    function resetCompose() {
+      composeState = { modalita: null, posizione: null, finale: null };
+      renderCompose();
+    }
+
+    function salvaSessione() {
+      if (!composeState.modalita || !composeState.posizione || !composeState.finale) return;
+      sessioni.unshift({
+        id: Date.now(),
+        modalita: composeState.modalita,
+        posizione: composeState.posizione,
+        finale: composeState.finale
+      });
+      localStorage.setItem(STORE_KEY, JSON.stringify(sessioni));
+      resetCompose();
+      renderSessioni();
+    }
+
+    function deleteSessione(id) {
+      sessioni = sessioni.filter(s => s.id !== id);
+      localStorage.setItem(STORE_KEY, JSON.stringify(sessioni));
+      renderSessioni();
+    }
+
+    function svuotaSessioni() {
+      if (sessioni.length === 0) return;
+      if (!confirm(`Cancellare tutte le ${sessioni.length} sessioni? L'azione non è reversibile.`)) return;
+      sessioni = [];
+      localStorage.removeItem(STORE_KEY);
+      renderSessioni();
+    }
+
+    function renderSessioni() {
+      const list = document.getElementById('sessoList');
+      const count = document.getElementById('sessoCount');
+      const exportBtn = document.getElementById('sessoExportBtn');
+      const svuotaBtn = document.getElementById('sessoSvuotaBtn');
+
+      count.textContent = sessioni.length;
+      exportBtn.disabled = sessioni.length === 0;
+      svuotaBtn.style.display = sessioni.length === 0 ? 'none' : '';
+
+      if (sessioni.length === 0) {
+        list.innerHTML = `<div class="empty-sess">Nessuna sessione salvata.<br>Componi la tua prima sessione qui sopra.</div>`;
+        return;
+      }
+
+      list.innerHTML = sessioni.map(s => {
+        const d = new Date(s.id);
+        const dateStr = d.toLocaleDateString('it-IT', { day: 'numeric', month: 'short', year: 'numeric' });
+        const timeStr = d.toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' });
+        return `
+          <div class="glass sess-card">
+            <div class="sess-body">
+              <div class="sess-date">${dateStr} · ${timeStr}</div>
+              <div class="sess-comp">${escapeHtml(s.modalita)}  ·  ${escapeHtml(s.posizione)}  ·  ${escapeHtml(s.finale)}</div>
+            </div>
+            <button class="sess-del" onclick="deleteSessione(${s.id})" aria-label="Elimina sessione">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/></svg>
+            </button>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function esportaSessioniPdf() {
+      if (sessioni.length === 0) return;
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF({ unit: 'mm', format: 'a4' });
+
+      // Header
+      doc.setFillColor(198, 244, 50);
+      doc.rect(0, 0, 210, 4, 'F');
+      doc.setFontSize(22);
+      doc.setTextColor(15, 20, 36);
+      doc.setFont('helvetica', 'bold');
+      doc.text('Diario sessioni', 20, 22);
+      doc.setFontSize(10);
+      doc.setTextColor(120, 120, 130);
+      doc.setFont('helvetica', 'normal');
+      doc.text(`Ilaria Piccolo`, 20, 29);
+      doc.text(`Esportato il ${new Date().toLocaleString('it-IT')}`, 20, 34);
+      doc.text(`Totale: ${sessioni.length} ${sessioni.length === 1 ? 'sessione' : 'sessioni'}`, 20, 39);
+
+      doc.setDrawColor(220, 220, 225);
+      doc.setLineWidth(0.3);
+      doc.line(20, 44, 190, 44);
+
+      // Sessions
+      let y = 54;
+      sessioni.forEach((s, i) => {
+        if (y > 275) {
+          doc.addPage();
+          doc.setFillColor(198, 244, 50);
+          doc.rect(0, 0, 210, 4, 'F');
+          y = 25;
+        }
+        const d = new Date(s.id);
+        const dateStr = d.toLocaleDateString('it-IT', { weekday: 'short', day: 'numeric', month: 'long', year: 'numeric' });
+        const timeStr = d.toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' });
+
+        // number badge
+        doc.setFillColor(245, 247, 250);
+        doc.roundedRect(20, y - 5, 8, 8, 1.5, 1.5, 'F');
+        doc.setFontSize(9);
+        doc.setTextColor(120, 120, 130);
+        doc.setFont('helvetica', 'bold');
+        doc.text(String(sessioni.length - i), 24, y + 0.5, { align: 'center' });
+
+        // Date/time
+        doc.setFontSize(9);
+        doc.setTextColor(140, 140, 150);
+        doc.setFont('helvetica', 'normal');
+        doc.text(`${dateStr}  ·  ${timeStr}`, 34, y - 1);
+
+        // Composition
+        doc.setFontSize(13);
+        doc.setTextColor(15, 20, 36);
+        doc.setFont('helvetica', 'bold');
+        doc.text(`${s.modalita}  ·  ${s.posizione}  ·  ${s.finale}`, 34, y + 5);
+
+        // Divider
+        doc.setDrawColor(240, 240, 245);
+        doc.line(20, y + 10, 190, y + 10);
+
+        y += 16;
+      });
+
+      // Footer on last page
+      doc.setFontSize(8);
+      doc.setTextColor(180, 180, 190);
+      doc.text('Backup privato — Ilaria OS', 105, 290, { align: 'center' });
+
+      const fname = `sessioni_ilaria_${new Date().toISOString().split('T')[0]}.pdf`;
+      doc.save(fname);
     }
 
     function setDay(i) {
@@ -2416,8 +3276,10 @@
     renderKpiHero();
     renderExtras();
     renderConfronto();
+    renderMisure();
     renderStorico();
     renderProfilo();
+    renderSessioni();
     // chart is rendered lazily when entering Controlli tab
 
     // Re-render chart on theme change handled in toggle handler
