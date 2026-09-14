@@ -1591,7 +1591,7 @@
             <div class="ring-center">
               <div class="ring-value tabular" id="homeKcal">0</div>
               <div class="ring-unit">kcal oggi</div>
-              <div class="ring-target">Target <span class="accent">~2200 kcal</span></div>
+              <div class="ring-target">Target <span class="accent">2600–2700 kcal</span></div>
             </div>
           </div>
         </div>
@@ -1663,7 +1663,7 @@
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
             </button>
           </div>
-          <div class="day-header-cal tabular"><span class="num" id="dietaDayCal">0</span> / 2200 kcal</div>
+          <div class="day-header-cal tabular"><span class="num" id="dietaDayCal">0</span> / 2700 kcal</div>
         </div>
 
         <div class="meals" id="mealsContainer"></div>
@@ -1673,7 +1673,7 @@
           <div class="macro-grid">
             <div class="macro" data-m="prot">
               <div class="macro-label"><span class="macro-dot"></span>Proteine</div>
-              <div class="macro-value tabular">1.9–2.2 g/kg</div>
+              <div class="macro-value tabular">1.8–2.1 g/kg</div>
             </div>
             <div class="macro" data-m="carb">
               <div class="macro-label"><span class="macro-dot"></span>Carboidrati</div>
@@ -1681,7 +1681,7 @@
             </div>
             <div class="macro" data-m="fat">
               <div class="macro-label"><span class="macro-dot"></span>Lipidi</div>
-              <div class="macro-value tabular">1.1–1.2 g/kg</div>
+              <div class="macro-value tabular">1.0–1.2 g/kg</div>
             </div>
             <div class="macro" data-m="fib">
               <div class="macro-label"><span class="macro-dot"></span>Fibra</div>
@@ -1694,6 +1694,13 @@
           <div class="macro-card-title">Integrazione consigliata</div>
           <div class="supp-list">
             <div class="supp">
+              <div class="supp-icon">💪</div>
+              <div class="supp-body">
+                <div class="supp-name">Creatina Monoidrato</div>
+                <div class="supp-dose">5g al giorno insieme ad un pasto (4 settimane sì – 2 no)</div>
+              </div>
+            </div>
+            <div class="supp">
               <div class="supp-icon">🐟</div>
               <div class="supp-body">
                 <div class="supp-name">Omega 3</div>
@@ -1701,24 +1708,10 @@
               </div>
             </div>
             <div class="supp">
-              <div class="supp-icon">💪</div>
-              <div class="supp-body">
-                <div class="supp-name">Creatina Monoidrato</div>
-                <div class="supp-dose">3g al giorno insieme ad un pasto (4 settimane sì – 2 no)</div>
-              </div>
-            </div>
-            <div class="supp">
               <div class="supp-icon">⚡</div>
               <div class="supp-body">
                 <div class="supp-name">Glutammina</div>
                 <div class="supp-dose">5g post workout</div>
-              </div>
-            </div>
-            <div class="supp">
-              <div class="supp-icon">💊</div>
-              <div class="supp-body">
-                <div class="supp-name">Armorlipid Plus</div>
-                <div class="supp-dose">1 capsula al giorno</div>
               </div>
             </div>
           </div>
@@ -1771,7 +1764,7 @@
         <div class="glass profile-hero">
           <div class="avatar">EB</div>
           <div class="profile-name">Edoardo Botta</div>
-          <div class="profile-meta">42 anni · 174 cm · Ottimizzazione Composizione Corporea</div>
+          <div class="profile-meta">42 anni · 174 cm · Composizione Corporea + Massa Muscolare</div>
         </div>
 
         <div class="section-title">Composizione corporea</div>
@@ -1842,15 +1835,15 @@
         <div class="glass info-card">
           <div class="info-row">
             <span class="info-label">Tipologia</span>
-            <span class="info-value">Personal Training</span>
+            <span class="info-value">Palestra</span>
           </div>
           <div class="info-row">
             <span class="info-label">Frequenza</span>
-            <span class="info-value tabular">3 / 7 giorni</span>
+            <span class="info-value tabular">4–5 / 7 giorni</span>
           </div>
           <div class="info-row">
             <span class="info-label">Fascia oraria</span>
-            <span class="info-value">Pomeridiana</span>
+            <span class="info-value">Varia</span>
           </div>
         </div>
       </section>
@@ -1882,70 +1875,70 @@
     // ============================================================
     // DATA — diet, controls and profile
     // ============================================================
-    // Menu settimanale — Giugno 2026 (Dott.ssa Barbara Polese)
+    // Menu settimanale — Settembre 2026 (Dott.ssa Barbara Polese)
+    // Fase: aumento massa muscolare — 2600-2700 kcal, 4-5 sedute palestra/settimana
     // Calorie per pasto sono stime calcolate sui pesi/porzioni indicati nel PDF.
-    // Target giornaliero: ~2200 kcal.
     const dieta = {
       lunedi: {
-        colazione:  { pasti: '1 tazza di latte parz. scremato o vegetale + 30g di proteine\n40g di biscotti integrali Fibrextra Misura o similari', calorie: 350 },
+        colazione:  { pasti: '1 tazza di spremuta di arance\n3 fette di pan bauletto integrali tostati\nUn cucchiaio di Philadelphia protein + 10g di noci o mandorle', calorie: 420 },
         spuntino:   { pasti: '-', calorie: 0 },
-        pranzo:     { pasti: 'Fresella integrale 60g oppure Pasta integrale o di mais/Riso o Riso Basmati/farro 110g\nGamberetti 150g oppure 1 scatoletta di tonno ben sgocciolato\nPomodori o verdura a scelta\nFrutta fresca 150g', calorie: 640 },
-        merenda:    { pasti: '200g di macedonia + parmigiano 20g', calorie: 200 },
-        cena:       { pasti: 'Fagiolini o verdure a scelta\nPane con lievito madre o bianco 90g oppure patate 250-270g\nStraccetti di pollo e tacchino 200g', calorie: 600 },
-        postCena:   { pasti: 'Cioccolato fondente 20g', calorie: 110 },
+        pranzo:     { pasti: 'Pasta di semola o integrale/Riso o Riso Basmati/farro/couscous 110g\nValeriana o verdura a scelta\nPiselli decorticati secchi 40g (120g freschi) o legumi a scelta\nFrutta fresca 150g', calorie: 640 },
+        merenda:    { pasti: 'Frutta fresca 150g + whey protein 30g', calorie: 220 },
+        cena:       { pasti: 'Pane con lievito madre o di segale/integrale 110g oppure Crostini integrali 70g\nMerluzzo/nasello o pesce a scelta 250g\nPomodorini o verdura a scelta a volontà', calorie: 620 },
+        postCena:   { pasti: '2 gallette di mais o riso ricoperte di cioccolato fondente', calorie: 130 },
         condimento: { pasti: 'Olio extravergine di oliva 30g (3 cucchiai = 6 cucchiaini)', calorie: 270 }
       },
       martedi: {
-        colazione:  { pasti: '1 tazza di spremuta di arance o frutta fresca 150g\n2 uova strapazzate', calorie: 240 },
+        colazione:  { pasti: '1 tazza di spremuta di arance\n3 fette di pan bauletto integrali tostati\n50g di arrosto di tacchino o bresaola', calorie: 410 },
         spuntino:   { pasti: '-', calorie: 0 },
-        pranzo:     { pasti: 'Piadina integrale 100g oppure Pasta integrale o di mais/Riso o Riso Basmati/farro/couscous 110g\nLattughino o verdura a scelta\nArrosto di tacchino o bresaola 100g\nFrutta fresca 150g', calorie: 600 },
-        merenda:    { pasti: 'Yogurt greco bianco magro 150g + un cucchiaino di miele o marmellata', calorie: 140 },
-        cena:       { pasti: '250g di Calamari all\'insalata o pesce a scelta\nPomodorini o verdura a scelta a volontà\nPane con lievito madre o bianco 90g oppure Crostini integrali 50g', calorie: 600 },
-        postCena:   { pasti: 'GELATO: 150–200g di frutta congelata a cubetti e frullata con un cucchiaino di miele e latte/yogurt q.b. per raggiungere la consistenza', calorie: 200 },
+        pranzo:     { pasti: 'Pasta di semola o integrale/Riso o Riso Basmati/farro/couscous 130g\nPomodori o verdura a scelta\nGamberetti 200g oppure salmone affumicato 100g\nFrutta fresca 150g', calorie: 690 },
+        merenda:    { pasti: 'Yogurt greco bianco magro 150g + un cucchiaino di miele o marmellata\nCioccolata fondente 10g', calorie: 230 },
+        cena:       { pasti: 'Pane con lievito madre o di segale/integrale 130g oppure patate 400g\nFagiolini o verdure a scelta\nCarne di pollo e/o tacchino 200g', calorie: 680 },
+        postCena:   { pasti: '30g di biscotti integrali Misura o similari', calorie: 140 },
         condimento: { pasti: 'Olio extravergine di oliva 30g (3 cucchiai = 6 cucchiaini)', calorie: 270 }
       },
       mercoledi: {
-        colazione:  { pasti: '1 tazza di latte parz. scremato o vegetale\n3 fette di pan bauletto integrale oppure 3 fette biscottate integrali\nUn velo di burro d\'arachidi 100% + un cucchiaino di miele o marmellata', calorie: 360 },
+        colazione:  { pasti: '1 tazza di spremuta di arance\n3 fette di pan bauletto integrali tostati\n1 uovo + 100g di albume', calorie: 390 },
         spuntino:   { pasti: '-', calorie: 0 },
-        pranzo:     { pasti: 'Fresella integrale 50g oppure Pasta integrale o di mais/Riso o Riso Basmati/farro/couscous 90g\nCeci secchi 30g (100g freschi) o legumi a scelta + feta/primo sale 50g\nPomodori o verdura a scelta\nFrutta fresca 150g', calorie: 620 },
-        merenda:    { pasti: '200g di macedonia + 30g di whey protein', calorie: 230 },
-        cena:       { pasti: 'Pane con lievito madre o bianco 90g oppure Crostini integrali 50g\nAsparagi o verdura a scelta\nCarne magra di pollo e/o tacchino 200g', calorie: 590 },
-        postCena:   { pasti: 'Cioccolato fondente 20g', calorie: 110 },
+        pranzo:     { pasti: 'Pasta di semola o integrale/Riso o Riso Basmati/farro/couscous 130g\nPomodori o verdura a scelta\nRicotta/fiocchi di latte 200g oppure Mozzarella proteica (es. Granarolo) 200g\nFrutta fresca 150g', calorie: 720 },
+        merenda:    { pasti: 'Frutta fresca 150g + 30g di whey protein', calorie: 220 },
+        cena:       { pasti: 'Pane con lievito madre o di segale/integrale 110g oppure Crostini integrali 70g oppure patate 350g\nSalmone/orata o pesce a scelta 250g\nRucola o verdura a scelta', calorie: 720 },
+        postCena:   { pasti: '20g cioccolato fondente', calorie: 110 },
         condimento: { pasti: 'Olio extravergine di oliva 30g (3 cucchiai = 6 cucchiaini)', calorie: 270 }
       },
       giovedi: {
-        colazione:  { pasti: '1 tazza di spremuta di arance o frutta fresca 150g\n2 uova strapazzate', calorie: 240 },
+        colazione:  { pasti: '1 tazza di spremuta di arance\n3 fette di pan bauletto integrali tostati\n50g di arrosto di tacchino o bresaola', calorie: 410 },
         spuntino:   { pasti: '-', calorie: 0 },
-        pranzo:     { pasti: 'Piadina integrale 100g oppure Pasta integrale o di mais/Riso o Riso Basmati/farro/couscous 110g\n1 vaschetta di Philadelphia protein oppure ricotta/primo sale/fiocchi di latte 150g\nZucchine o verdura a scelta\nFrutta fresca 150g', calorie: 620 },
-        merenda:    { pasti: '1 barretta nature valley o similari', calorie: 180 },
-        cena:       { pasti: 'Pane con lievito madre o bianco 90g oppure patate 250-270g\nMerluzzo/nasello/alici o pesce a scelta 250g\nLattughino o verdura a scelta a volontà', calorie: 580 },
-        postCena:   { pasti: 'GELATO: 150–200g di frutta congelata a cubetti e frullata con un cucchiaino di miele e latte/yogurt q.b. per raggiungere la consistenza', calorie: 200 },
+        pranzo:     { pasti: 'Pasta di semola o integrale/Riso o Riso Basmati/farro/couscous 110g\nValeriana o verdura a scelta\nLenticchie decorticate secche 40g (120g freschi) o legumi a scelta\nFrutta fresca 150g', calorie: 640 },
+        merenda:    { pasti: 'Yogurt greco bianco magro 150g + un cucchiaino di miele o marmellata\nCioccolata fondente 10g', calorie: 230 },
+        cena:       { pasti: 'Pane con lievito madre o di segale/integrale 110g oppure Crostini integrali 70g oppure patate 350g\nCarne di pollo e/o tacchino 200g\nZucchine o verdura a scelta a volontà', calorie: 660 },
+        postCena:   { pasti: '2 gallette di mais o riso ricoperte di cioccolato fondente', calorie: 130 },
         condimento: { pasti: 'Olio extravergine di oliva 30g (3 cucchiai = 6 cucchiaini)', calorie: 270 }
       },
       venerdi: {
-        colazione:  { pasti: '1 tazza di latte parz. scremato o vegetale + 30g di proteine\n40g di biscotti integrali Fibrextra Misura o similari', calorie: 350 },
+        colazione:  { pasti: '1 tazza di spremuta di arance\n3 fette di pan bauletto integrali tostati\nUn cucchiaio di Philadelphia protein + 10g di noci o mandorle', calorie: 420 },
         spuntino:   { pasti: '-', calorie: 0 },
-        pranzo:     { pasti: 'Fresella integrale 50g oppure Pasta integrale o di mais/Riso o Riso Basmati/farro/couscous 90g\nFagioli secchi 30g (100g freschi) o legumi a scelta + 1 scatoletta di tonno ben sgocciolato\nPomodori o verdure a scelta\nFrutta fresca 150g', calorie: 600 },
-        merenda:    { pasti: 'Yogurt greco bianco magro 150g + un cucchiaino di miele o marmellata', calorie: 140 },
-        cena:       { pasti: 'Pane con lievito madre o bianco 90g oppure Crostini integrali 50g oppure patate 250-270g\nHamburger di pollo e/o tacchino 200g\nPeperoni o verdura a scelta', calorie: 600 },
-        postCena:   { pasti: 'Cioccolato fondente 20g', calorie: 110 },
+        pranzo:     { pasti: 'Piadina integrale 120g oppure Pasta di semola o integrale/Riso o Riso Basmati/farro/couscous 130g\nMelanzane o verdura a scelta\n2 uova + 100g di albume\nFrutta fresca 150g', calorie: 720 },
+        merenda:    { pasti: 'Frutta fresca 150g + 30g di whey protein', calorie: 220 },
+        cena:       { pasti: 'Pane con lievito madre o di segale/integrale 110g oppure Crostini integrali 70g\nPesce spada o pesce a scelta 250g\nLattughino o verdura a scelta a volontà', calorie: 660 },
+        postCena:   { pasti: '30g di biscotti integrali Misura o similari', calorie: 140 },
         condimento: { pasti: 'Olio extravergine di oliva 30g (3 cucchiai = 6 cucchiaini)', calorie: 270 }
       },
       sabato: {
-        colazione:  { pasti: '1 tazza di latte parz. scremato o vegetale\n3 fette di pan bauletto integrale oppure 3 fette biscottate integrali\nUn velo di burro d\'arachidi 100% + un cucchiaino di miele o marmellata', calorie: 360 },
+        colazione:  { pasti: '1 tazza di spremuta di arance\n3 fette di pan bauletto integrali tostati\n1 uovo + 100g di albume', calorie: 390 },
         spuntino:   { pasti: '-', calorie: 0 },
-        pranzo:     { pasti: 'Piadina integrale 100g oppure Pasta integrale o di mais/Riso o Riso Basmati/farro/couscous 110g\nMelanzane o verdura a scelta\nFrittatina di 3 uova + 20g di parmigiano\nFrutta fresca 150g', calorie: 700 },
-        merenda:    { pasti: '1 barretta nature valley o similari', calorie: 180 },
-        cena:       { pasti: 'Pizza / panino / sushi / pokè / secondo + contorno a scelta\nN.1 bibita a scelta', calorie: 900 },
+        pranzo:     { pasti: 'Piadina integrale 120g oppure Pasta di semola o integrale/Riso o Riso Basmati/farro/couscous 130g\nStraccetti di pollo e/o tacchino 150g\nZucchine o verdura a scelta\nFrutta fresca 150g', calorie: 700 },
+        merenda:    { pasti: 'Frutta fresca 150g', calorie: 80 },
+        cena:       { pasti: 'Pizza / panino / sushi / pokè / secondo + contorno a scelta\nN.1 bibita a scelta', calorie: 1100 },
         postCena:   { pasti: '-', calorie: 0 },
         condimento: { pasti: 'Olio extravergine di oliva 30g (3 cucchiai = 6 cucchiaini)', calorie: 270 }
       },
       domenica: {
-        colazione:  { pasti: 'Una colazione a scelta tra le precedenti', calorie: 300 },
+        colazione:  { pasti: 'Una colazione a scelta tra le precedenti', calorie: 400 },
         spuntino:   { pasti: '-', calorie: 0 },
-        pranzo:     { pasti: 'Pasta o riso con condimento a scelta 120g\nSecondo piatto a scelta 200g\nContorno di insalate o verdure a scelta a volontà', calorie: 700 },
-        merenda:    { pasti: 'N.1 coppetta di gelato / 1 porzione di dolce semplice', calorie: 300 },
-        cena:       { pasti: 'Verdure a scelta a volontà con una fonte proteica magra a scelta + 2 fette di pane', calorie: 450 },
+        pranzo:     { pasti: 'Pasta o riso con condimento a scelta 150g\nSecondo piatto a scelta 200g\nContorno di insalate o verdure a scelta a volontà', calorie: 800 },
+        merenda:    { pasti: 'N.1 coppetta di gelato / 1 porzione di dolce semplice', calorie: 350 },
+        cena:       { pasti: 'Verdure a scelta a volontà con una fonte proteica magra a scelta + 2 fette di pane', calorie: 500 },
         postCena:   { pasti: '-', calorie: 0 },
         condimento: { pasti: 'Olio extravergine di oliva 30g (3 cucchiai = 6 cucchiaini)', calorie: 270 }
       }
@@ -1972,7 +1965,9 @@
       { data: '11/05/2026', peso: 68.0, bmi: 22.5, fFM: 54.7, fM: 13.3, mM: 37.0, tBW: 39.9, ecw: 17.6, icw: 22.3, bcm: 30.2, smm: 28.5, asmm: 22.1, phA: 6.3, bmr: 1625.8, tdee: 2438.7, rz: 538.0, xc: 59.7, naK: 1.0,
         torace: 99, addom: 86, vita: 77, fianchi: 97, braccio: 36, polso: 17, coscia: 57.5, polpaccio: 36, whr: 0.79, wher: 0.44 },
       { data: '22/06/2026', peso: 68.0, bmi: 22.5, fFM: 54.9, fM: 13.1, mM: 36.9, tBW: 40.1, ecw: 18.0, icw: 22.1, bcm: 30.1, smm: 28.7, asmm: 22.2, phA: 6.2, bmr: 1622.9, tdee: 2434.4, rz: 534.2, xc: 58.0, naK: 1.1,
-        torace: 96, addom: 81, vita: 75, fianchi: 98.5, braccio: 36, polso: 15.5, coscia: 55, polpaccio: 35, whr: 0.76, wher: 0.43 }
+        torace: 96, addom: 81, vita: 75, fianchi: 98.5, braccio: 36, polso: 15.5, coscia: 55, polpaccio: 35, whr: 0.76, wher: 0.43 },
+      { data: '07/09/2026', peso: 67.0, bmi: 22.1, fFM: 53.1, fM: 13.9, mM: 34.8, tBW: 38.8, ecw: 17.9, icw: 20.9, bcm: 28.3, smm: 27.6, asmm: 21.4, phA: 5.9, bmr: 1570.7, tdee: 2356.1, rz: 560.5, xc: 58.2, naK: 1.1,
+        torace: 96.5, addom: 85, vita: 73.5, fianchi: 97, braccio: 34.5, polso: 15.5, coscia: 52.5, polpaccio: 35, whr: 0.76, wher: 0.42 }
     ];
 
     const giorni = ['Lunedì', 'Martedì', 'Mercoledì', 'Giovedì', 'Venerdì', 'Sabato', 'Domenica'];
@@ -1989,7 +1984,7 @@
       condimento: { name: 'Condimento giornaliero', icon: '🫒', hour: 23.5 }
     };
 
-    const TARGET_KCAL = 2200;
+    const TARGET_KCAL = 2700;
 
     // ============================================================
     // STATE
