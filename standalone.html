@@ -1880,15 +1880,6 @@
     // Calorie per pasto sono stime calcolate sui pesi/porzioni indicati nel PDF.
     const dieta = {
       lunedi: {
-        colazione:  { pasti: '1 tazza di spremuta di arance\n3 fette di pan bauletto integrali tostati\nUn cucchiaio di Philadelphia protein + 10g di noci o mandorle', calorie: 420 },
-        spuntino:   { pasti: '-', calorie: 0 },
-        pranzo:     { pasti: 'Pasta di semola o integrale/Riso o Riso Basmati/farro/couscous 110g\nValeriana o verdura a scelta\nPiselli decorticati secchi 40g (120g freschi) o legumi a scelta\nFrutta fresca 150g', calorie: 640 },
-        merenda:    { pasti: 'Frutta fresca 150g + whey protein 30g', calorie: 220 },
-        cena:       { pasti: 'Pane con lievito madre o di segale/integrale 110g oppure Crostini integrali 70g\nMerluzzo/nasello o pesce a scelta 250g\nPomodorini o verdura a scelta a volontà', calorie: 620 },
-        postCena:   { pasti: '2 gallette di mais o riso ricoperte di cioccolato fondente', calorie: 130 },
-        condimento: { pasti: 'Olio extravergine di oliva 30g (3 cucchiai = 6 cucchiaini)', calorie: 270 }
-      },
-      martedi: {
         colazione:  { pasti: '1 tazza di spremuta di arance\n3 fette di pan bauletto integrali tostati\n50g di arrosto di tacchino o bresaola', calorie: 410 },
         spuntino:   { pasti: '-', calorie: 0 },
         pranzo:     { pasti: 'Pasta di semola o integrale/Riso o Riso Basmati/farro/couscous 130g\nPomodori o verdura a scelta\nGamberetti 200g oppure salmone affumicato 100g\nFrutta fresca 150g', calorie: 690 },
@@ -1897,22 +1888,31 @@
         postCena:   { pasti: '30g di biscotti integrali Misura o similari', calorie: 140 },
         condimento: { pasti: 'Olio extravergine di oliva 30g (3 cucchiai = 6 cucchiaini)', calorie: 270 }
       },
-      mercoledi: {
-        colazione:  { pasti: '1 tazza di spremuta di arance\n3 fette di pan bauletto integrali tostati\n1 uovo + 100g di albume', calorie: 390 },
+      martedi: {
+        colazione:  { pasti: '1 tazza di spremuta di arance\n3 fette di pan bauletto integrali tostati\nUn cucchiaio di Philadelphia protein + 10g di noci o mandorle', calorie: 420 },
         spuntino:   { pasti: '-', calorie: 0 },
-        pranzo:     { pasti: 'Pasta di semola o integrale/Riso o Riso Basmati/farro/couscous 130g\nPomodori o verdura a scelta\nRicotta/fiocchi di latte 200g oppure Mozzarella proteica (es. Granarolo) 200g\nFrutta fresca 150g', calorie: 720 },
-        merenda:    { pasti: 'Frutta fresca 150g + 30g di whey protein', calorie: 220 },
-        cena:       { pasti: 'Pane con lievito madre o di segale/integrale 110g oppure Crostini integrali 70g oppure patate 350g\nSalmone/orata o pesce a scelta 250g\nRucola o verdura a scelta', calorie: 720 },
-        postCena:   { pasti: '20g cioccolato fondente', calorie: 110 },
+        pranzo:     { pasti: 'Pasta di semola o integrale/Riso o Riso Basmati/farro/couscous 110g\nValeriana o verdura a scelta\nPiselli decorticati secchi 40g (120g freschi) o legumi a scelta\nFrutta fresca 150g', calorie: 640 },
+        merenda:    { pasti: 'Frutta fresca 150g + whey protein 30g', calorie: 220 },
+        cena:       { pasti: 'Pane con lievito madre o di segale/integrale 110g oppure Crostini integrali 70g\nMerluzzo/nasello o pesce a scelta 250g\nPomodorini o verdura a scelta a volontà', calorie: 620 },
+        postCena:   { pasti: '2 gallette di mais o riso ricoperte di cioccolato fondente', calorie: 130 },
         condimento: { pasti: 'Olio extravergine di oliva 30g (3 cucchiai = 6 cucchiaini)', calorie: 270 }
       },
-      giovedi: {
+      mercoledi: {
         colazione:  { pasti: '1 tazza di spremuta di arance\n3 fette di pan bauletto integrali tostati\n50g di arrosto di tacchino o bresaola', calorie: 410 },
         spuntino:   { pasti: '-', calorie: 0 },
         pranzo:     { pasti: 'Pasta di semola o integrale/Riso o Riso Basmati/farro/couscous 110g\nValeriana o verdura a scelta\nLenticchie decorticate secche 40g (120g freschi) o legumi a scelta\nFrutta fresca 150g', calorie: 640 },
         merenda:    { pasti: 'Yogurt greco bianco magro 150g + un cucchiaino di miele o marmellata\nCioccolata fondente 10g', calorie: 230 },
         cena:       { pasti: 'Pane con lievito madre o di segale/integrale 110g oppure Crostini integrali 70g oppure patate 350g\nCarne di pollo e/o tacchino 200g\nZucchine o verdura a scelta a volontà', calorie: 660 },
         postCena:   { pasti: '2 gallette di mais o riso ricoperte di cioccolato fondente', calorie: 130 },
+        condimento: { pasti: 'Olio extravergine di oliva 30g (3 cucchiai = 6 cucchiaini)', calorie: 270 }
+      },
+      giovedi: {
+        colazione:  { pasti: '1 tazza di spremuta di arance\n3 fette di pan bauletto integrali tostati\n1 uovo + 100g di albume', calorie: 390 },
+        spuntino:   { pasti: '-', calorie: 0 },
+        pranzo:     { pasti: 'Pasta di semola o integrale/Riso o Riso Basmati/farro/couscous 130g\nPomodori o verdura a scelta\nRicotta/fiocchi di latte 200g oppure Mozzarella proteica (es. Granarolo) 200g\nFrutta fresca 150g', calorie: 720 },
+        merenda:    { pasti: 'Frutta fresca 150g + 30g di whey protein', calorie: 220 },
+        cena:       { pasti: 'Pane con lievito madre o di segale/integrale 110g oppure Crostini integrali 70g oppure patate 350g\nSalmone/orata o pesce a scelta 250g\nRucola o verdura a scelta', calorie: 720 },
+        postCena:   { pasti: '20g cioccolato fondente', calorie: 110 },
         condimento: { pasti: 'Olio extravergine di oliva 30g (3 cucchiai = 6 cucchiaini)', calorie: 270 }
       },
       venerdi: {
