@@ -1895,7 +1895,7 @@
             <div class="ring-center">
               <div class="ring-value tabular" id="homeKcal">0</div>
               <div class="ring-unit">kcal oggi</div>
-              <div class="ring-target">Target <span class="accent">~1800 kcal</span></div>
+              <div class="ring-target">Target <span class="accent">~1600 kcal</span></div>
             </div>
           </div>
         </div>
@@ -1967,10 +1967,10 @@
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
             </button>
           </div>
-          <div class="day-header-cal tabular"><span class="num" id="dietaDayCal">0</span> / 1800 kcal</div>
+          <div class="day-header-cal tabular"><span class="num" id="dietaDayCal">0</span> / 1600 kcal</div>
         </div>
 
-        <div class="menu-note" id="menuNote">Menù settimanale a scelta — 1 opzione per pasto</div>
+        <div class="menu-note hidden" id="menuNote"></div>
 
         <div class="meals" id="mealsContainer"></div>
 
@@ -1979,32 +1979,19 @@
           <div class="macro-grid">
             <div class="macro" data-m="prot">
               <div class="macro-label"><span class="macro-dot"></span>Proteine</div>
-              <div class="macro-value tabular">1.7–2.0 g/kg</div>
+              <div class="macro-value tabular">1.6–2.1 g/kg</div>
             </div>
             <div class="macro" data-m="carb">
               <div class="macro-label"><span class="macro-dot"></span>Carboidrati</div>
-              <div class="macro-value tabular">45–50 %</div>
+              <div class="macro-value tabular">40 %</div>
             </div>
             <div class="macro" data-m="fat">
               <div class="macro-label"><span class="macro-dot"></span>Lipidi</div>
-              <div class="macro-value tabular">1.1–1.3 g/kg</div>
+              <div class="macro-value tabular">0.6–1.2 g/kg</div>
             </div>
             <div class="macro" data-m="fib">
               <div class="macro-label"><span class="macro-dot"></span>Fibra</div>
               <div class="macro-value tabular">30–35 g</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="glass supp-card">
-          <div class="macro-card-title">Integrazione consigliata</div>
-          <div class="supp-list">
-            <div class="supp">
-              <div class="supp-icon">🐟</div>
-              <div class="supp-body">
-                <div class="supp-name">Omega 3</div>
-                <div class="supp-dose">2g al giorno insieme ad uno dei pasti principali</div>
-              </div>
             </div>
           </div>
         </div>
@@ -2128,7 +2115,7 @@
         <div class="glass info-card">
           <div class="info-row">
             <span class="info-label">Tipologia</span>
-            <span class="info-value">Palestra</span>
+            <span class="info-value">Pilates + Sala</span>
           </div>
           <div class="info-row">
             <span class="info-label">Frequenza</span>
@@ -2228,12 +2215,10 @@
     // ============================================================
     // DATA — diet, controls and profile
     // ============================================================
-    // Menu settimanale — Luglio 2026 (Dott.ssa Barbara Polese)
-    // Formato "a opzioni": ogni pasto elenca più alternative, se ne sceglie una.
-    // I giorni feriali (lun-sab) condividono lo stesso menu, la domenica è "giorno libero".
-    // Calorie per pasto sono stime rappresentative (le opzioni possono variare).
-    // Target giornaliero: ~1800 kcal.
-    const menuFeriale = {
+    // Menu settimanale — Ottobre 2026 (Dott.ssa Barbara Polese)
+    // Formato giorni specifici: ogni giorno ha i suoi pasti.
+    // Target giornaliero: ~1600 kcal.
+    const _unused_menuFeriale = {
       colazione: {
         pasti: [
           'Opzione 1',
@@ -2396,13 +2381,69 @@
     };
 
     const dieta = {
-      lunedi: menuFeriale,
-      martedi: menuFeriale,
-      mercoledi: menuFeriale,
-      giovedi: menuFeriale,
-      venerdi: menuFeriale,
-      sabato: menuFeriale,
-      domenica: menuDomenica
+      lunedi: {
+        colazione:  { pasti: 'Yogurt greco magro bianco 150g + 1 cucchiaino di miele\n20g di riso soffiato al cacao\n10g di cioccolato fondente', calorie: 280 },
+        spuntino:   { pasti: 'Frutta fresca 150g', calorie: 80 },
+        pranzo:     { pasti: 'Pasta di semola o integrale/Riso o Riso Basmati/farro/couscous 60g\nPiselli o legumi a scelta 40g secchi o 120-150g freschi\nCarote o verdure a scelta a volontà', calorie: 370 },
+        merenda:    { pasti: '50g di arrosto di tacchino + 20g di crostini integrali', calorie: 120 },
+        cena:       { pasti: 'Pane con lievito madre o bianco/integrale 50g oppure Crostini integrali 30g\n200g di merluzzo/nasello o pesce a scelta\nPomodorini o verdura a scelta a volontà', calorie: 320 },
+        postCena:   { pasti: 'Frutta fresca 150g\n10g di cioccolato fondente', calorie: 130 },
+        condimento: { pasti: 'Olio extravergine d\'oliva 30g (3 cucchiai = 6 cucchiaini)', calorie: 270 }
+      },
+      martedi: {
+        colazione:  { pasti: 'Latte parz. scremato 1 tazza\nBiscotti Privolat 40g\nFrutta fresca 150g', calorie: 340 },
+        spuntino:   { pasti: '-', calorie: 0 },
+        pranzo:     { pasti: 'Pasta di semola o integrale/Riso o Riso Basmati/farro/couscous 60g\nPomodori o verdura a scelta\n20g di parmigiano\nFrutta fresca 150g', calorie: 380 },
+        merenda:    { pasti: 'Yogurt greco magro bianco 150g + un cucchiaino di miele o marmellata\nCioccolata fondente 10g', calorie: 170 },
+        cena:       { pasti: 'Pane con lievito madre o bianco/integrale 50g oppure Crostini integrali 30g oppure patate 150g\nFagiolini o verdure a scelta\nCarne di pollo e/o tacchino 200g', calorie: 450 },
+        postCena:   { pasti: 'Frutta fresca 150g\n10g di cioccolato fondente', calorie: 130 },
+        condimento: { pasti: 'Olio extravergine d\'oliva 30g (3 cucchiai = 6 cucchiaini)', calorie: 270 }
+      },
+      mercoledi: {
+        colazione:  { pasti: 'Yogurt greco magro bianco 150g + 1 cucchiaino di miele\n20g di riso soffiato al cacao\n10g di cioccolato fondente', calorie: 280 },
+        spuntino:   { pasti: 'Frutta fresca 150g', calorie: 80 },
+        pranzo:     { pasti: 'Pasta di semola o integrale/Riso o Riso Basmati/farro/couscous 60g\nPomodori o verdura a scelta\nRicotta/fiocchi di latte 100g', calorie: 330 },
+        merenda:    { pasti: '50g di arrosto di tacchino + 20g di crostini integrali', calorie: 120 },
+        cena:       { pasti: 'Pane con lievito madre o bianco/integrale 50g oppure Crostini integrali 30g oppure patate 150g\nPesce bianco a scelta 200g\nRucola o verdura a scelta', calorie: 380 },
+        postCena:   { pasti: 'Frutta fresca 150g\n10g di cioccolato fondente', calorie: 130 },
+        condimento: { pasti: 'Olio extravergine d\'oliva 30g (3 cucchiai = 6 cucchiaini)', calorie: 270 }
+      },
+      giovedi: {
+        colazione:  { pasti: 'Latte parz. scremato 1 tazza\nBiscotti Privolat 40g\nFrutta fresca 150g', calorie: 340 },
+        spuntino:   { pasti: '-', calorie: 0 },
+        pranzo:     { pasti: 'Pasta di semola o integrale/Riso o Riso Basmati/farro/couscous 60g\nLenticchie o legumi a scelta 40g secchi o 120-150g freschi\nCarote o verdure a scelta a volontà', calorie: 370 },
+        merenda:    { pasti: 'Yogurt greco magro bianco 150g + un cucchiaino di miele o marmellata\nCioccolata fondente 10g', calorie: 170 },
+        cena:       { pasti: 'Pane con lievito madre o bianco/integrale 50g oppure Crostini integrali 30g oppure patate 150g\nCarne di pollo e/o tacchino 200g\nZucchine o verdura a scelta a volontà', calorie: 440 },
+        postCena:   { pasti: 'Frutta fresca 150g\n10g di cioccolato fondente', calorie: 130 },
+        condimento: { pasti: 'Olio extravergine d\'oliva 30g (3 cucchiai = 6 cucchiaini)', calorie: 270 }
+      },
+      venerdi: {
+        colazione:  { pasti: 'Latte parz. scremato 1 tazza\nFiocchi di avena o riso o frumento integrale 40g\nFrutta fresca 150g', calorie: 320 },
+        spuntino:   { pasti: '-', calorie: 0 },
+        pranzo:     { pasti: 'Piadina integrale n.1 oppure Pasta di semola o integrale/Riso o Riso Basmati/farro/couscous 60g\nZucchine o verdura a scelta\n2 uova', calorie: 440 },
+        merenda:    { pasti: '20g di parmigiano + 20g di crostini integrali', calorie: 150 },
+        cena:       { pasti: 'Pane con lievito madre o bianco/integrale 50g oppure Crostini integrali 30g oppure patate 150g\nCarne di vitello o manzo 200g\nLattughino o verdura a scelta a volontà', calorie: 440 },
+        postCena:   { pasti: '10g di cioccolato fondente', calorie: 55 },
+        condimento: { pasti: 'Olio extravergine d\'oliva 30g (3 cucchiai = 6 cucchiaini)', calorie: 270 }
+      },
+      sabato: {
+        colazione:  { pasti: 'Latte parz. scremato 1 tazza\nFiocchi di avena o riso o frumento integrale 40g\nFrutta fresca 150g', calorie: 320 },
+        spuntino:   { pasti: '-', calorie: 0 },
+        pranzo:     { pasti: 'Pasta di semola o integrale/Riso o Riso Basmati/farro/couscous 60g\nStraccetti di pollo e/o tacchino 150g\nVerdura a scelta', calorie: 420 },
+        merenda:    { pasti: '1 barretta di cereali Kellogg\'s o similari', calorie: 150 },
+        cena:       { pasti: 'Pizza / panino / sushi / pokè / secondo + contorno a scelta\nN.1 bibita a scelta', calorie: 900 },
+        postCena:   { pasti: '-', calorie: 0 },
+        condimento: { pasti: 'Olio extravergine d\'oliva 30g (3 cucchiai = 6 cucchiaini)', calorie: 270 }
+      },
+      domenica: {
+        colazione:  { pasti: 'Una colazione a scelta tra le precedenti', calorie: 300 },
+        spuntino:   { pasti: '-', calorie: 0 },
+        pranzo:     { pasti: 'Pasta o riso con condimento a scelta 70g\nSecondo piatto a scelta 200g\nContorno di insalate o verdure a scelta a volontà', calorie: 500 },
+        merenda:    { pasti: 'N.1 coppetta di gelato / 1 porzione di dolce semplice', calorie: 250 },
+        cena:       { pasti: 'Verdure a scelta a volontà con una fonte proteica magra a scelta + 2 fette di pane', calorie: 400 },
+        postCena:   { pasti: '-', calorie: 0 },
+        condimento: { pasti: 'Olio extravergine d\'oliva 30g (3 cucchiai = 6 cucchiaini)', calorie: 270 }
+      }
     };
 
     // Bodygram + Follow-up antropometrici — Dott.ssa Barbara Polese
@@ -2414,7 +2455,9 @@
       { data: '22/06/2026', peso: 52.0, bmi: 19.3, fFM: 41.3, fM: 10.7, mM: 25.9, tBW: 30.2, ecw: 14.6, icw: 15.6, bcm: 20.9, smm: 19.8, asmm: 15.2, phA: 5.4, bmr: 1356.1, tdee: 1898.5, rz: 635.4, xc: 60.5, naK: 1.1,
         torace: 81, addom: 70, vita: 67, fianchi: 94, braccio: 26.5, polso: 14, coscia: 55, polpaccio: 34, whr: 0.71, wher: 0.41 },
       { data: '27/07/2026', peso: 52.5, bmi: 19.5, fFM: 41.8, fM: 10.7, mM: 26.5, tBW: 30.6, ecw: 14.8, icw: 15.8, bcm: 21.4, smm: 20.2, asmm: 15.4, phA: 5.5, bmr: 1370.6, tdee: 1918.8, rz: 622.3, xc: 59.5, naK: 1.1,
-        torace: 83, addom: 70.5, vita: 68, fianchi: 97, braccio: 26, polso: 14.5, coscia: 56, polpaccio: 35, whr: 0.70, wher: 0.41 }
+        torace: 83, addom: 70.5, vita: 68, fianchi: 97, braccio: 26, polso: 14.5, coscia: 56, polpaccio: 35, whr: 0.70, wher: 0.41 },
+      // Ottobre 2026 — dati solo da scheda dieta (no Bodygram completo)
+      { data: '05/10/2026', peso: 53.5, bmi: 19.9, bmr: 1400, tdee: 1960 }
     ];
 
     const giorni = ['Lunedì', 'Martedì', 'Mercoledì', 'Giovedì', 'Venerdì', 'Sabato', 'Domenica'];
@@ -2431,7 +2474,7 @@
       condimento: { name: 'Condimento giornaliero', icon: '🫒', hour: 23.5 }
     };
 
-    const TARGET_KCAL = 1800;
+    const TARGET_KCAL = 1600;
 
     // ============================================================
     // STATE
@@ -2617,13 +2660,9 @@
       document.getElementById('dietaDayTitle').textContent = giorni[selectedDay];
       animateNumber(document.getElementById('dietaDayCal'), total);
 
-      // Menu note: different for weekday vs Sunday (giorno libero)
+      // Menu note hidden in day-specific format (October 2026)
       const note = document.getElementById('menuNote');
-      if (note) {
-        note.textContent = dayKey === 'domenica'
-          ? 'Domenica — giorno libero'
-          : 'Menù settimanale a scelta — 1 opzione per pasto';
-      }
+      if (note) note.classList.add('hidden');
 
       const container = document.getElementById('mealsContainer');
       container.innerHTML = pastiOrder.map((key) => {
